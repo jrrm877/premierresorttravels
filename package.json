@@ -7,7 +7,10 @@
     "build": "react-router build",
     "preview": "vite preview",
     "deploy": "wrangler deploy",
-    "typecheck": "react-router typegen && tsc --noEmit"
+    "typecheck": "react-router typegen && tsc --noEmit",
+    "download:palace": "tsx scripts/download-palace-media.ts",
+    "organize:palace": "tsx scripts/organize-palace-media.ts",
+    "sync:palace": "npm run download:palace && npm run organize:palace"
   },
   "dependencies": {
     "@react-router/node": "^7.18.0",
@@ -22,6 +25,8 @@
     "@react-router/dev": "^7.18.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "playwright": "^1.56.0",
+    "tsx": "^4.20.6",
     "typescript": "^5.7.0",
     "vite": "^7.3.5"
   }

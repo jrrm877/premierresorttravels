@@ -36,6 +36,67 @@ Use these Cloudflare deployment settings:
 - Path: `/`
 - Non-production branch deploy command: `npx wrangler deploy`
 
+## Palace/Canto media sync
+
+The project includes local tooling for downloading approved Palace/Canto media, organizing it for the website, and generating an image registry.
+
+### Configure folders
+
+Edit `scripts/palace-media-config.ts` and add the Canto folder URLs you want to sync to `folderUrls`.
+
+If Playwright reports that Chromium is missing on first use, install the browser once:
+
+`npx playwright install chromium`
+
+Raw downloads go to:
+
+`public/images/palace-raw/`
+
+Organized images go to:
+
+`public/images/resorts/`
+
+The generated registry is written to:
+
+`src/data/resortImages.ts`
+
+### Download approved media
+
+Run:
+
+`npm run download:palace`
+
+If Canto requires login, run:
+
+`npm run download:palace -- --login`
+
+A browser window will open. Log in manually, navigate if needed, then press Enter in Terminal. The session is saved in `.cache/palace-canto-profile` so you should not need to log in every time.
+
+To also attempt clicking visible Canto download buttons one by one, run:
+
+`npm run download:palace -- --click-downloads`
+
+### Organize downloaded media
+
+Run:
+
+`npm run organize:palace`
+
+This scans `public/images/palace-raw/`, removes raw duplicates by file hash, renames files using lowercase hyphenated names, organizes images by resort and category, and regenerates `src/data/resortImages.ts`.
+
+### Download and organize together
+
+Run:
+
+`npm run sync:palace`
+
+### Safety notes
+
+- Raw downloads and the sync report are ignored by Git.
+- Organized images are never overwritten unless the existing file is identical.
+- Downloaded, skipped, duplicate, and failed files are logged in `reports/palace-media-download-report.json`.
+- PDFs, documents, videos, SVGs, and logos are skipped by default unless enabled in `scripts/palace-media-config.ts`.
+
 ## Inquiry delivery setup
 
 The site saves inquiries to D1 and can also notify you in real time through email or a webhook.
