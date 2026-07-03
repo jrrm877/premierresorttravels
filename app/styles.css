@@ -3197,13 +3197,13 @@ button.portfolio-tab {
 .about-activities-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.9rem;
+  gap: clamp(0.35rem, 1vw, 0.9rem);
   margin-top: 1.45rem;
 }
 
 .about-activity-card {
   position: relative;
-  min-height: 190px;
+  min-height: clamp(120px, 18vw, 190px);
   aspect-ratio: 4 / 5;
   overflow: hidden;
   border: 1px solid rgba(255, 250, 242, 0.42);
@@ -3253,12 +3253,12 @@ button.portfolio-tab {
 
 .about-activity-card span {
   position: absolute;
-  left: 0.9rem;
-  right: 0.9rem;
-  bottom: 0.85rem;
+  left: clamp(0.35rem, 1vw, 0.9rem);
+  right: clamp(0.35rem, 1vw, 0.9rem);
+  bottom: clamp(0.35rem, 1vw, 0.85rem);
   z-index: 2;
   color: white;
-  font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+  font-size: clamp(0.62rem, 1.8vw, 1.45rem);
   font-weight: 800;
   line-height: 1.04;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.42);
@@ -4896,7 +4896,7 @@ button.portfolio-tab {
   }
 
   .about-activities-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
   .about-experience-map-card {
@@ -5309,7 +5309,7 @@ button.portfolio-tab {
   }
 
   .about-activities-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
   .about-help-grid {
@@ -5492,18 +5492,18 @@ button.portfolio-tab {
   }
 
   .about-activities-grid {
-    gap: 0.75rem;
+    gap: clamp(0.28rem, 1vw, 0.75rem);
   }
 
   .about-activity-card {
-    min-height: 160px;
+    min-height: clamp(92px, 18vw, 160px);
     border-radius: 14px;
   }
 
   .about-activity-card span {
-    left: 0.7rem;
-    right: 0.7rem;
-    bottom: 0.7rem;
+    left: clamp(0.28rem, 1vw, 0.7rem);
+    right: clamp(0.28rem, 1vw, 0.7rem);
+    bottom: clamp(0.28rem, 1vw, 0.7rem);
   }
 
   .about-help-card {
