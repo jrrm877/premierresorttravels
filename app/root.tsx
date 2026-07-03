@@ -94,7 +94,6 @@ export default function App() {
               <div className="site-footer-aside">
                 <div className="site-footer-affiliation" aria-label="Palace Pro affiliation">
                   <img src="/images/logo-palace-pro-agents.png" alt="Palace Pro Specialist Agency" loading="lazy" decoding="async" />
-                  <span>Palace Pro Specialist Agency</span>
                 </div>
                 <div className="site-footer-links">
                   <a href="/destinations">Destinations</a>
