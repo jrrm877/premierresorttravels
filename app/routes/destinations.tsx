@@ -147,15 +147,37 @@ const bookingBenefits = [
   },
 ];
 
+const destinationMapBounds = {
+  west: -180,
+  east: 180,
+  north: 84,
+  south: -58,
+};
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
+}
+
+function projectDestinationMapPosition({ lat, lng }: { lat: number; lng: number }) {
+  const { west, east, north, south } = destinationMapBounds;
+  const left = clamp(((lng - west) / (east - west)) * 100, 3, 97);
+  const top = clamp(((north - lat) / (north - south)) * 100, 5, 95);
+
+  return {
+    dotX: `${left.toFixed(2)}%`,
+    dotY: `${top.toFixed(2)}%`,
+  };
+}
+
 const mapDestinations = [
-  { ...destinationCards[0], dotX: "25.9%", dotY: "38.4%" },
-  { ...destinationCards[1], dotX: "25.8%", dotY: "38.5%" },
-  { ...destinationCards[2], dotX: "25.9%", dotY: "38.7%" },
-  { ...destinationCards[3], dotX: "28.5%", dotY: "39.9%" },
-  { ...destinationCards[4], dotX: "31%", dotY: "39.7%" },
-  { ...destinationCards[5], dotX: "19.5%", dotY: "37.3%" },
-  { ...destinationCards[6], dotX: "53.5%", dotY: "26.2%" },
-  { ...destinationCards[7], dotX: "70.3%", dotY: "48.2%" },
+  { ...destinationCards[0], ...projectDestinationMapPosition({ lat: 21.1619, lng: -86.8515 }) },
+  { ...destinationCards[1], ...projectDestinationMapPosition({ lat: 20.6296, lng: -87.0739 }) },
+  { ...destinationCards[2], ...projectDestinationMapPosition({ lat: 20.4229, lng: -86.9223 }) },
+  { ...destinationCards[3], ...projectDestinationMapPosition({ lat: 18.1096, lng: -77.2975 }) },
+  { ...destinationCards[4], ...projectDestinationMapPosition({ lat: 18.5601, lng: -68.3725 }) },
+  { ...destinationCards[5], ...projectDestinationMapPosition({ lat: 22.8905, lng: -109.9167 }) },
+  { ...destinationCards[6], ...projectDestinationMapPosition({ lat: 41.9028, lng: 12.4964 }) },
+  { ...destinationCards[7], ...projectDestinationMapPosition({ lat: 3.2028, lng: 73.2207 }) },
 ];
 
 export function meta(_: Route.MetaArgs) {
