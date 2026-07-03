@@ -114,6 +114,39 @@ const memoryImages = [
   imageFor("moon-palace-jamaica", "/images/home-about-gallery-main.jpg"),
 ];
 
+const bookingBenefits = [
+  {
+    icon: "islands",
+    title: "Resort Matching",
+    copy: "We match you with the perfect resort that fits your style and budget.",
+  },
+  {
+    icon: "gift",
+    title: "Exclusive Perks",
+    copy: "We monitor promotions and unlock advisor perks when available.",
+  },
+  {
+    icon: "diamond",
+    title: "VIP Connections",
+    copy: "Access added-value benefits and preferred resort relationships.",
+  },
+  {
+    icon: "support",
+    title: "Support Every Step",
+    copy: "We're here before, during, and after your trip for total peace of mind.",
+  },
+  {
+    icon: "toast",
+    title: "Weddings & Groups",
+    copy: "From intimate weddings to large group travel, we make it seamless.",
+  },
+  {
+    icon: "globe",
+    title: "Travel Made Personal",
+    copy: "Every itinerary is curated with care, based on what matters to you.",
+  },
+];
+
 const mapDestinations = [
   { ...destinationCards[0], dotX: "25.9%", dotY: "38.4%" },
   { ...destinationCards[1], dotX: "25.8%", dotY: "38.5%" },
@@ -134,6 +167,56 @@ export function meta(_: Route.MetaArgs) {
         "Explore curated resort destinations across Cancun, Riviera Maya, Cozumel, Jamaica, Punta Cana, Los Cabos, Italy, and the Maldives.",
     },
   ];
+}
+
+function BookingBenefitIcon({ icon }: { icon: string }) {
+  switch (icon) {
+    case "gift":
+      return (
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <path d="M7 18h34v23H7z" />
+          <path d="M5 12h38v8H5zM24 12v29M15 12c-4-6 4-10 9 0M33 12c4-6-4-10-9 0" />
+        </svg>
+      );
+    case "diamond":
+      return (
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <path d="M8 17 16 8h16l8 9-16 23Z" />
+          <path d="M8 17h32M16 8l8 9 8-9M16 17l8 23 8-23" />
+        </svg>
+      );
+    case "support":
+      return (
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <path d="M12 27v-5a12 12 0 0 1 24 0v5" />
+          <path d="M12 27h-2a4 4 0 0 1 0-8h2v12M36 27h2a4 4 0 0 0 0-8h-2v12M31 34c-2 3-5 5-9 5h-3" />
+          <path d="M18 22c2-3 6-3 8 0 2-3 7-1 7 3 0 5-7 9-11 12-4-3-11-7-11-12 0-4 5-6 7-3Z" />
+        </svg>
+      );
+    case "toast":
+      return (
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <path d="M15 11h10l-2 16a5 5 0 0 1-10 0Z" />
+          <path d="M20 32v8M15 40h10M31 11h10l-2 16a5 5 0 0 1-10 0Z" />
+          <path d="M36 32v8M31 40h10M25 18c3 0 5 2 6 4" />
+        </svg>
+      );
+    case "globe":
+      return (
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <circle cx="24" cy="24" r="17" />
+          <path d="M7 24h34M24 7c5 5 8 11 8 17s-3 12-8 17M24 7c-5 5-8 11-8 17s3 12 8 17" />
+        </svg>
+      );
+    default:
+      return (
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <path d="M10 35c8-5 20-5 28 0M12 31c4-7 8-14 12-21 4 7 8 14 12 21" />
+          <path d="M24 10v21M14 20c3-2 7-2 10 0 3-2 7-2 10 0" />
+          <path d="M8 38h32" />
+        </svg>
+      );
+  }
 }
 
 export default function DestinationsPage() {
@@ -255,17 +338,39 @@ export default function DestinationsPage() {
       </section>
 
       <section className="destinations-booking-panel" aria-label="Why book with Premier Resort Travel">
-        <div>
-          <p className="eyebrow">Why Book With Premier Resort Travel?</p>
-          <h2>Personalized service. Unforgettable vacations.</h2>
+        <div className="destinations-booking-hero">
+          <div className="destinations-booking-copy">
+            <p className="eyebrow">Why Book With Premier Resort Travel?</p>
+            <div className="booking-ornament" aria-hidden="true">
+              <span />
+              <strong>palm</strong>
+              <span />
+            </div>
+            <h2>Personalized service. Unforgettable vacations.</h2>
+            <p>
+              We take the time to understand how you travel, then match you with the perfect resort
+              and elevate every detail of your trip.
+            </p>
+            <em>You dream it. We make it effortless.</em>
+          </div>
+          <img
+            src="/images/home-style-family-beach.jpg"
+            alt="Family enjoying a beach vacation"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
         <div className="destinations-benefit-grid">
-          <span>Resort matching that fits your travel style</span>
-          <span>Promotions and perks when available</span>
-          <span>VIP connections and insider knowledge</span>
-          <span>Support before, during, and after your trip</span>
-          <span>Weddings and groups made simple</span>
-          <span>Travel planning made personal</span>
+          {bookingBenefits.map((benefit) => (
+            <article key={benefit.title}>
+              <div className="booking-benefit-icon">
+                <BookingBenefitIcon icon={benefit.icon} />
+              </div>
+              <h3>{benefit.title}</h3>
+              <span aria-hidden="true" />
+              <p>{benefit.copy}</p>
+            </article>
+          ))}
         </div>
       </section>
 
