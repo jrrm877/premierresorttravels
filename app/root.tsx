@@ -35,7 +35,7 @@ export default function App() {
               </NavLink>
 
               <nav className="site-nav" aria-label="Main menu">
-                <NavLink className="site-nav-link site-nav-home-link" to="/" aria-label="Home">
+                <NavLink className="site-nav-link site-nav-home-link" to="/" end aria-label="Home">
                   <span className="site-nav-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" focusable="false">
                       <path d="M3 10.6 12 3l9 7.6" />
@@ -47,9 +47,9 @@ export default function App() {
                 <NavLink className="site-nav-link" to="/destinations">
                   Destinations
                 </NavLink>
-                <a className="site-nav-link" href="/collections">
+                <NavLink className="site-nav-link" to="/collections">
                   Collections
-                </a>
+                </NavLink>
                 <NavLink className="site-nav-link" to="/journal">
                   Resources
                 </NavLink>

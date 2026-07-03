@@ -2165,6 +2165,414 @@ button.portfolio-tab {
   margin-top: 1.5rem;
 }
 
+.hotel-collections-page {
+  display: grid;
+  gap: clamp(1.8rem, 4vw, 3rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4.5rem);
+  background: var(--ivory);
+}
+
+.hotel-collections-hero {
+  display: grid;
+  grid-template-columns: minmax(360px, 0.95fr) minmax(520px, 1.05fr);
+  min-height: min(46vw, 520px);
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(255, 252, 247, 1) 0%, rgba(255, 252, 247, 0.98) 44%, rgba(255, 252, 247, 0.44) 62%, rgba(255, 252, 247, 0) 78%),
+    rgba(255, 252, 247, 0.94);
+  border-bottom: 1px solid rgba(182, 138, 86, 0.14);
+}
+
+.hotel-collections-hero-copy {
+  z-index: 1;
+  display: grid;
+  align-content: center;
+  gap: 1rem;
+  padding: clamp(3rem, 7vw, 6rem) clamp(1.4rem, 7vw, 6.5rem);
+  background: rgba(255, 252, 247, 0.9);
+}
+
+.hotel-collections-hero-copy h1 {
+  max-width: 13.5ch;
+  margin: 0;
+  font-size: clamp(2.8rem, 5vw, 5rem);
+  line-height: 0.96;
+  letter-spacing: -0.035em;
+}
+
+.hotel-collections-hero-copy > p:not(.eyebrow):not(.hotel-collections-script) {
+  max-width: 46ch;
+  margin: 0;
+  color: rgba(34, 23, 17, 0.78);
+  font-size: clamp(1.02rem, 1.4vw, 1.25rem);
+  line-height: 1.75;
+}
+
+.hotel-collections-script {
+  margin: 0;
+  color: #7d5631;
+  font-family: var(--serif);
+  font-size: clamp(1.75rem, 3.1vw, 3rem);
+  font-style: italic;
+  line-height: 1.08;
+}
+
+.hotel-collections-hero-image {
+  position: relative;
+  min-height: 440px;
+  margin-left: 0;
+}
+
+.hotel-collections-hero-image::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: 1;
+  width: 30%;
+  background: linear-gradient(90deg, rgba(255, 252, 247, 1), rgba(255, 252, 247, 0));
+  pointer-events: none;
+}
+
+.hotel-collections-hero-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.hotel-collections-brand-section,
+.hotel-collections-featured {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto;
+}
+
+.hotel-collections-section-title {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.hotel-collections-section-title h2 {
+  margin: 0;
+  color: var(--espresso);
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hotel-collections-section-title::after {
+  content: "";
+  width: 58px;
+  height: 2px;
+  border-radius: 999px;
+  background: #bd7f39;
+}
+
+.hotel-collections-brand-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.hotel-collection-brand-card {
+  display: grid;
+  grid-template-rows: 100px 1fr auto;
+  gap: 1rem;
+  min-height: 300px;
+  padding: 1.35rem 1rem;
+  border: 1px solid rgba(182, 138, 86, 0.16);
+  border-radius: 10px;
+  color: var(--espresso);
+  background:
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.68), transparent 42%),
+    rgba(255, 252, 247, 0.9);
+  box-shadow: 0 16px 34px rgba(46, 30, 18, 0.07);
+  text-align: center;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.hotel-collection-brand-card:hover,
+.hotel-collection-brand-card:focus-visible {
+  transform: translateY(-5px);
+  border-color: rgba(182, 138, 86, 0.42);
+  box-shadow: 0 24px 46px rgba(46, 30, 18, 0.14);
+}
+
+.hotel-collection-brand-card.sage {
+  background-color: #eff2ed;
+}
+
+.hotel-collection-brand-card.linen {
+  background-color: #f8f3ed;
+}
+
+.hotel-collection-brand-card.mist {
+  background-color: #f0f4f4;
+}
+
+.hotel-collection-brand-card.rose {
+  background-color: #f7eeee;
+}
+
+.hotel-collection-brand-card.sand {
+  background-color: #f6efe6;
+}
+
+.hotel-collection-brand-card.blue {
+  background-color: #edf4f6;
+}
+
+.hotel-collection-logo-box {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+}
+
+.hotel-collection-logo-box img {
+  width: min(150px, 100%);
+  max-height: 78px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+.hotel-collection-logo-box strong {
+  color: rgba(34, 23, 17, 0.78);
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 1.8vw, 1.8rem);
+  font-weight: 500;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.hotel-collection-brand-card p {
+  max-width: 20ch;
+  margin: 0 auto;
+  color: rgba(34, 23, 17, 0.78);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.hotel-collection-brand-card span,
+.hotel-collections-resort-card span {
+  align-self: end;
+  color: #9f6730;
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.hotel-collections-why {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.95fr);
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid rgba(182, 138, 86, 0.14);
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at top left, rgba(182, 138, 86, 0.11), transparent 32%),
+    rgba(255, 252, 247, 0.92);
+  box-shadow: 0 18px 40px rgba(46, 30, 18, 0.08);
+}
+
+.hotel-collections-why-copy {
+  padding: clamp(1.5rem, 3vw, 2.2rem);
+}
+
+.hotel-collections-why-copy h2 {
+  margin: 0 0 1.4rem;
+  font-size: clamp(1.8rem, 3vw, 2.7rem);
+  line-height: 1;
+}
+
+.hotel-collections-benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.hotel-collections-benefit {
+  display: grid;
+  justify-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+  padding: 1rem;
+  border-right: 1px solid rgba(34, 23, 17, 0.12);
+  text-align: center;
+}
+
+.hotel-collections-benefit:last-child {
+  border-right: 0;
+}
+
+.hotel-collections-benefit-icon {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  color: #b77b35;
+}
+
+.hotel-collections-benefit-icon svg,
+.hotel-collections-cta-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.hotel-collections-benefit h3 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.hotel-collections-benefit p {
+  margin: 0;
+  color: rgba(34, 23, 17, 0.72);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.hotel-collections-why-image {
+  width: 100%;
+  height: 100%;
+  min-height: 270px;
+  object-fit: cover;
+}
+
+.hotel-collections-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1.6rem;
+}
+
+.hotel-collections-filter-row button {
+  min-width: 140px;
+  padding: 0.72rem 1.05rem;
+  border: 1px solid rgba(34, 23, 17, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 252, 247, 0.9);
+  color: rgba(34, 23, 17, 0.78);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.hotel-collections-filter-row button.is-active {
+  border-color: transparent;
+  background: linear-gradient(135deg, #9f6730, #cf944d);
+  color: white;
+}
+
+.hotel-collections-resort-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.05rem;
+}
+
+.hotel-collections-resort-card {
+  overflow: hidden;
+  border: 1px solid rgba(34, 23, 17, 0.12);
+  border-radius: 10px;
+  background: rgba(255, 252, 247, 0.9);
+  color: var(--espresso);
+  box-shadow: 0 15px 34px rgba(46, 30, 18, 0.08);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.hotel-collections-resort-card:hover,
+.hotel-collections-resort-card:focus-visible {
+  transform: translateY(-5px);
+  border-color: rgba(182, 138, 86, 0.44);
+  box-shadow: 0 24px 46px rgba(46, 30, 18, 0.14);
+}
+
+.hotel-collections-resort-card img {
+  width: 100%;
+  height: 190px;
+  display: block;
+  object-fit: cover;
+}
+
+.hotel-collections-resort-card div {
+  display: grid;
+  gap: 0.6rem;
+  padding: 1.1rem;
+}
+
+.hotel-collections-resort-card h3,
+.hotel-collections-resort-card p {
+  margin: 0;
+}
+
+.hotel-collections-resort-card h3 {
+  font-size: 1.35rem;
+  line-height: 1.12;
+}
+
+.hotel-collections-resort-card p:not(.eyebrow) {
+  color: rgba(34, 23, 17, 0.72);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.hotel-collections-cta {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.4rem;
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: clamp(1.2rem, 2.4vw, 1.8rem);
+  border: 1px solid rgba(182, 138, 86, 0.14);
+  border-radius: 10px;
+  background:
+    linear-gradient(90deg, rgba(255, 252, 247, 0.96), rgba(246, 237, 226, 0.88)),
+    rgba(255, 252, 247, 0.92);
+  box-shadow: 0 16px 34px rgba(46, 30, 18, 0.08);
+}
+
+.hotel-collections-cta-icon {
+  display: grid;
+  place-items: center;
+  width: 66px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  color: white;
+  background: linear-gradient(135deg, #9f6730, #c89145);
+}
+
+.hotel-collections-cta h2,
+.hotel-collections-cta p {
+  margin: 0;
+}
+
+.hotel-collections-cta h2 {
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+  line-height: 1.15;
+}
+
+.hotel-collections-cta p {
+  margin-top: 0.35rem;
+  color: rgba(34, 23, 17, 0.74);
+  line-height: 1.55;
+}
+
 .destinations-page {
   width: min(100%, 1400px);
   margin: 0 auto;
@@ -6689,5 +7097,127 @@ button.portfolio-tab {
     grid-template-columns: 1fr;
     top: 1rem;
     bottom: auto;
+  }
+}
+
+@media (max-width: 1180px) {
+  .hotel-collections-brand-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .hotel-collections-resort-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 980px) {
+  .hotel-collections-hero {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    background: rgba(255, 252, 247, 0.96);
+  }
+
+  .hotel-collections-hero-copy {
+    padding: clamp(2.2rem, 8vw, 4rem) clamp(1.2rem, 6vw, 2.8rem);
+  }
+
+  .hotel-collections-hero-copy h1 {
+    max-width: 14ch;
+  }
+
+  .hotel-collections-hero-image {
+    min-height: 320px;
+    margin-left: 0;
+  }
+
+  .hotel-collections-hero-image::before {
+    inset: 0 0 auto;
+    width: 100%;
+    height: 34%;
+    background: linear-gradient(180deg, rgba(255, 252, 247, 1), rgba(255, 252, 247, 0));
+  }
+
+  .hotel-collections-why {
+    grid-template-columns: 1fr;
+  }
+
+  .hotel-collections-why-image {
+    max-height: 360px;
+  }
+
+  .hotel-collections-cta {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .hotel-collections-cta .button {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 760px) {
+  .hotel-collections-brand-grid,
+  .hotel-collections-resort-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hotel-collection-brand-card {
+    min-height: 250px;
+  }
+
+  .hotel-collections-benefit-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hotel-collections-benefit:nth-child(2) {
+    border-right: 0;
+  }
+
+  .hotel-collections-benefit:nth-child(-n + 2) {
+    border-bottom: 1px solid rgba(34, 23, 17, 0.12);
+  }
+}
+
+@media (max-width: 520px) {
+  .hotel-collections-page {
+    gap: 1.5rem;
+  }
+
+  .hotel-collections-hero-copy h1 {
+    font-size: clamp(2.4rem, 14vw, 3.4rem);
+  }
+
+  .hotel-collections-filter-row {
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 0.25rem;
+  }
+
+  .hotel-collections-filter-row button {
+    flex: 0 0 auto;
+  }
+
+  .hotel-collections-benefit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hotel-collections-benefit,
+  .hotel-collections-benefit:nth-child(2) {
+    border-right: 0;
+  }
+
+  .hotel-collections-benefit:nth-child(-n + 3) {
+    border-bottom: 1px solid rgba(34, 23, 17, 0.12);
+  }
+
+  .hotel-collections-cta {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hotel-collections-cta-icon,
+  .hotel-collections-cta .button {
+    justify-self: center;
   }
 }
