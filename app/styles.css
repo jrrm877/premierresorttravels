@@ -85,28 +85,9 @@ body {
 .site-brand-copy strong {
   display: inline-flex;
   align-items: center;
-  gap: 0.32rem;
   font-size: clamp(1.12rem, 1.6vw, 1.42rem);
   line-height: 1.1;
   white-space: nowrap;
-}
-
-.site-brand-home-icon {
-  display: inline-grid;
-  place-items: center;
-  width: 1.05rem;
-  height: 1.05rem;
-  color: rgba(34, 23, 17, 0.72);
-}
-
-.site-brand-home-icon svg {
-  width: 100%;
-  height: 100%;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.9;
-  stroke-linecap: round;
-  stroke-linejoin: round;
 }
 
 .site-brand-copy span {
@@ -132,7 +113,7 @@ body {
   display: flex;
   justify-content: center;
   flex-wrap: nowrap;
-  gap: 0.28rem;
+  gap: 0.36rem;
   min-width: 0;
 }
 
@@ -156,8 +137,10 @@ body {
 
 .site-nav-home-link {
   justify-content: center;
-  width: 42px;
+  width: 40px;
+  min-width: 40px;
   padding: 0;
+  margin-right: 0.14rem;
 }
 
 .site-nav-icon {

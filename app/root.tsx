@@ -29,21 +29,21 @@ export default function App() {
                   alt="Premier Resort Travel logo"
                 />
                 <span className="site-brand-copy">
-                  <strong>
-                    Premier Resort Travel
-                    <span className="site-brand-home-icon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" focusable="false">
-                        <path d="M3 10.6 12 3l9 7.6" />
-                        <path d="M5.5 9.5V21h13V9.5" />
-                        <path d="M9.5 21v-6h5v6" />
-                      </svg>
-                    </span>
-                  </strong>
+                  <strong>Premier Resort Travel</strong>
                   <span className="site-brand-seo-line">Curated resorts, hotels, and vacations for meaningful trips</span>
                 </span>
               </NavLink>
 
               <nav className="site-nav" aria-label="Main menu">
+                <NavLink className="site-nav-link site-nav-home-link" to="/" aria-label="Home">
+                  <span className="site-nav-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false">
+                      <path d="M3 10.6 12 3l9 7.6" />
+                      <path d="M5.5 9.5V21h13V9.5" />
+                      <path d="M9.5 21v-6h5v6" />
+                    </svg>
+                  </span>
+                </NavLink>
                 <NavLink className="site-nav-link" to="/destinations">
                   Destinations
                 </NavLink>
