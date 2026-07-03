@@ -64,7 +64,7 @@ body {
 
 .site-header-inner {
   display: grid;
-  grid-template-columns: minmax(250px, auto) minmax(0, 1fr) auto;
+  grid-template-columns: minmax(220px, auto) minmax(0, 1fr) auto;
   align-items: center;
   gap: 0.75rem;
   padding: 0.82rem 0.95rem;
@@ -83,15 +83,24 @@ body {
 }
 
 .site-brand-logo {
-  width: 68px;
-  height: 68px;
+  width: clamp(210px, 18vw, 286px);
+  height: 64px;
   object-fit: contain;
   flex: 0 0 auto;
+  mix-blend-mode: multiply;
 }
 
 .site-brand-copy {
-  display: grid;
-  gap: 0.1rem;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .site-brand-copy strong {
@@ -224,6 +233,14 @@ body {
   max-width: 52ch;
   color: rgba(34, 23, 17, 0.7);
   line-height: 1.7;
+}
+
+.site-footer-logo {
+  display: block;
+  width: min(320px, 100%);
+  height: auto;
+  margin: 0 0 0.85rem;
+  mix-blend-mode: multiply;
 }
 
 .site-footer-links {
@@ -5826,15 +5843,15 @@ button.portfolio-tab {
   }
 
   .site-header-inner {
-    grid-template-columns: minmax(210px, auto) minmax(0, 1fr) auto;
+    grid-template-columns: minmax(188px, auto) minmax(0, 1fr) auto;
     gap: 0.48rem;
     padding: 0.72rem;
     border-radius: 999px;
   }
 
   .site-brand-logo {
-    width: 58px;
-    height: 58px;
+    width: 206px;
+    height: 54px;
   }
 
   .site-brand-copy strong {
@@ -7395,8 +7412,8 @@ button.portfolio-tab {
   }
 
   .site-brand-logo {
-    width: 52px;
-    height: 52px;
+    width: min(230px, 58vw);
+    height: 54px;
   }
 
   .site-brand-copy strong {

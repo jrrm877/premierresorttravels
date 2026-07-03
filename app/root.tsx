@@ -9,6 +9,13 @@ import {
 
 import "./styles.css";
 
+export function links() {
+  return [
+    { rel: "icon", type: "image/png", href: "/images/brand/premier-resort-travel-favicon.png" },
+    { rel: "apple-touch-icon", href: "/images/brand/premier-resort-travel-favicon.png" },
+  ];
+}
+
 export default function App() {
   return (
     <html lang="en">
@@ -25,8 +32,8 @@ export default function App() {
               <NavLink className="site-brand" to="/">
                 <img
                   className="site-brand-logo"
-                  src="/images/premier-resort-travel-logo.png"
-                  alt="Premier Resort Travel logo"
+                  src="/images/brand/premier-resort-travel-horizontal-logo.png"
+                  alt="Premier Resort Travel"
                 />
                 <span className="site-brand-copy">
                   <strong>Premier Resort Travel</strong>
@@ -72,7 +79,13 @@ export default function App() {
           <footer className="site-footer">
             <div className="site-footer-inner">
               <div>
-                <p className="eyebrow">Premier Resort Travel</p>
+                <img
+                  className="site-footer-logo"
+                  src="/images/brand/premier-resort-travel-horizontal-logo.png"
+                  alt="Premier Resort Travel"
+                  loading="lazy"
+                  decoding="async"
+                />
                 <p className="site-footer-copy">
                   Personalized resort and hotel recommendations for couples, families, and
                   travelers planning a more memorable escape.
