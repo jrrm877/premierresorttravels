@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "luxury-travel",
+  "main": "./workers/app.ts",
+  "compatibility_date": "2026-06-24",
+  "alias": {
+    "virtual:react-router/server-build": "./dist/server/index.js"
+  },
+  "assets": {
+    "directory": "./dist/client"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "luxury-travel-db",
+      "database_id": "c62b3abe-a3ee-4326-be96-f78e1ac05c62"
+    }
+  ]
+}
