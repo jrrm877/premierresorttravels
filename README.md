@@ -66,15 +66,24 @@ Run:
 
 `npm run download:palace`
 
+This opens a visible Chromium window by default so you can watch the Canto crawler work. The script reuses the saved browser session in `.cache/palace-canto-profile`, expands the Canto library tree, opens folders, scrolls lazy-loaded asset grids, opens asset cards, and tries Canto download buttons before falling back to direct image URLs.
+
+By default, the crawler stops after `maxFoldersPerRun` folders so a sync finishes predictably. Increase `maxFoldersPerRun` in `scripts/palace-media-config.ts` when you want a deeper or full library pull.
+
 If Canto requires login, run:
 
 `npm run download:palace -- --login`
 
-A browser window will open. Log in manually, navigate if needed, then press Enter in Terminal. The session is saved in `.cache/palace-canto-profile` so you should not need to log in every time.
+Log in manually, navigate if needed, then press Enter in Terminal. The session is saved so you should not need to log in every time.
 
-To also attempt clicking visible Canto download buttons one by one, run:
+Optional flags:
 
-`npm run download:palace -- --click-downloads`
+- `npm run download:palace -- --headless` runs without the visible browser.
+- `npm run download:palace -- --no-click-downloads` skips the Canto download-button workflow and only uses detected image URLs.
+
+Debug screenshots are written after each major step to:
+
+`reports/debug/`
 
 ### Organize downloaded media
 
@@ -94,8 +103,9 @@ Run:
 
 - Raw downloads and the sync report are ignored by Git.
 - Organized images are never overwritten unless the existing file is identical.
-- Downloaded, skipped, duplicate, and failed files are logged in `reports/palace-media-download-report.json`.
-- PDFs, documents, videos, SVGs, and logos are skipped by default unless enabled in `scripts/palace-media-config.ts`.
+- Downloaded, skipped, duplicate, failed files, folder names, asset-card counts, image-URL counts, and skip reasons are logged in `reports/palace-media-download-report.json`.
+- PDFs, documents, videos, and SVGs are skipped by default unless enabled in `scripts/palace-media-config.ts`.
+- Logo/brand assets are skipped only when `includeLogos` is `false` and the file or folder clearly looks like a logo/brand folder.
 
 ## Inquiry delivery setup
 

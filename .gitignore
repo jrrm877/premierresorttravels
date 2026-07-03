@@ -85,3 +85,4 @@ build/Release
 # Palace/Canto media sync output
 public/images/palace-raw/
 reports/palace-media-download-report.json
+reports/debug/
