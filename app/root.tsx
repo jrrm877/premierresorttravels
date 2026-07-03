@@ -51,10 +51,10 @@ export default function App() {
                   Collections
                 </a>
                 <NavLink className="site-nav-link" to="/journal">
-                  Journal
+                  Resources
                 </NavLink>
                 <NavLink className="site-nav-link" to="/traveler-stories">
-                  Stories
+                  Our Travelers
                 </NavLink>
                 <NavLink className="site-nav-link" to="/about">
                   About Us
@@ -86,8 +86,8 @@ export default function App() {
                 <div className="site-footer-links">
                   <a href="/destinations">Destinations</a>
                   <a href="/collections">Collections</a>
-                  <a href="/traveler-stories">Traveler stories</a>
-                  <a href="/journal">Travel journal</a>
+                  <a href="/traveler-stories">Our Travelers</a>
+                  <a href="/journal">Resources</a>
                   <a href="/about">About Us</a>
                 </div>
               </div>
