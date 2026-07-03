@@ -181,6 +181,608 @@ export const journalPosts: JournalPost[] = [
       },
     ],
   },
+  {
+    slug: "best-all-inclusive-resorts-in-cancun-for-families",
+    eyebrow: "Cancun Family Resorts",
+    title: "Best all-inclusive resorts in Cancun for families who want easy beach days and big amenities",
+    description:
+      "Compare family-friendly Cancun resorts with water parks, dining variety, kids activities, and the kind of layout that makes multigenerational travel easier.",
+    image: upscaleResortImage(
+      "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/4parh4uc8p5gj5t9vpsd4n3j34/240?angle=0"
+    )!,
+    readTime: "6 min read",
+    collectionHref: "/collections/family-flagship-resorts",
+    cta: "Read the Cancun family guide",
+    featuredPropertySlugs: ["moon-palace-the-grand-cancun", "moon-palace-cancun", "beach-palace"],
+    sections: [
+      {
+        title: "Start with how your family travels",
+        body:
+          "The best all-inclusive resort in Cancun for a family is not always the biggest one. Travelers with toddlers, teens, grandparents, and mixed-age groups usually need different room locations, dining flexibility, and activity levels.",
+      },
+      {
+        title: "Why amenities matter more on longer stays",
+        body:
+          "For five nights or more, families often appreciate a larger resort footprint, multiple pools, water park access, casual dining, and enough evening entertainment to keep everyone engaged without leaving the property.",
+      },
+      {
+        title: "What to ask before booking",
+        body:
+          "Ask about room categories, walking distances, beach conditions, airport transfer timing, kids club ages, and whether the resort has quiet pockets for adults who still want a little calm.",
+      },
+    ],
+  },
+  {
+    slug: "le-blanc-cancun-vs-le-blanc-los-cabos",
+    eyebrow: "Adults-Only Comparison",
+    title: "Le Blanc Cancun vs Le Blanc Los Cabos: which adults-only luxury resort fits your trip?",
+    description:
+      "A practical comparison for couples choosing between Le Blanc Spa Resort Cancun and Le Blanc Spa Resort Los Cabos for romance, wellness, and polished service.",
+    image: upscaleResortImage(
+      "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/lslu08vvvl1qdfuqoa06ptdn59/240?angle=0"
+    )!,
+    readTime: "5 min read",
+    collectionHref: "/collections/le-blanc-spa-resorts",
+    cta: "Compare Le Blanc resorts",
+    featuredPropertySlugs: ["le-blanc-spa-resort-cancun", "le-blanc-spa-resort-los-cabos"],
+    sections: [
+      {
+        title: "Choose Cancun for classic beachfront ease",
+        body:
+          "Le Blanc Cancun is often the stronger fit for couples who want a more traditional Caribbean beach vacation, turquoise water, and an elegant resort rhythm close to the airport.",
+      },
+      {
+        title: "Choose Los Cabos for a quieter coastal mood",
+        body:
+          "Le Blanc Los Cabos leans contemporary and serene, with dramatic desert-meets-sea scenery and a resort atmosphere that feels especially strong for spa-led getaways.",
+      },
+      {
+        title: "The deciding question",
+        body:
+          "If the beach itself is the priority, Cancun may win. If atmosphere, design, and wellness are the center of the trip, Los Cabos deserves a closer look.",
+      },
+    ],
+  },
+  {
+    slug: "best-palace-resorts-for-destination-weddings",
+    eyebrow: "Destination Weddings",
+    title: "Best Palace Resorts for destination weddings, welcome parties, and group travel",
+    description:
+      "Find the Palace and Moon Palace resorts that work best for wedding groups, room blocks, guest activities, and a smoother destination wedding week.",
+    image: "/images/home-style-romantic-dinner.jpg",
+    readTime: "6 min read",
+    collectionHref: "/collections/palace-resorts",
+    cta: "Read the wedding guide",
+    featuredPropertySlugs: ["moon-palace-the-grand-cancun", "moon-palace-cancun", "playacar-palace"],
+    sections: [
+      {
+        title: "Match the resort to the guest list",
+        body:
+          "A destination wedding resort has to work for more than the couple. It should fit families, friends, budgets, room needs, dining preferences, and guests who may treat the wedding as their main vacation.",
+      },
+      {
+        title: "Why larger resorts often help",
+        body:
+          "Larger all-inclusive resorts can make wedding logistics easier because they offer more room categories, more restaurants, more gathering spaces, and more ways for guests to enjoy downtime.",
+      },
+      {
+        title: "What couples should decide early",
+        body:
+          "Before comparing wedding packages, decide the mood: intimate beach ceremony, lively group celebration, family-friendly resort week, or a polished adults-focused escape.",
+      },
+    ],
+  },
+  {
+    slug: "moon-palace-the-grand-cancun-family-guide",
+    eyebrow: "Family Resort Guide",
+    title: "Moon Palace The Grand Cancun family guide: water park, dining, rooms, and trip planning tips",
+    description:
+      "A planning guide for families considering Moon Palace The Grand Cancun, including who it fits best and how to make the most of a big resort stay.",
+    image: upscaleResortImage(
+      "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/4parh4uc8p5gj5t9vpsd4n3j34/240?angle=0"
+    )!,
+    readTime: "7 min read",
+    collectionHref: "/collections/family-flagship-resorts",
+    cta: "Read The Grand guide",
+    featuredPropertySlugs: ["moon-palace-the-grand-cancun"],
+    sections: [
+      {
+        title: "Who The Grand fits best",
+        body:
+          "Moon Palace The Grand Cancun works especially well for families who want the resort itself to be the main event, with a water park, many dining options, and a high-energy vacation pace.",
+      },
+      {
+        title: "Plan around the footprint",
+        body:
+          "Big resorts reward a little strategy. Room location, preferred activities, restaurant timing, and transfer plans can make the trip feel easier once everyone arrives.",
+      },
+      {
+        title: "Best for longer stays",
+        body:
+          "Because there is so much to do on property, The Grand is strongest for families staying long enough to enjoy the amenities without feeling rushed.",
+      },
+    ],
+  },
+  {
+    slug: "best-adults-only-resorts-in-cancun-for-honeymoons",
+    eyebrow: "Honeymoon Resorts",
+    title: "Best adults-only resorts in Cancun for honeymoons, anniversaries, and romantic escapes",
+    description:
+      "A couples-focused guide to Cancun adults-only resorts with beach views, spa time, elevated dining, and a quieter all-inclusive experience.",
+    image: "/images/home-style-romantic-dinner.jpg",
+    readTime: "5 min read",
+    collectionHref: "/collections/adults-only-resorts",
+    cta: "Read the honeymoon guide",
+    featuredPropertySlugs: ["sun-palace", "le-blanc-spa-resort-cancun"],
+    sections: [
+      {
+        title: "Romance means different things",
+        body:
+          "Some couples want quiet service and spa rituals, while others want beachfront cocktails, excursions, and a lively dinner scene. The right Cancun resort depends on that mood.",
+      },
+      {
+        title: "Why adults-only matters",
+        body:
+          "Adults-only resorts tend to feel calmer at the pool, more polished at dinner, and easier for couples who want the trip to feel intentionally romantic.",
+      },
+      {
+        title: "Book around the experience",
+        body:
+          "For honeymoons and anniversaries, prioritize room view, dining style, spa access, and the level of privacy you want before focusing only on price.",
+      },
+    ],
+  },
+  {
+    slug: "best-resorts-for-teens-and-tweens-in-mexico",
+    eyebrow: "Teen Travel",
+    title: "Best resorts for teens and tweens in Mexico when kids are too old for the kids club",
+    description:
+      "How to choose a Mexico all-inclusive resort with enough independence, activities, food choices, and space for older kids and teens.",
+    image: "/images/home-style-family-beach.jpg",
+    readTime: "5 min read",
+    collectionHref: "/collections/family-flagship-resorts",
+    cta: "Read the teen resort guide",
+    featuredPropertySlugs: ["moon-palace-the-grand-cancun", "moon-palace-cancun", "moon-palace-jamaica"],
+    sections: [
+      {
+        title: "Older kids need range",
+        body:
+          "Tweens and teens usually care about pools, food, Wi-Fi, sports, entertainment, and enough freedom to explore safely. A resort with variety matters more than a simple kids club list.",
+      },
+      {
+        title: "Look for built-in activity zones",
+        body:
+          "Water parks, game rooms, sports courts, beach activities, and casual dining can help older kids stay engaged without parents needing to plan every hour.",
+      },
+      {
+        title: "Keep logistics simple",
+        body:
+          "The best teen-friendly resorts make it easy for families to split up and reconnect throughout the day, especially when multiple ages are traveling together.",
+      },
+    ],
+  },
+  {
+    slug: "cancun-vs-riviera-maya-all-inclusive-resorts",
+    eyebrow: "Destination Match",
+    title: "Cancun vs Riviera Maya all-inclusive resorts: how to choose the right Mexico beach vacation",
+    description:
+      "Compare Cancun and Riviera Maya for airport convenience, beach style, excursions, resort atmosphere, and family or couples travel.",
+    image: upscaleResortImage(
+      "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/grr1mp7f6h1q569etitj2r0f3m/240?angle=0"
+    )!,
+    readTime: "6 min read",
+    collectionHref: "/collections/palace-resorts",
+    cta: "Read the destination comparison",
+    featuredPropertySlugs: ["beach-palace", "moon-palace-cancun", "playacar-palace"],
+    sections: [
+      {
+        title: "Cancun is strong for convenience",
+        body:
+          "Cancun usually appeals to travelers who want shorter transfers, classic beach resort energy, and easy access to a polished hotel zone vacation.",
+      },
+      {
+        title: "Riviera Maya adds a wider sense of place",
+        body:
+          "Riviera Maya and Playa del Carmen can feel more spread out, with easy access to town, eco-parks, cenotes, and a more varied excursion rhythm.",
+      },
+      {
+        title: "Choose by trip pace",
+        body:
+          "If you want beach and resort ease, Cancun is hard to beat. If you want more exploring built into the week, Riviera Maya may fit better.",
+      },
+    ],
+  },
+  {
+    slug: "best-resorts-near-cancun-airport",
+    eyebrow: "Easy Transfers",
+    title: "Best resorts near Cancun airport for quick transfers and low-stress arrival days",
+    description:
+      "A guide to all-inclusive resorts near Cancun airport for families, couples, short stays, and travelers who want to start vacation faster.",
+    image: upscaleResortImage(
+      "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/oe0r882lrt1u506d70ulkn7s35/240?angle=0"
+    )!,
+    readTime: "4 min read",
+    collectionHref: "/collections/palace-resorts",
+    cta: "Read the transfer guide",
+    featuredPropertySlugs: ["moon-palace-cancun", "moon-palace-the-grand-cancun", "sun-palace"],
+    sections: [
+      {
+        title: "Short transfer, smoother first day",
+        body:
+          "For families with young kids, quick weekend escapes, and late arrivals, a resort near Cancun airport can make the first day feel dramatically easier.",
+      },
+      {
+        title: "Do not choose by distance alone",
+        body:
+          "The closest resort is not always the best fit. Match the transfer time with beach goals, dining expectations, family needs, and whether you plan to leave the resort.",
+      },
+      {
+        title: "Who benefits most",
+        body:
+          "Short-stay travelers, multigenerational groups, and anyone with tighter flight schedules usually appreciate a resort plan that keeps transportation simple.",
+      },
+    ],
+  },
+  {
+    slug: "best-first-all-inclusive-resort-vacation",
+    eyebrow: "First-Time Guide",
+    title: "How to choose your first all-inclusive resort vacation without feeling overwhelmed",
+    description:
+      "A beginner-friendly guide to choosing the right all-inclusive resort based on destination, trip style, budget, dining, beach, and activities.",
+    image: "/images/home-about-gallery-main.jpg",
+    readTime: "6 min read",
+    collectionHref: "/collections",
+    cta: "Read the first-timer guide",
+    featuredPropertySlugs: ["beach-palace", "moon-palace-cancun", "le-blanc-spa-resort-cancun"],
+    sections: [
+      {
+        title: "Start with the vacation feeling",
+        body:
+          "Before comparing resorts, decide what you want the trip to feel like: relaxing, romantic, family-focused, adventurous, social, or polished and quiet.",
+      },
+      {
+        title: "Understand what all-inclusive really includes",
+        body:
+          "Inclusions vary by resort. Dining, room service, transfers, excursions, spa, golf, and premium experiences may work differently, so it helps to know what matters before booking.",
+      },
+      {
+        title: "Use an advisor to narrow the noise",
+        body:
+          "A good resort match saves time because it filters hundreds of options into a shortlist based on how you actually travel.",
+      },
+    ],
+  },
+  {
+    slug: "best-all-inclusive-resorts-for-food-lovers",
+    eyebrow: "Food & Drink",
+    title: "Best all-inclusive resorts for food lovers who care about dining as much as the beach",
+    description:
+      "What to look for when choosing an all-inclusive resort with memorable restaurants, varied menus, quality cocktails, and fewer dining compromises.",
+    image: "/images/home-style-food.jpg",
+    readTime: "5 min read",
+    collectionHref: "/collections",
+    cta: "Read the dining guide",
+    featuredPropertySlugs: ["le-blanc-spa-resort-cancun", "le-blanc-spa-resort-los-cabos", "moon-palace-the-grand-cancun"],
+    sections: [
+      {
+        title: "Dining can define the trip",
+        body:
+          "For many travelers, restaurants are not a side detail. A strong all-inclusive dining program can turn a beach vacation into a more complete luxury experience.",
+      },
+      {
+        title: "Look beyond restaurant count",
+        body:
+          "More restaurants do not always mean better dining. Menu quality, reservation process, service style, cocktail program, and variety across the week matter more.",
+      },
+      {
+        title: "Match food style to trip style",
+        body:
+          "Couples may prefer elevated tasting menus and quieter dining rooms, while families often need flexible hours, casual options, and menus that work for different ages.",
+      },
+    ],
+  },
+  {
+    slug: "best-spa-resorts-for-couples-in-mexico",
+    eyebrow: "Spa & Wellness",
+    title: "Best spa resorts for couples in Mexico who want wellness, ocean views, and quiet luxury",
+    description:
+      "A guide to choosing a Mexico spa resort for couples, including treatment style, atmosphere, dining, rooms, and adults-only options.",
+    image: "/images/home-style-spa.jpg",
+    readTime: "5 min read",
+    collectionHref: "/collections/adults-only-resorts",
+    cta: "Read the spa guide",
+    featuredPropertySlugs: ["le-blanc-spa-resort-cancun", "le-blanc-spa-resort-los-cabos", "sun-palace"],
+    sections: [
+      {
+        title: "Wellness starts with the setting",
+        body:
+          "A strong spa resort should feel calm even outside the treatment room, with quieter spaces, thoughtful service, and a rhythm that makes rest feel easy.",
+      },
+      {
+        title: "Consider the full day",
+        body:
+          "Couples who prioritize wellness should compare breakfast options, pool atmosphere, room views, spa facilities, and whether the resort feels peaceful after dinner.",
+      },
+      {
+        title: "Adults-only can help",
+        body:
+          "Adults-only resorts often support a more serene spa vacation because the overall energy tends to be quieter and more couple-focused.",
+      },
+    ],
+  },
+  {
+    slug: "best-caribbean-family-resorts-with-water-parks",
+    eyebrow: "Water Park Resorts",
+    title: "Best Caribbean family resorts with water parks, splash zones, and built-in kid appeal",
+    description:
+      "How to choose a Caribbean family resort with water features, dining variety, easy days, and enough activity for kids and adults.",
+    image: upscaleResortImage(
+      "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/c52nfg6ckt4lr1r36pdi96fd7u/240?angle=0"
+    )!,
+    readTime: "5 min read",
+    collectionHref: "/collections/family-flagship-resorts",
+    cta: "Read the water park guide",
+    featuredPropertySlugs: ["moon-palace-the-grand-cancun", "moon-palace-jamaica", "moon-palace-the-grand-punta-cana"],
+    sections: [
+      {
+        title: "Water features make resort days easier",
+        body:
+          "Pools, splash zones, slides, and water parks can reduce the need for daily excursions, especially for families who want the resort to carry most of the entertainment.",
+      },
+      {
+        title: "Balance kid energy with adult comfort",
+        body:
+          "The best family resorts give kids plenty to do while still offering good dining, comfortable rooms, and spaces where adults can actually relax.",
+      },
+      {
+        title: "Think about age ranges",
+        body:
+          "A splash pad may be perfect for younger kids, while teens need larger activity areas, sports, entertainment, and enough independence to stay interested.",
+      },
+    ],
+  },
+  {
+    slug: "cozumel-palace-scuba-diving-vacation-guide",
+    eyebrow: "Scuba Travel",
+    title: "Cozumel Palace scuba diving vacation guide for reef lovers and easy island escapes",
+    description:
+      "Why Cozumel Palace is a natural fit for divers, snorkelers, and travelers who want reef access with all-inclusive comfort.",
+    image: "/images/home-style-adventure.jpg",
+    readTime: "5 min read",
+    collectionHref: "/collections/palace-resorts",
+    cta: "Read the Cozumel guide",
+    featuredPropertySlugs: ["cozumel-palace"],
+    sections: [
+      {
+        title: "Cozumel is built for water lovers",
+        body:
+          "Cozumel is one of Mexico's strongest choices for travelers who want reefs, diving, snorkeling, and a quieter island pace than mainland resort corridors.",
+      },
+      {
+        title: "Why resort location matters",
+        body:
+          "Divers and snorkelers should think about boat access, gear logistics, excursion timing, and how easy it is to balance water days with relaxed evenings.",
+      },
+      {
+        title: "Best for active beach travelers",
+        body:
+          "Cozumel Palace is a good match for travelers who want all-inclusive convenience but still expect the ocean to be a major part of the vacation.",
+      },
+    ],
+  },
+  {
+    slug: "playacar-palace-walkable-playa-del-carmen-guide",
+    eyebrow: "Walkable Mexico",
+    title: "Playacar Palace guide: a walkable Playa del Carmen resort for beach, shopping, and town access",
+    description:
+      "How Playacar Palace fits travelers who want an all-inclusive resort with easy access to Playa del Carmen, ferry connections, and beach time.",
+    image: upscaleResortImage(
+      "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/grr1mp7f6h1q569etitj2r0f3m/240?angle=0"
+    )!,
+    readTime: "4 min read",
+    collectionHref: "/collections/palace-resorts",
+    cta: "Read the Playacar guide",
+    featuredPropertySlugs: ["playacar-palace"],
+    sections: [
+      {
+        title: "Best for travelers who like to wander",
+        body:
+          "Playacar Palace is especially appealing for guests who want resort comfort but also like being close to shops, restaurants, nightlife, and ferry access.",
+      },
+      {
+        title: "A different feel than a secluded resort",
+        body:
+          "Instead of feeling tucked away, this resort gives travelers a more connected Playa del Carmen experience while keeping the ease of an all-inclusive base.",
+      },
+      {
+        title: "Who should consider it",
+        body:
+          "Couples, families with older kids, and travelers planning Cozumel day trips often appreciate the location and flexibility.",
+      },
+    ],
+  },
+  {
+    slug: "beach-palace-cancun-family-beach-resort-guide",
+    eyebrow: "Cancun Beach Resorts",
+    title: "Beach Palace Cancun guide for families who want a classic beachfront all-inclusive stay",
+    description:
+      "A closer look at Beach Palace for families and couples seeking Cancun beach views, simple planning, and a polished all-inclusive format.",
+    image: upscaleResortImage(
+      "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/3lverrm7gl48r759qtvus92n1e/240?angle=0"
+    )!,
+    readTime: "4 min read",
+    collectionHref: "/collections/palace-resorts",
+    cta: "Read the Beach Palace guide",
+    featuredPropertySlugs: ["beach-palace"],
+    sections: [
+      {
+        title: "Classic Cancun appeal",
+        body:
+          "Beach Palace fits travelers who want a recognizable Cancun beach vacation with ocean views, all-inclusive convenience, and a lively but manageable resort atmosphere.",
+      },
+      {
+        title: "Easy for families and first-timers",
+        body:
+          "The resort is approachable for families and travelers new to all-inclusive vacations because the planning rhythm is simple and the destination is easy to understand.",
+      },
+      {
+        title: "When it works best",
+        body:
+          "Consider Beach Palace for shorter Cancun stays, family beach weeks, and travelers who want convenience without choosing a mega-resort footprint.",
+      },
+    ],
+  },
+  {
+    slug: "moon-palace-jamaica-family-resort-guide",
+    eyebrow: "Jamaica Family Travel",
+    title: "Moon Palace Jamaica family resort guide for Ocho Rios beach trips and island adventures",
+    description:
+      "A guide to Moon Palace Jamaica for families who want an all-inclusive beach base with access to Ocho Rios excursions and lively resort energy.",
+    image: upscaleResortImage(
+      "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/c52nfg6ckt4lr1r36pdi96fd7u/240?angle=0"
+    )!,
+    readTime: "5 min read",
+    collectionHref: "/collections/family-flagship-resorts",
+    cta: "Read the Jamaica guide",
+    featuredPropertySlugs: ["moon-palace-jamaica"],
+    sections: [
+      {
+        title: "Why Ocho Rios works for families",
+        body:
+          "Ocho Rios gives families a mix of beach time and adventure, with waterfalls, water activities, and a different island feel than Mexico resort corridors.",
+      },
+      {
+        title: "Resort energy plus excursion access",
+        body:
+          "Moon Palace Jamaica works well for travelers who want all-inclusive convenience but still plan to add a few memorable island experiences.",
+      },
+      {
+        title: "Best-fit travelers",
+        body:
+          "This resort is strongest for families and groups who like a lively atmosphere, active days, and a vacation that blends resort time with destination flavor.",
+      },
+    ],
+  },
+  {
+    slug: "baglioni-maldives-luxury-island-resort-guide",
+    eyebrow: "Maldives Luxury",
+    title: "Baglioni Maldives guide for honeymoons, overwater villas, and barefoot luxury",
+    description:
+      "What to know when planning a Maldives luxury resort stay, from overwater villas and dining to transfer logistics and romantic trip timing.",
+    image: upscaleResortImage(
+      "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/u1b14u1cj57qrb4trvcjtuiq4p/240?angle=0"
+    )!,
+    readTime: "6 min read",
+    collectionHref: "/collections/baglioni-resorts",
+    cta: "Read the Maldives guide",
+    featuredPropertySlugs: ["baglioni-resort-maldives"],
+    sections: [
+      {
+        title: "The Maldives is about the setting",
+        body:
+          "For many travelers, a Maldives resort is chosen for privacy, water color, villa style, service, and the feeling of being far away from everyday life.",
+      },
+      {
+        title: "Plan transfers carefully",
+        body:
+          "International arrivals, seaplane or domestic transfer timing, and first-night logistics matter more in the Maldives than in many beach destinations.",
+      },
+      {
+        title: "Best for milestone travel",
+        body:
+          "Baglioni Resort Maldives is especially compelling for honeymoons, anniversaries, and luxury travelers who want a polished island escape.",
+      },
+    ],
+  },
+  {
+    slug: "baglioni-italy-luxury-hotel-itinerary-guide",
+    eyebrow: "Italy Itineraries",
+    title: "Baglioni Italy hotel itinerary guide for Rome, Venice, Milan, Florence, and Puglia",
+    description:
+      "How to build a luxury Italy itinerary using Baglioni hotels and resorts for romance, art, dining, fashion, and coastal relaxation.",
+    image: upscaleResortImage(
+      "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/416ej5192t3u12ehio6ks1me4m/240?angle=0"
+    )!,
+    readTime: "7 min read",
+    collectionHref: "/collections/european-icon-hotels",
+    cta: "Read the Italy itinerary",
+    featuredPropertySlugs: ["baglioni-hotel-luna", "baglioni-hotel-regina", "casa-baglioni", "palazzo-firenze"],
+    sections: [
+      {
+        title: "Build the trip around contrast",
+        body:
+          "A strong Italy itinerary often pairs a grand arrival city with a slower coastal or countryside finish, giving travelers culture first and rest later.",
+      },
+      {
+        title: "Choose cities by personality",
+        body:
+          "Rome feels grand and layered, Venice is romantic and cinematic, Milan is design-focused, and Florence is ideal for art, walking, and Renaissance history.",
+      },
+      {
+        title: "Add resort time if the trip is long enough",
+        body:
+          "For longer Italy vacations, a Puglia or Sardinia finish can make the itinerary feel less rushed and more restorative.",
+      },
+    ],
+  },
+  {
+    slug: "how-to-plan-a-destination-wedding-at-an-all-inclusive-resort",
+    eyebrow: "Wedding Planning",
+    title: "How to plan a destination wedding at an all-inclusive resort without overwhelming your guests",
+    description:
+      "A practical destination wedding planning guide covering guest experience, room blocks, resort choice, timelines, budgets, and travel support.",
+    image: "/images/home-style-romantic-dinner.jpg",
+    readTime: "7 min read",
+    collectionHref: "/collections",
+    cta: "Read the wedding planning guide",
+    featuredPropertySlugs: ["moon-palace-the-grand-cancun", "playacar-palace", "le-blanc-spa-resort-cancun"],
+    sections: [
+      {
+        title: "Lead with guest experience",
+        body:
+          "The best destination wedding plans consider how guests will travel, what they can comfortably spend, and whether the resort works for the full group.",
+      },
+      {
+        title: "Room blocks need strategy",
+        body:
+          "Room categories, deposit deadlines, travel windows, airport transfers, and cancellation terms should be clear early so guests feel confident booking.",
+      },
+      {
+        title: "Keep communication simple",
+        body:
+          "A clear planning process, one trusted travel contact, and an easy trip request form can prevent couples from becoming the help desk for every guest.",
+      },
+    ],
+  },
+  {
+    slug: "when-to-book-all-inclusive-resorts-for-best-value",
+    eyebrow: "Travel Planning",
+    title: "When to book all-inclusive resorts for the best value, room choice, and travel perks",
+    description:
+      "Learn when to book all-inclusive resorts for family vacations, honeymoons, destination weddings, spring break, holidays, and peak travel weeks.",
+    image: "/images/about-better-recommendations-graphic.png",
+    readTime: "5 min read",
+    collectionHref: "/collections",
+    cta: "Read the booking timing guide",
+    featuredPropertySlugs: ["moon-palace-cancun", "le-blanc-spa-resort-los-cabos", "baglioni-resort-maldives"],
+    sections: [
+      {
+        title: "Popular weeks need earlier planning",
+        body:
+          "Spring break, holidays, summer family travel, and wedding-heavy dates can sell out sooner or lose the best room categories before travelers expect it.",
+      },
+      {
+        title: "Value is not just the lowest rate",
+        body:
+          "The best value may include better room choice, advisor perks, resort credits, easier flights, and fewer compromises on the details that matter most.",
+      },
+      {
+        title: "Use timing to protect the trip",
+        body:
+          "Booking earlier gives travelers more control, especially for groups, milestone trips, and resorts where specific room types or views matter.",
+      },
+    ],
+  },
 ];
 
 export const portfolioSections: PortfolioSection[] = [

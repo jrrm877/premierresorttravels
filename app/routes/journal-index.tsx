@@ -221,7 +221,8 @@ function ResourceLineIcon({ name }: { name: ResourceIcon }) {
 }
 
 export default function JournalIndexPage() {
-  const journalResourceCards = journalPosts.slice(0, 3);
+  const journalResourceCards = journalPosts;
+  const scrollingJournalCards = [...journalResourceCards, ...journalResourceCards];
 
   return (
     <main className="resources-page">
@@ -294,18 +295,24 @@ export default function JournalIndexPage() {
             <h2 id="resources-journal-heading">From The Travel Journal</h2>
             <a href="/collections">Browse Collections -&gt;</a>
           </div>
-          <div className="resources-card-grid">
-            {journalResourceCards.map((post) => (
-              <a key={post.slug} className="resources-article-card" href={`/journal/${post.slug}`}>
-                <img src={post.image} alt="" loading="lazy" decoding="async" />
-                <div>
-                  <p className="eyebrow">{post.eyebrow}</p>
-                  <h3>{post.title}</h3>
-                  <p>{post.description}</p>
-                  <span>{post.readTime} -&gt;</span>
-                </div>
-              </a>
-            ))}
+          <div className="resources-journal-carousel" aria-label="Travel journal articles">
+            <div className="resources-journal-track">
+              {scrollingJournalCards.map((post, index) => (
+                <a
+                  key={`${post.slug}-${index}`}
+                  className="resources-article-card resources-journal-card"
+                  href={`/journal/${post.slug}`}
+                >
+                  <img src={post.image} alt="" loading="lazy" decoding="async" />
+                  <div>
+                    <p className="eyebrow">{post.eyebrow}</p>
+                    <h3>{post.title}</h3>
+                    <p>{post.description}</p>
+                    <span>{post.readTime} -&gt;</span>
+                  </div>
+                </a>
+              ))}
+            </div>
           </div>
         </section>
       ) : null}

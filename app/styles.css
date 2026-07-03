@@ -2930,6 +2930,43 @@ button.portfolio-tab {
   margin-top: -1rem;
 }
 
+.resources-journal-carousel {
+  width: 100%;
+  overflow: hidden;
+  padding: 0.35rem 0 1rem;
+}
+
+.resources-journal-track {
+  display: flex;
+  gap: 1.05rem;
+  width: max-content;
+  animation: resources-journal-scroll 118s linear infinite;
+}
+
+.resources-journal-carousel:hover .resources-journal-track,
+.resources-journal-carousel:focus-within .resources-journal-track {
+  animation-play-state: paused;
+}
+
+.resources-journal-card {
+  width: min(360px, 80vw);
+  flex: 0 0 auto;
+}
+
+.resources-journal-card img {
+  transition: transform 240ms ease;
+}
+
+.resources-journal-card:hover img,
+.resources-journal-card:focus-visible img {
+  transform: scale(1.04);
+}
+
+@keyframes resources-journal-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
 .resources-tools {
   display: grid;
   gap: 0.2rem;
