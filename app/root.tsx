@@ -93,27 +93,27 @@ export default function App() {
               </div>
               <div className="site-footer-aside">
                 <div className="site-footer-affiliation" aria-label="Palace Pro affiliation">
-                  <img src="/images/logo-palace-pro-agents.png" alt="Palace Pro Specialist Agency" loading="lazy" decoding="async" />
+                  <img src="/images/logo-palace-pro-agents.svg" alt="Palace Pro Specialist Agency" loading="lazy" decoding="async" />
                 </div>
-                <div className="site-footer-links">
-                  <a href="/destinations">Destinations</a>
-                  <a href="/collections">Collections</a>
-                  <a href="/traveler-stories">Our Travelers</a>
-                  <a href="/journal">Resources</a>
-                  <a href="/about">About Us</a>
-                  <a
-                    className="site-footer-social-link"
-                    href="https://www.facebook.com/profile.php?id=61579557773966"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Premier Resort Travel on Facebook"
-                  >
-                    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
-                      <path d="M14.2 8.2V6.9c0-.7.5-.9 1-.9h1.7V3.1c-.3 0-1.4-.1-2.7-.1-2.7 0-4.5 1.6-4.5 4.6v.6H7v3.2h2.7V21h3.5v-9.6h2.9l.5-3.2h-3.4Z" />
-                    </svg>
-                    <span>Facebook</span>
-                  </a>
-                </div>
+              </div>
+              <div className="site-footer-links">
+                <a href="/destinations">Destinations</a>
+                <a href="/collections">Collections</a>
+                <a href="/traveler-stories">Our Travelers</a>
+                <a href="/journal">Resources</a>
+                <a href="/about">About Us</a>
+                <a
+                  className="site-footer-social-link"
+                  href="https://www.facebook.com/profile.php?id=61579557773966"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Premier Resort Travel on Facebook"
+                >
+                  <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+                    <path d="M14.2 8.2V6.9c0-.7.5-.9 1-.9h1.7V3.1c-.3 0-1.4-.1-2.7-.1-2.7 0-4.5 1.6-4.5 4.6v.6H7v3.2h2.7V21h3.5v-9.6h2.9l.5-3.2h-3.4Z" />
+                  </svg>
+                  <span>Facebook</span>
+                </a>
               </div>
             </div>
           </footer>
