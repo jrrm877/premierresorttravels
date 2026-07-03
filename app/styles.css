@@ -87,7 +87,6 @@ body {
   height: 64px;
   object-fit: contain;
   flex: 0 0 auto;
-  mix-blend-mode: multiply;
 }
 
 .site-brand-copy {
@@ -240,7 +239,6 @@ body {
   width: min(320px, 100%);
   height: auto;
   margin: 0 0 0.85rem;
-  mix-blend-mode: multiply;
 }
 
 .site-footer-links {
