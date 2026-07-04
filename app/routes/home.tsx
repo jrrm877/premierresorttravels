@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { useFetcher } from "react-router";
+import { featuredCollection } from "../data/collections";
 import { collectionCards, portfolioSections } from "../lib/property-data";
 import { featuredTravelerStories } from "../lib/traveler-stories";
 import type { Route } from "./+types/home";
+
+const homepageHeroImage =
+  "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/2eel4s41k15j9anvu6kp927m2e/800?angle=0";
 
 export function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
@@ -71,6 +75,7 @@ function formatTags(tags: string | null) {
 }
 
 const searchIdeas = ["all-inclusive", "adults-only", "family", "diving", "venice", "wellness"];
+const catalogImage = (name: string) => `/images/catalog/${name}`;
 
 const searchPaths = [
   {
@@ -133,19 +138,19 @@ const heroHighlights = [
     label: "Adults-only serenity",
     name: "Le Blanc Spa Resort Cancun",
     image: collectionCards[0]?.image,
-    href: "/collections/adults-only-resorts",
+    href: "/collections/adults-only",
   },
   {
     label: "Family flagship",
     name: "Moon Palace The Grand - Cancun",
     image: collectionCards[1]?.image,
-    href: "/collections/family-flagship-resorts",
+    href: "/collections/family-friendly",
   },
   {
     label: "European icon",
     name: "Baglioni Hotel Luna",
     image: collectionCards[2]?.image,
-    href: "/collections/european-icon-hotels",
+    href: "/collections/european-luxury",
   },
 ];
 
@@ -312,7 +317,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         className="luxe-hero"
         aria-label="Premier Resort Travel homepage"
         style={{
-          backgroundImage: `linear-gradient(90deg, rgba(5, 15, 15, 0.86) 0%, rgba(12, 23, 23, 0.58) 42%, rgba(12, 23, 23, 0.1) 100%), url(${collectionCards[0]?.image})`,
+          backgroundImage: `linear-gradient(90deg, rgba(5, 15, 15, 0.86) 0%, rgba(12, 23, 23, 0.58) 42%, rgba(12, 23, 23, 0.1) 100%), url(${homepageHeroImage})`,
         }}
       >
         <div className="luxe-hero-copy">
@@ -434,13 +439,28 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       </section>
 
       <section className="luxe-featured" aria-labelledby="luxe-featured-heading">
-        <div>
+        <div className="luxe-featured-copy">
           <p className="eyebrow">Featured Collections</p>
           <h2 id="luxe-featured-heading">Handpicked. Unforgettable.</h2>
-          <p>Explore our favorite resorts and destinations.</p>
+          <p>Explore our favorite resorts and destinations by the way you want to travel.</p>
+          <a className="button button-secondary luxe-outline-button" href="/collections">
+            View All Collections
+          </a>
         </div>
-        <a className="button button-secondary luxe-outline-button" href="/collections">
-          View All Collections
+        <a className="luxe-signature-collection" href={`/collections/${featuredCollection.slug}`}>
+          <img
+            src={featuredCollection.featuredImage}
+            alt={`${featuredCollection.title} luxury resort collection`}
+            loading="lazy"
+          />
+          <span className="luxe-signature-badge">
+            {featuredCollection.featuredBadge ?? "Featured Collection"}
+          </span>
+          <div>
+            <h3>{featuredCollection.title}</h3>
+            <p>{featuredCollection.shortDescription}</p>
+            <span>{featuredCollection.resortIds.length} resorts -&gt;</span>
+          </div>
         </a>
       </section>
 

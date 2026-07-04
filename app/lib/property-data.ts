@@ -50,6 +50,8 @@ export type PortfolioSection = {
   properties: PortfolioProperty[];
 };
 
+const catalogImage = (name: string) => `/images/catalog/${name}`;
+
 export const collectionCards: CollectionCard[] = [
   {
     title: "Adults-only sanctuaries",
@@ -249,7 +251,7 @@ export const journalPosts: JournalPost[] = [
     title: "Best Palace Resorts for destination weddings, welcome parties, and group travel",
     description:
       "Find the Palace and Moon Palace resorts that work best for wedding groups, room blocks, guest activities, and a smoother destination wedding week.",
-    image: "/images/home-style-romantic-dinner.jpg",
+    image: catalogImage("beach-wedding-white-sand.jpg"),
     readTime: "6 min read",
     collectionHref: "/collections/palace-resorts",
     cta: "Read the wedding guide",
@@ -309,7 +311,7 @@ export const journalPosts: JournalPost[] = [
     title: "Best adults-only resorts in Cancun for honeymoons, anniversaries, and romantic escapes",
     description:
       "A couples-focused guide to Cancun adults-only resorts with beach views, spa time, elevated dining, and a quieter all-inclusive experience.",
-    image: "/images/home-style-romantic-dinner.jpg",
+    image: catalogImage("poolside-cabana-daybed.jpg"),
     readTime: "5 min read",
     collectionHref: "/collections/adults-only-resorts",
     cta: "Read the honeymoon guide",
@@ -338,7 +340,7 @@ export const journalPosts: JournalPost[] = [
     title: "Best resorts for teens and tweens in Mexico when kids are too old for the kids club",
     description:
       "How to choose a Mexico all-inclusive resort with enough independence, activities, food choices, and space for older kids and teens.",
-    image: "/images/home-style-family-beach.jpg",
+    image: catalogImage("kids-resort-waterpark.jpg"),
     readTime: "5 min read",
     collectionHref: "/collections/family-flagship-resorts",
     cta: "Read the teen resort guide",
@@ -429,7 +431,7 @@ export const journalPosts: JournalPost[] = [
     title: "How to choose your first all-inclusive resort vacation without feeling overwhelmed",
     description:
       "A beginner-friendly guide to choosing the right all-inclusive resort based on destination, trip style, budget, dining, beach, and activities.",
-    image: "/images/home-about-gallery-main.jpg",
+    image: catalogImage("resort-pool-aerial.jpg"),
     readTime: "6 min read",
     collectionHref: "/collections",
     cta: "Read the first-timer guide",
@@ -458,7 +460,7 @@ export const journalPosts: JournalPost[] = [
     title: "Best all-inclusive resorts for food lovers who care about dining as much as the beach",
     description:
       "What to look for when choosing an all-inclusive resort with memorable restaurants, varied menus, quality cocktails, and fewer dining compromises.",
-    image: "/images/home-style-food.jpg",
+    image: catalogImage("destination-dining-table.jpg"),
     readTime: "5 min read",
     collectionHref: "/collections",
     cta: "Read the dining guide",
@@ -487,7 +489,7 @@ export const journalPosts: JournalPost[] = [
     title: "Best spa resorts for couples in Mexico who want wellness, ocean views, and quiet luxury",
     description:
       "A guide to choosing a Mexico spa resort for couples, including treatment style, atmosphere, dining, rooms, and adults-only options.",
-    image: "/images/home-style-spa.jpg",
+    image: catalogImage("spa-hydrotherapy-pool.jpg"),
     readTime: "5 min read",
     collectionHref: "/collections/adults-only-resorts",
     cta: "Read the spa guide",
@@ -547,7 +549,7 @@ export const journalPosts: JournalPost[] = [
     title: "Cozumel Palace scuba diving vacation guide for reef lovers and easy island escapes",
     description:
       "Why Cozumel Palace is a natural fit for divers, snorkelers, and travelers who want reef access with all-inclusive comfort.",
-    image: "/images/home-style-adventure.jpg",
+    image: catalogImage("turquoise-water-aerial.jpg"),
     readTime: "5 min read",
     collectionHref: "/collections/palace-resorts",
     cta: "Read the Cozumel guide",
@@ -731,7 +733,7 @@ export const journalPosts: JournalPost[] = [
     title: "How to plan a destination wedding at an all-inclusive resort without overwhelming your guests",
     description:
       "A practical destination wedding planning guide covering guest experience, room blocks, resort choice, timelines, budgets, and travel support.",
-    image: "/images/home-style-romantic-dinner.jpg",
+    image: catalogImage("destination-dining-table.jpg"),
     readTime: "7 min read",
     collectionHref: "/collections",
     cta: "Read the wedding planning guide",
@@ -760,7 +762,7 @@ export const journalPosts: JournalPost[] = [
     title: "When to book all-inclusive resorts for the best value, room choice, and travel perks",
     description:
       "Learn when to book all-inclusive resorts for family vacations, honeymoons, destination weddings, spring break, holidays, and peak travel weeks.",
-    image: "/images/about-better-recommendations-graphic.png",
+    image: catalogImage("hotel-room-balcony.jpg"),
     readTime: "5 min read",
     collectionHref: "/collections",
     cta: "Read the booking timing guide",

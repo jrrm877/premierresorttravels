@@ -39,6 +39,7 @@ export type TravelerStory = {
 };
 
 const propertyImage = (slug: string, fallback: string) => findPropertyBySlug(slug)?.image ?? fallback;
+const catalogImage = (name: string) => `/images/catalog/${name}`;
 
 export const travelerStories: TravelerStory[] = [
   {
@@ -54,12 +55,12 @@ export const travelerStories: TravelerStory[] = [
     travelerType: "Couple",
     travelDate: "April 2026",
     length: "5 nights",
-    featuredImage: propertyImage("le-blanc-spa-resort-cancun", "/images/home-style-adults-only.jpg"),
+    featuredImage: catalogImage("beach-cabana-palm.jpg"),
     gallery: [
-      propertyImage("le-blanc-spa-resort-cancun", "/images/home-style-adults-only.jpg"),
-      "/images/home-style-spa.jpg",
-      "/images/home-style-romantic-dinner.jpg",
-      "/images/home-about-gallery-coast.jpg",
+      catalogImage("resort-pool-loungers.jpg"),
+      catalogImage("spa-hydrotherapy-pool.jpg"),
+      catalogImage("private-terrace-dining.jpg"),
+      catalogImage("white-sand-beach.jpg"),
     ],
     story: {
       whyWeChose:
@@ -103,9 +104,9 @@ export const travelerStories: TravelerStory[] = [
     featuredImage: propertyImage("moon-palace-the-grand-cancun", "/images/home-style-family-beach.jpg"),
     gallery: [
       propertyImage("moon-palace-the-grand-cancun", "/images/home-style-family-beach.jpg"),
-      "/images/home-style-family-beach.jpg",
-      "/images/home-about-gallery-main.jpg",
-      "/images/home-style-food.jpg",
+      catalogImage("kids-resort-waterpark.jpg"),
+      catalogImage("family-resort-pool.jpg"),
+      catalogImage("destination-dining-table.jpg"),
     ],
     story: {
       whyWeChose:
@@ -149,7 +150,7 @@ export const travelerStories: TravelerStory[] = [
     featuredImage: propertyImage("cozumel-palace", "/images/home-style-adventure.jpg"),
     gallery: [
       propertyImage("cozumel-palace", "/images/home-style-adventure.jpg"),
-      "/images/home-style-adventure.jpg",
+      catalogImage("turquoise-water-aerial.jpg"),
       "/images/about-north-america-cozumel-south-dive.jpeg",
       "/images/about-activity-snorkeling.png",
     ],
@@ -195,8 +196,9 @@ export const travelerStories: TravelerStory[] = [
     featuredImage: propertyImage("baglioni-hotel-luna", "/images/home-style-europe.jpg"),
     gallery: [
       propertyImage("baglioni-hotel-luna", "/images/home-style-europe.jpg"),
-      "/images/home-style-europe.jpg",
-      "/images/home-style-romantic-dinner.jpg",
+      catalogImage("grand-hotel-lobby.jpg"),
+      catalogImage("ornate-hotel-dining-room.jpg"),
+      catalogImage("city-hotel-corridor.jpg"),
       "/images/about-europe-lochau-austria.jpg",
     ],
     story: {
@@ -241,9 +243,9 @@ export const travelerStories: TravelerStory[] = [
     featuredImage: propertyImage("sun-palace", "/images/home-style-romantic-dinner.jpg"),
     gallery: [
       propertyImage("sun-palace", "/images/home-style-romantic-dinner.jpg"),
-      "/images/home-style-romantic-dinner.jpg",
-      "/images/home-about-gallery-coast.jpg",
-      "/images/home-style-spa.jpg",
+      catalogImage("poolside-cabana-daybed.jpg"),
+      catalogImage("resort-evening-waterfront.jpg"),
+      catalogImage("hotel-room-balcony.jpg"),
     ],
     story: {
       whyWeChose:
@@ -287,9 +289,9 @@ export const travelerStories: TravelerStory[] = [
     featuredImage: propertyImage("baglioni-masseria-muzza-resort-and-spa", "/images/home-style-spa.jpg"),
     gallery: [
       propertyImage("baglioni-masseria-muzza-resort-and-spa", "/images/home-style-spa.jpg"),
-      "/images/home-style-spa.jpg",
-      "/images/home-about-gallery-room.jpg",
-      "/images/home-about-gallery-coast.jpg",
+      catalogImage("mediterranean-resort-garden.jpg"),
+      catalogImage("luxury-suite-bedroom.jpg"),
+      catalogImage("garden-villa-exterior.jpg"),
     ],
     story: {
       whyWeChose:
@@ -333,9 +335,9 @@ export const travelerStories: TravelerStory[] = [
     featuredImage: propertyImage("moon-palace-jamaica", "/images/home-style-family-beach.jpg"),
     gallery: [
       propertyImage("moon-palace-jamaica", "/images/home-style-family-beach.jpg"),
-      "/images/home-style-family-beach.jpg",
+      catalogImage("family-pool-swim.jpg"),
       "/images/about-caribbean-haiti.jpg",
-      "/images/home-style-adventure.jpg",
+      catalogImage("resort-water-park-splash.jpg"),
     ],
     story: {
       whyWeChose:
@@ -379,9 +381,9 @@ export const travelerStories: TravelerStory[] = [
     featuredImage: propertyImage("baglioni-resort-maldives", "/images/home-about-gallery-coast.jpg"),
     gallery: [
       propertyImage("baglioni-resort-maldives", "/images/home-about-gallery-coast.jpg"),
-      "/images/home-about-gallery-coast.jpg",
-      "/images/home-style-adventure.jpg",
-      "/images/home-style-romantic-dinner.jpg",
+      catalogImage("turquoise-water-aerial.jpg"),
+      catalogImage("beach-cabana-palm.jpg"),
+      catalogImage("destination-dining-table.jpg"),
     ],
     story: {
       whyWeChose:

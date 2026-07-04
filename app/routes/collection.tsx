@@ -1,27 +1,22 @@
 import {
-  featuredCollections,
-  findFeaturedCollectionBySlug,
-  findJournalPostBySlug,
-} from "../lib/property-data";
-import { storiesForCollection } from "../lib/traveler-stories";
+  findCollectionBySlug,
+  getRelatedCollections,
+  resortCollections,
+} from "../data/collections";
+import { resortsForCollection } from "../data/resorts";
 import type { Route } from "./+types/collection";
 
 export async function loader({ params }: Route.LoaderArgs) {
-  const collection = findFeaturedCollectionBySlug(params.slug);
+  const collection = findCollectionBySlug(params.slug);
 
   if (!collection) {
     throw new Response("Not Found", { status: 404 });
   }
 
-  const journalPost = collection.journalSlug
-    ? findJournalPostBySlug(collection.journalSlug) ?? null
-    : null;
+  const resorts = resortsForCollection(collection.resortIds);
+  const relatedCollections = getRelatedCollections(collection);
 
-  const relatedCollections = featuredCollections
-    .filter((candidate) => candidate.slug !== collection.slug)
-    .slice(0, 3);
-
-  return { collection, journalPost, relatedCollections, travelerStories: storiesForCollection(collection, 4) };
+  return { collection, resorts, relatedCollections };
 }
 
 export function meta({ data }: Route.MetaArgs) {
@@ -30,69 +25,122 @@ export function meta({ data }: Route.MetaArgs) {
   }
 
   return [
-    { title: `${data.collection.title} | Premier Resort Travel` },
+    { title: data.collection.seoTitle },
     {
       name: "description",
-      content: data.collection.description,
+      content: data.collection.seoDescription,
     },
+    { property: "og:title", content: data.collection.seoTitle },
+    { property: "og:description", content: data.collection.seoDescription },
+    { property: "og:image", content: data.collection.heroImage },
   ];
 }
 
-export default function CollectionPage({ loaderData }: Route.ComponentProps) {
-  const { collection, journalPost, relatedCollections, travelerStories } = loaderData;
-  const collectionSnapshot = [
-    {
-      label: "Properties in this collection",
-      value: String(collection.properties.length),
-      detail: "A cleaner shortlist of matching stays to compare first.",
+export default function CollectionPage({ loaderData, params }: Route.ComponentProps) {
+  const fallbackCollection = params.slug ? findCollectionBySlug(params.slug) : undefined;
+  const collection = loaderData?.collection ?? fallbackCollection;
+
+  if (!collection) {
+    return (
+      <main className="page-shell">
+        <section className="collection-hero-copy">
+          <p className="eyebrow">Collection Not Found</p>
+          <h1>We could not find that collection.</h1>
+          <a className="button button-primary" href="/collections">
+            Browse Collections
+          </a>
+        </section>
+      </main>
+    );
+  }
+
+  const resorts = loaderData?.resorts ?? resortsForCollection(collection.resortIds);
+  const relatedCollections = loaderData?.relatedCollections ?? getRelatedCollections(collection);
+  const collectionUrl = `https://premierresorttravels.com/collections/${collection.slug}`;
+
+  const collectionSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: collection.title,
+    description: collection.seoDescription,
+    url: collectionUrl,
+    image: collection.heroImage,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: resorts.map((resort, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "Resort",
+          name: resort.name,
+          image: resort.image,
+          address: {
+            "@type": "PostalAddress",
+            addressCountry: resort.country,
+            addressLocality: resort.destination,
+          },
+          url: `https://premierresorttravels.com/properties/${resort.slug}`,
+        },
+      })),
     },
-    {
-      label: "Best for",
-      value: collection.idealFor[0] ?? "Luxury travel",
-      detail: collection.idealFor.slice(1, 3).join(" · ") || "Tailored traveler fit",
-    },
-    {
-      label: "Why travelers choose it",
-      value: collection.highlights[0] ?? "Curated luxury",
-      detail: collection.highlights[1] ?? "Helpful next-step clarity",
-    },
-  ];
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://premierresorttravels.com/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Collections",
+        item: "https://premierresorttravels.com/collections",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: collection.title,
+        item: collectionUrl,
+      },
+    ],
+  };
 
   return (
     <main className="page-shell">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+
       <section className="collection-hero">
         <div className="collection-hero-image">
           <img
-            src={collection.image}
+            src={collection.heroImage}
             alt={collection.title}
             decoding="async"
             sizes="(max-width: 1100px) 100vw, 52vw"
           />
         </div>
         <div className="collection-hero-copy">
-          <p className="eyebrow">{collection.eyebrow}</p>
+          <p className="eyebrow">{collection.featuredBadge ?? "Resort Collection"}</p>
           <h1>{collection.title}</h1>
           <p className="lede">{collection.description}</p>
-          <div className="collection-highlight-list" aria-label="Collection highlights">
-            {collection.highlights.map((highlight) => (
-              <span key={highlight} className="feature-badge">
-                {highlight}
-              </span>
-            ))}
-          </div>
-          <div className="collection-highlight-list" aria-label="Ideal for">
-            {collection.idealFor.map((item) => (
-              <span key={item} className="tier-pill">
-                {item}
+          <div className="collection-highlight-list" aria-label="Collection tags">
+            {collection.tags.slice(0, 4).map((tag) => (
+              <span key={tag} className="feature-badge">
+                {tag.replaceAll("-", " ")}
               </span>
             ))}
           </div>
           <div className="hero-actions">
-            <a className="button button-primary" href="#collection-properties">
-              View all stays
+            <a className="button button-primary" href="#collection-resorts">
+              View Resorts
             </a>
-            <a className="button button-secondary" href="/#plan-trip">
-              Request a quote
+            <a className="button button-secondary" href="/?popup=start">
+              Plan This Style
             </a>
           </div>
         </div>
@@ -101,205 +149,81 @@ export default function CollectionPage({ loaderData }: Route.ComponentProps) {
       <section className="property-details">
         <div className="section-heading section-heading-stack">
           <div>
-            <p className="eyebrow">Collection Snapshot</p>
-            <h2>How this collection helps narrow the right stay faster</h2>
+            <p className="eyebrow">Overview</p>
+            <h2>Why this collection helps narrow the right resort faster</h2>
           </div>
           <p className="section-copy">
-            Use this page as the cleaner planning layer between broad inspiration and individual
-            resort details.
+            Instead of browsing by map alone, this collection starts with how the trip should feel
+            and then surfaces resorts that naturally fit that style.
           </p>
         </div>
 
         <div className="collection-summary-grid">
-          {collectionSnapshot.map((item) => (
-            <article key={item.label} className="collection-summary-card">
-              <span>{item.label}</span>
-              <strong>{item.value}</strong>
-              <p>{item.detail}</p>
-            </article>
-          ))}
+          <article className="collection-summary-card">
+            <span>Resorts</span>
+            <strong>{resorts.length}</strong>
+            <p>Curated stays in this travel style.</p>
+          </article>
+          <article className="collection-summary-card">
+            <span>Best First Filter</span>
+            <strong>{collection.filters[0] ?? "Style"}</strong>
+            <p>Use this lens to start comparing resort fit.</p>
+          </article>
+          <article className="collection-summary-card">
+            <span>Related Style</span>
+            <strong>{relatedCollections[0]?.title ?? resortCollections[0].title}</strong>
+            <p>A nearby collection worth comparing before you inquire.</p>
+          </article>
         </div>
+
+        {collection.note ? <p className="collection-note">{collection.note}</p> : null}
       </section>
 
-      <section className="property-details">
+      <section className="portfolio-section accent-gold" id="collection-resorts">
         <div className="section-heading section-heading-stack">
           <div>
-            <p className="eyebrow">What To Know</p>
-            <h2>How travelers usually choose within this collection</h2>
+            <p className="eyebrow">Resort Matches</p>
+            <h2>Featured resorts in this collection</h2>
           </div>
           <p className="section-copy">
-            Use these planning notes to guide the conversation and narrow the strongest-fit
-            properties before you dive deeper into each stay.
-          </p>
-        </div>
-
-        <div className="planning-grid">
-          {collection.planningNotes.map((note) => (
-            <article key={note.title} className="planning-card">
-              <h3>{note.title}</h3>
-              <p>{note.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="portfolio-section accent-gold" id="collection-properties">
-        <div className="section-heading section-heading-stack">
-          <div>
-            <p className="eyebrow">Featured Stays</p>
-            <h2>Start with the strongest-fit properties in this travel style</h2>
-          </div>
-          <p className="section-copy">
-            Compare standout options, open the full property page, and move into the right stay
-            with much less guesswork.
+            Open a resort page for more detail, or start planning and we will help identify the
+            strongest fit for your dates and travelers.
           </p>
         </div>
 
         <div className="portfolio-grid">
-          {collection.properties.map((property) => (
-            <article key={property.slug} className="portfolio-card">
+          {resorts.map((resort) => (
+            <article key={resort.id} className="portfolio-card">
               <div className="portfolio-image-shell">
                 <img
                   className="destination-image"
-                  src={property.image}
-                  alt={property.name}
+                  src={resort.image}
+                  alt={resort.name}
                   loading="lazy"
                   decoding="async"
                   sizes="(max-width: 1100px) 100vw, 25vw"
                 />
               </div>
               <div className="portfolio-meta">
-                <span className="feature-badge">{property.tag}</span>
-                <p className="card-region">{property.location}</p>
+                <span className="feature-badge">{resort.brand}</span>
+                <p className="card-region">{resort.destination}</p>
               </div>
-              <h3>{property.name}</h3>
-              <p>{property.highlight}</p>
-                <div className="card-actions card-actions-inline">
-                  <a className="button button-secondary" href={`/properties/${property.slug}`}>
-                    Explore property
-                  </a>
-                </div>
-              </article>
-            ))}
-          </div>
-      </section>
-
-      <section className="collections-section">
-        <div className="section-heading section-heading-stack">
-          <div>
-            <p className="eyebrow">Who It Works For</p>
-            <h2>Traveler goals this collection tends to serve best</h2>
-          </div>
-          <p className="section-copy">
-            These are the kinds of trips and traveler priorities that most often point back to
-            this collection.
-          </p>
-        </div>
-
-        <div className="collection-summary-grid">
-          {collection.idealFor.map((item) => (
-            <article key={item} className="collection-summary-card collection-summary-card-pill">
-              <span>Ideal for</span>
-              <strong>{item}</strong>
-              <p>Use this as a quick way to test whether the collection matches the trip mood.</p>
+              <h3>{resort.name}</h3>
+              <p>{resort.highlight}</p>
+              <div className="collection-highlight-list">
+                {resort.adultsOnly ? <span className="tier-pill">Adults Only</span> : null}
+                {resort.familyFriendly ? <span className="tier-pill">Family Friendly</span> : null}
+                {resort.seaView ? <span className="tier-pill">Sea View</span> : null}
+              </div>
+              <div className="card-actions card-actions-inline">
+                <a className="button button-secondary" href={`/properties/${resort.slug}`}>
+                  Explore Resort
+                </a>
+                <a className="text-link" href={`/?popup=start&note=${encodeURIComponent(collection.title)}`}>
+                  Start Planning
+                </a>
+              </div>
             </article>
-          ))}
-        </div>
-      </section>
-
-      {travelerStories.length ? (
-        <section className="collections-section">
-          <div className="section-heading section-heading-stack">
-            <div>
-              <p className="eyebrow">Traveler Experiences</p>
-              <h2>Real trips that match this collection</h2>
-            </div>
-            <a className="text-link" href="/traveler-stories">
-              View all stories
-            </a>
-          </div>
-
-          <div className="traveler-story-grid traveler-story-grid-compact">
-            {travelerStories.map((story) => (
-              <a key={story.slug} className="traveler-story-card" href={`/traveler-stories/${story.slug}`}>
-                <div className="traveler-story-image">
-                  <img src={story.featuredImage} alt="" loading="lazy" decoding="async" />
-                </div>
-                <div className="traveler-story-copy">
-                  <div className="traveler-story-meta">
-                    <span>{story.tripType}</span>
-                    <span>{story.travelDate}</span>
-                  </div>
-                  <h3>{story.travelerName} in {story.destination}</h3>
-                  <p>{story.resort}</p>
-                  <span className="text-link">View Story -&gt;</span>
-                </div>
-              </a>
-            ))}
-          </div>
-        </section>
-      ) : null}
-
-      {journalPost ? (
-        <section className="collections-section">
-          <div className="section-heading section-heading-stack">
-            <div>
-              <p className="eyebrow">Travel Guide</p>
-              <h2>Helpful reading for travelers still comparing options</h2>
-            </div>
-            <p className="section-copy">{journalPost.description}</p>
-          </div>
-
-          <article className="collection-feature collection-feature-wide">
-            <div className="collection-feature-image">
-              <img
-                src={journalPost.image}
-                alt={journalPost.title}
-                loading="lazy"
-                decoding="async"
-                sizes="(max-width: 1100px) 100vw, 40vw"
-              />
-            </div>
-            <div className="collection-feature-copy">
-              <p className="eyebrow">{journalPost.eyebrow}</p>
-              <h3>{journalPost.title}</h3>
-              <p>{journalPost.description}</p>
-              <a className="text-link" href={`/journal/${journalPost.slug}`}>
-                {journalPost.cta}
-              </a>
-            </div>
-          </article>
-        </section>
-      ) : null}
-
-      <section className="property-details">
-        <div className="section-heading section-heading-stack">
-          <div>
-            <p className="eyebrow">Keep Comparing</p>
-            <h2>Other collections travelers often consider alongside this one</h2>
-          </div>
-          <p className="section-copy">
-            When the fit is close, these neighboring collections are usually the next-best places
-            to compare before sending the inquiry.
-          </p>
-        </div>
-
-        <div className="collection-nearby-grid">
-          {relatedCollections.map((item) => (
-            <a key={item.slug} className="collection-nearby-card" href={`/collections/${item.slug}`}>
-              <img
-                src={item.image}
-                alt={item.title}
-                loading="lazy"
-                decoding="async"
-                sizes="(max-width: 1100px) 100vw, 26vw"
-              />
-              <div className="collection-nearby-copy">
-                <p className="eyebrow">{item.eyebrow}</p>
-                <strong>{item.title}</strong>
-                <span>{item.description}</span>
-              </div>
-            </a>
           ))}
         </div>
       </section>
@@ -308,7 +232,7 @@ export default function CollectionPage({ loaderData }: Route.ComponentProps) {
         <div className="section-heading section-heading-stack">
           <div>
             <p className="eyebrow">Questions Travelers Ask</p>
-            <h2>Answers that make the next step easier</h2>
+            <h2>Helpful answers before you choose a resort</h2>
           </div>
         </div>
 
@@ -320,6 +244,49 @@ export default function CollectionPage({ loaderData }: Route.ComponentProps) {
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="property-details">
+        <div className="section-heading section-heading-stack">
+          <div>
+            <p className="eyebrow">Keep Comparing</p>
+            <h2>Related collections</h2>
+          </div>
+          <p className="section-copy">
+            The best fit is often one collection over. Compare these before narrowing the final
+            resort shortlist.
+          </p>
+        </div>
+
+        <div className="collection-nearby-grid">
+          {relatedCollections.map((item) => (
+            <a key={item.id} className="collection-nearby-card" href={`/collections/${item.slug}`}>
+              <img
+                src={item.featuredImage}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                sizes="(max-width: 1100px) 100vw, 26vw"
+              />
+              <div className="collection-nearby-copy">
+                <p className="eyebrow">{item.filters[0] ?? "Collection"}</p>
+                <strong>{item.title}</strong>
+                <span>{item.shortDescription}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section className="hotel-collections-cta" aria-label="Plan a collection trip">
+        <div className="hotel-collections-cta-icon" aria-hidden="true">✦</div>
+        <div>
+          <h2>Want help choosing within {collection.title}?</h2>
+          <p>We will compare the best-fit resorts around your dates, travelers, and priorities.</p>
+        </div>
+        <a className="button button-primary" href={`/?popup=start&note=${encodeURIComponent(collection.title)}`}>
+          Start Planning
+        </a>
       </section>
     </main>
   );

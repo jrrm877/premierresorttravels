@@ -2,41 +2,43 @@ import { journalPosts } from "../lib/property-data";
 
 type ResourceIcon = "suitcase" | "kids" | "family" | "heart" | "pin" | "calendar" | "checklist" | "passport" | "people" | "badge" | "gift";
 
+const catalogImage = (name: string) => `/images/catalog/${name}`;
+
 const resourceCategories = [
   {
     title: "Packing Lists",
     body: "Printable packing checklists for every type of trip.",
-    image: "/images/home-trip-popup-reference.png",
+    image: "/images/resources-premier-pool-planning.png",
     icon: "suitcase" as const,
   },
   {
     title: "Kids Resort Search & Find",
     body: "Find the best resorts for kids of all ages.",
-    image: "/images/home-style-family.jpg",
+    image: catalogImage("kids-resort-waterpark.jpg"),
     icon: "kids" as const,
   },
   {
     title: "Family Tips & Tricks",
     body: "Stress-free travel advice for families that really works.",
-    image: "/images/home-style-family-beach.jpg",
+    image: catalogImage("family-resort-pool.jpg"),
     icon: "family" as const,
   },
   {
     title: "Romantic Bucket List",
     body: "Ideas for dreamy escapes and once-in-a-lifetime moments.",
-    image: "/images/home-style-romantic-dinner.jpg",
+    image: catalogImage("poolside-cabana-daybed.jpg"),
     icon: "heart" as const,
   },
   {
     title: "Destination Guides",
     body: "Insider guides to help you explore with confidence.",
-    image: "/images/home-style-europe.jpg",
+    image: catalogImage("mediterranean-resort-garden.jpg"),
     icon: "pin" as const,
   },
   {
     title: "Travel Tips & Planning",
     body: "Helpful tips to plan smarter and travel better.",
-    image: "/images/about-better-recommendations-graphic.png",
+    image: catalogImage("hotel-room-balcony.jpg"),
     icon: "calendar" as const,
   },
 ];
@@ -46,28 +48,28 @@ const popularResources = [
     category: "Packing Lists",
     title: "The Ultimate All-Inclusive Packing List",
     body: "Don't forget a thing. Our printable checklist has you covered.",
-    image: "/images/home-trip-popup-reference.png",
+    image: "/images/resources-premier-pool-planning.png",
     readTime: "6 min read",
   },
   {
     category: "Family Travel",
     title: "10 Best All-Inclusive Resorts for Families in Mexico",
     body: "Resorts kids love and parents actually relax at.",
-    image: "/images/home-style-family.jpg",
+    image: catalogImage("family-pool-swim.jpg"),
     readTime: "7 min read",
   },
   {
     category: "Travel Tips",
     title: "Flying with Kids: Tips from Experience",
     body: "From packing to the plane, here's how to survive and enjoy the trip.",
-    image: "/images/home-style-family-beach.jpg",
+    image: catalogImage("white-sand-beach.jpg"),
     readTime: "5 min read",
   },
   {
     category: "Romance",
     title: "50 Romantic Things to Do on Vacation with Your Partner",
     body: "Create unforgettable memories together, wherever you go.",
-    image: "/images/home-style-romance.jpg",
+    image: catalogImage("private-terrace-dining.jpg"),
     readTime: "4 min read",
   },
 ];
@@ -244,7 +246,7 @@ export default function JournalIndexPage() {
           </form>
         </div>
         <div className="resources-hero-image">
-          <img src="/images/home-trip-popup-reference.png" alt="Packed suitcase with beach vacation essentials" />
+          <img src="/images/resources-premier-pool-planning.png" alt="Premier Resort Travel planning folder beside a luxury resort pool" />
         </div>
       </section>
 
@@ -336,7 +338,7 @@ export default function JournalIndexPage() {
       </section>
 
       <section className="resources-subscribe" aria-label="Subscribe for travel resources">
-        <img src="/images/home-about-gallery-coast.jpg" alt="" loading="lazy" decoding="async" />
+        <img src={catalogImage("white-sand-beach.jpg")} alt="" loading="lazy" decoding="async" />
         <div>
           <p className="eyebrow">Stay Inspired</p>
           <h2>Get exclusive travel tips, packing lists, and resort highlights delivered to your inbox.</h2>

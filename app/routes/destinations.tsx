@@ -3,12 +3,13 @@ import { findPropertyBySlug } from "../lib/property-data";
 import type { Route } from "./+types/destinations";
 
 const imageFor = (slug: string, fallback: string) => findPropertyBySlug(slug)?.image ?? fallback;
+const catalogImage = (name: string) => `/images/catalog/${name}`;
 
 const destinationCards = [
   {
     name: "Cancun, Mexico",
     count: "6 resorts",
-    image: imageFor("moon-palace-the-grand-cancun", "/images/home-style-family-beach.jpg"),
+    image: imageFor("moon-palace-the-grand-cancun", catalogImage("family-resort-pool.jpg")),
     resorts: ["Moon Palace", "Beach Palace", "Sun Palace", "Le Blanc Cancun"],
     href: "/collections/palace-resorts",
   },
@@ -16,21 +17,21 @@ const destinationCards = [
     name: "Riviera Maya",
     subtitle: "Playa del Carmen",
     count: "1 resort",
-    image: imageFor("playacar-palace", "/images/home-about-gallery-coast.jpg"),
+    image: imageFor("playacar-palace", catalogImage("wide-beachfront-resort.jpg")),
     resorts: ["Playacar Palace"],
     href: "/properties/playacar-palace",
   },
   {
     name: "Cozumel, Mexico",
     count: "1 resort",
-    image: imageFor("cozumel-palace", "/images/home-style-adventure.jpg"),
+    image: imageFor("cozumel-palace", catalogImage("turquoise-water-aerial.jpg")),
     resorts: ["Cozumel Palace"],
     href: "/properties/cozumel-palace",
   },
   {
     name: "Jamaica",
     count: "1 resort",
-    image: imageFor("moon-palace-jamaica", "/images/home-style-family-beach.jpg"),
+    image: imageFor("moon-palace-jamaica", catalogImage("family-pool-swim.jpg")),
     resorts: ["Moon Palace Jamaica"],
     href: "/properties/moon-palace-jamaica",
   },
@@ -38,28 +39,28 @@ const destinationCards = [
     name: "Punta Cana",
     subtitle: "Dominican Republic",
     count: "1 resort",
-    image: imageFor("moon-palace-the-grand-punta-cana", "/images/home-style-adults-only.jpg"),
+    image: imageFor("moon-palace-the-grand-punta-cana", catalogImage("resort-pool-aerial.jpg")),
     resorts: ["Moon Palace The Grand Punta Cana"],
     href: "/properties/moon-palace-the-grand-punta-cana",
   },
   {
     name: "Los Cabos, Mexico",
     count: "1 resort",
-    image: imageFor("le-blanc-spa-resort-los-cabos", "/images/home-about-gallery-coast.jpg"),
+    image: imageFor("le-blanc-spa-resort-los-cabos", catalogImage("los-cabos-coastline.jpg")),
     resorts: ["Le Blanc Spa Resort Los Cabos"],
     href: "/properties/le-blanc-spa-resort-los-cabos",
   },
   {
     name: "Italy",
     count: "Baglioni Collection",
-    image: imageFor("baglioni-hotel-luna", "/images/home-style-europe.jpg"),
+    image: imageFor("baglioni-hotel-luna", catalogImage("grand-hotel-lobby.jpg")),
     resorts: ["Venice", "Rome", "Milan", "Puglia", "Sardinia"],
-    href: "/collections/european-icon-hotels",
+    href: "/collections/european-luxury",
   },
   {
     name: "Maldives",
     count: "Baglioni Collection",
-    image: imageFor("baglioni-resort-maldives", "/images/home-about-gallery-coast.jpg"),
+    image: imageFor("baglioni-resort-maldives", catalogImage("turquoise-water-aerial.jpg")),
     resorts: ["Baglioni Resort Maldives"],
     href: "/properties/baglioni-resort-maldives",
   },
@@ -69,28 +70,28 @@ const brandCards = [
   {
     name: "Moon Palace",
     label: "Family Luxury",
-    image: imageFor("moon-palace-the-grand-cancun", "/images/home-style-family-beach.jpg"),
+    image: imageFor("moon-palace-the-grand-cancun", catalogImage("family-resort-pool.jpg")),
     copy: "Big-resort energy with broad dining, activities, and unforgettable memories.",
     href: "/collections/moon-palace",
   },
   {
     name: "Le Blanc",
     label: "Adults Only Luxury",
-    image: imageFor("le-blanc-spa-resort-cancun", "/images/home-style-spa.jpg"),
+    image: imageFor("le-blanc-spa-resort-cancun", catalogImage("spa-hydrotherapy-pool.jpg")),
     copy: "Elevated adults-only resorts with service, spa, and fine dining.",
     href: "/collections/le-blanc-spa-resorts",
   },
   {
     name: "Palace Resorts",
     label: "Classic All-Inclusive",
-    image: imageFor("beach-palace", "/images/home-style-adults-only.jpg"),
+    image: imageFor("beach-palace", catalogImage("white-sand-beach.jpg")),
     copy: "Timeless resorts in iconic beach destinations with everything you need.",
     href: "/collections/palace-resorts",
   },
   {
     name: "Baglioni",
     label: "European & Island Escapes",
-    image: imageFor("baglioni-hotel-luna", "/images/home-style-europe.jpg"),
+    image: imageFor("baglioni-hotel-luna", catalogImage("ornate-hotel-dining-room.jpg")),
     copy: "Luxury hotels in captivating cities, coastlines, and islands.",
     href: "/collections/baglioni-city-hotels",
   },
@@ -106,12 +107,12 @@ const resortMatches = [
 ];
 
 const memoryImages = [
-  imageFor("sun-palace", "/images/home-style-romantic-dinner.jpg"),
-  "/images/home-about-gallery-coast.jpg",
+  imageFor("sun-palace", catalogImage("poolside-cabana-daybed.jpg")),
+  catalogImage("wide-beachfront-resort.jpg"),
   "/images/about-north-america-cozumel-south-dive.jpeg",
-  "/images/home-style-romantic-dinner.jpg",
-  "/images/home-style-family-beach.jpg",
-  imageFor("moon-palace-jamaica", "/images/home-about-gallery-main.jpg"),
+  catalogImage("private-terrace-dining.jpg"),
+  catalogImage("family-resort-pool.jpg"),
+  imageFor("moon-palace-jamaica", catalogImage("resort-evening-waterfront.jpg")),
 ];
 
 const bookingBenefits = [
@@ -247,7 +248,7 @@ export default function DestinationsPage() {
       <section
         className="destinations-hero"
         style={{
-          backgroundImage: `linear-gradient(90deg, rgba(255, 252, 247, 0.72), rgba(255, 252, 247, 0.1)), url(${imageFor("le-blanc-spa-resort-cancun", "/images/home-style-adults-only.jpg")})`,
+          backgroundImage: `linear-gradient(90deg, rgba(255, 252, 247, 0.72), rgba(255, 252, 247, 0.1)), url("https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/4parh4uc8p5gj5t9vpsd4n3j34/800?angle=0")`,
         }}
       >
         <div>
@@ -376,8 +377,8 @@ export default function DestinationsPage() {
             <em>You dream it. We make it effortless.</em>
           </div>
           <img
-            src="/images/home-style-family-beach.jpg"
-            alt="Family enjoying a beach vacation"
+            src="/images/resources-premier-pool-planning.png"
+            alt="Premier Resort Travel planning notebook beside an oceanfront pool"
             loading="lazy"
             decoding="async"
           />
@@ -397,7 +398,7 @@ export default function DestinationsPage() {
       </section>
 
       <section className="destinations-final-cta">
-        <img src="/images/home-about-gallery-coast.jpg" alt="" loading="lazy" decoding="async" />
+        <img src="/images/home-about-gallery-main.jpg" alt="" loading="lazy" decoding="async" />
         <div>
           <h2>Still not sure which resort is right?</h2>
           <p>Tell us about your trip and we will help you choose the right destination and resort from the Premier Resort Travel collection.</p>
