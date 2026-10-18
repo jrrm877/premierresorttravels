@@ -33,7 +33,8 @@ export function meta({ data }: Route.MetaArgs) {
 export default function JournalPage({ loaderData }: Route.ComponentProps) {
   const { post, featuredProperties } = loaderData;
   const inquiryNote = `I read "${post.title}" and would like help comparing resorts and planning a trip.`;
-  const inquiryHref = `/quote?origin=journal&note=${encodeURIComponent(inquiryNote)}`;
+  const journalDestination = post.slug.includes("cancun") ? "Cancun" : post.slug.includes("los-cabos") ? "Los Cabos" : post.slug.includes("jamaica") ? "Jamaica" : post.slug.includes("cozumel") ? "Cozumel" : post.slug.includes("italy") ? "Italy" : post.slug.includes("maldives") ? "Maldives" : "";
+  const inquiryHref = `/quote?origin=journal&destination=${encodeURIComponent(journalDestination)}&note=${encodeURIComponent(inquiryNote)}`;
 
   return (
     <main className="page-shell">
