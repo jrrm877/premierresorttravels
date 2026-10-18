@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { fallbackProperties, fetchDestinationsFromDb, fetchPropertyBySlug } from "../lib/catalog";
 import { findCollectionHrefForProperty } from "../lib/property-data";
 import { storiesForProperty } from "../lib/traveler-stories";
@@ -56,6 +57,7 @@ export function meta({ data }: Route.MetaArgs) {
 
 export default function PropertyPage({ loaderData }: Route.ComponentProps) {
   const { property, related, source, travelerStories } = loaderData;
+  const [photoOpen, setPhotoOpen] = useState(false);
   const collectionHref = findCollectionHrefForProperty(property.slug);
   const quoteHref = `/quote?resort=${encodeURIComponent(property.name)}&origin=property`;
   const comparisonGuides: Record<string, { href: string; title: string }[]> = {
@@ -83,12 +85,15 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
     <main className="page-shell">
       <section className="property-hero">
         <div className="property-hero-image">
-          <img
-            src={property.image_url || ""}
-            alt={property.name}
-            decoding="async"
-            sizes="(max-width: 1100px) 100vw, 55vw"
-          />
+          <button type="button" className="resort-photo-trigger" onClick={() => setPhotoOpen(true)} aria-label={`Enlarge photo of ${property.name}`}>
+            <img
+              src={property.image_url || ""}
+              alt={property.name}
+              decoding="async"
+              sizes="(max-width: 1100px) 100vw, 55vw"
+            />
+            <span className="resort-photo-hint">View larger photo ↗</span>
+          </button>
         </div>
         <div className="property-hero-copy">
           <p className="eyebrow">{property.brand}</p>
@@ -111,6 +116,16 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
           <p style={{ fontSize: "0.9rem", marginTop: "0.75rem" }}>Your resort choice will be included automatically. No obligation to book.</p>
         </div>
       </section>
+
+      {photoOpen ? (
+        <div className="resort-photo-overlay" role="presentation" onClick={() => setPhotoOpen(false)}>
+          <div className="resort-photo-modal" role="dialog" aria-modal="true" aria-label={`Photo of ${property.name}`} onClick={(event) => event.stopPropagation()} onKeyDown={(event) => { if (event.key === "Escape") setPhotoOpen(false); }}>
+            <button type="button" className="resort-photo-close" onClick={() => setPhotoOpen(false)} aria-label="Close enlarged photo">×</button>
+            <img src={property.image_url || ""} alt={property.name} />
+            <p>{property.name} · {property.location}</p>
+          </div>
+        </div>
+      ) : null}
 
       {source === "fallback" ? (
         <section className="property-details">
