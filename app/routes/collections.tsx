@@ -98,9 +98,9 @@ export default function CollectionsIndexPage({ loaderData }: Route.ComponentProp
           {[
             { title: "Family Vacations", description: "Pools, activities and space for everyone.", href: "/collections/family-friendly" },
             { title: "Adults-Only Escapes", description: "Relaxed retreats, couples' time and elevated dining.", href: "/collections/adults-only" },
-            { title: "Honeymoons & Romance", description: "Celebrate together with a stay designed for two.", href: "/quote?style=Romance&origin=collections" },
-            { title: "Destination Weddings", description: "Explore resort celebrations with advisor guidance.", href: "/quote?origin=collections&destination=Destination%20wedding" },
-            { title: "Luxury All-Inclusive", description: "Discover premium resort experiences and inclusions.", href: "/collections" },
+            { title: "Honeymoons & Romance", description: "Celebrate together with a stay designed for two.", href: "/collections/honeymoons" },
+            { title: "Destination Weddings", description: "Explore resort celebrations with advisor guidance.", href: "/collections/destination-weddings" },
+            { title: "Luxury All-Inclusive", description: "Discover premium resort experiences and inclusions.", href: "/collections/ultra-luxury" },
           ].map((style) => (
             <a className="planning-card" key={style.title} href={style.href} style={{ display: "flex", flexDirection: "column", gap: "0.7rem", minHeight: 170 }}>
               <h3 style={{ margin: 0 }}>{style.title}</h3>
