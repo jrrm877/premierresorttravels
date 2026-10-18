@@ -32,6 +32,7 @@ export function meta({ data }: Route.MetaArgs) {
 
 export default function JournalPage({ loaderData }: Route.ComponentProps) {
   const { post, featuredProperties } = loaderData;
+  const showMoonPalaceComparison = post.slug === "best-all-inclusive-resorts-in-cancun-for-families";
   const inquiryNote = `I read "${post.title}" and would like help comparing resorts and planning a trip.`;
   const journalDestination = post.slug.includes("cancun") ? "Cancun" : post.slug.includes("los-cabos") ? "Los Cabos" : post.slug.includes("jamaica") ? "Jamaica" : post.slug.includes("cozumel") ? "Cozumel" : post.slug.includes("italy") ? "Italy" : post.slug.includes("maldives") ? "Maldives" : "";
   const inquiryHref = `/quote?origin=journal&destination=${encodeURIComponent(journalDestination)}&note=${encodeURIComponent(inquiryNote)}`;
@@ -85,6 +86,16 @@ export default function JournalPage({ loaderData }: Route.ComponentProps) {
         </div>
       </section>
 
+      {showMoonPalaceComparison ? (
+        <section className="property-details" aria-label="Moon Palace resort comparison">
+          <article className="planning-card">
+            <p className="eyebrow">Compare Two Cancun Favorites</p>
+            <h2>Moon Palace The Grand Cancun vs. Moon Palace Cancun</h2>
+            <p>Choosing between these two resorts? Compare room options, dining access, activities and overall trip value before you request a quote.</p>
+            <a className="button button-secondary" href="/journal/moon-palace-the-grand-vs-moon-palace-cancun">Read the Moon Palace comparison</a>
+          </article>
+        </section>
+      ) : null}
       <section className="portfolio-section accent-gold" id="featured-properties">
         <div className="section-heading section-heading-stack">
           <div>
