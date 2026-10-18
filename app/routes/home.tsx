@@ -223,6 +223,33 @@ export default function Home() {
         <p style={{ textAlign: "center", marginTop: 24 }}><a href="/collections">Explore all resort collections →</a></p>
       </section>
 
+      <section className="property-details" aria-labelledby="popular-resort-searches">
+        <div className="section-heading section-heading-stack">
+          <div>
+            <p className="eyebrow">Start With Your Destination</p>
+            <h2 id="popular-resort-searches">Find the right all-inclusive resort for your vacation</h2>
+            <p>Compare family-friendly Cancun resorts, adults-only escapes, and romantic stays. Browse real resort details before requesting a personalized quote.</p>
+          </div>
+        </div>
+        <div className="property-detail-grid">
+          <article className="planning-card">
+            <h3>Family-friendly Cancun resorts</h3>
+            <p>Explore resorts with room options, activities, and amenities designed for families traveling together.</p>
+            <a className="text-link" href="/collections/family-friendly">Explore family resorts →</a>
+          </article>
+          <article className="planning-card">
+            <h3>Adults-only all-inclusive resorts</h3>
+            <p>Discover couples-focused stays and relaxing resort experiences, including Le Blanc Spa Resort Cancun.</p>
+            <a className="text-link" href="/collections/adults-only">Explore adults-only resorts →</a>
+          </article>
+          <article className="planning-card">
+            <h3>Compare resorts before you book</h3>
+            <p>Browse our resort collection, then share your dates and preferences for a tailored vacation quote.</p>
+            <a className="text-link" href="/destinations">Browse destinations →</a>
+          </article>
+        </div>
+      </section>
+
       <section className="luxe-partners" aria-label="Preferred partners">
         <p className="eyebrow">Preferred Partners</p>
         <div>

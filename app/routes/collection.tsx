@@ -139,7 +139,7 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
             <a className="button button-primary" href="#collection-resorts">
               View Resorts
             </a>
-            <a className="button button-secondary" href="/?popup=start">
+            <a className="button button-secondary" href="/quote">
               Plan This Style
             </a>
           </div>
