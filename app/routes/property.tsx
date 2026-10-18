@@ -178,6 +178,57 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
         </section>
       )}
 
+
+      {["moon-palace-the-grand-cancun", "moon-palace-cancun", "moon-palace-jamaica"].includes(property.slug) && (
+        <section className="property-details leblanc-tour" aria-labelledby="moon-palace-tour-heading">
+          <div className="section-heading section-heading-stack">
+            <p className="eyebrow">Explore Your Resort</p>
+            <h2 id="moon-palace-tour-heading">Picture your Moon Palace vacation</h2>
+            <p>Explore the setting, accommodations, family activities and practical details that help you choose the right Moon Palace resort.</p>
+          </div>
+          <nav className="leblanc-tour-nav" aria-label="Explore this resort">
+            <a href="#moon-tour-arrival">Arrive</a>
+            <a href="#moon-tour-room">Stay</a>
+            <a href="#moon-tour-fun">Explore</a>
+            <a href="#moon-tour-fit">Compare</a>
+          </nav>
+          <div className="leblanc-tour-feature" id="moon-tour-arrival">
+            <img src={property.image_url || ""} alt={property.name + " resort photography"} loading="lazy" decoding="async" />
+            <div>
+              <p className="eyebrow">01 · Arrive</p>
+              <h3>See the setting for your stay</h3>
+              <p>{property.description} Imagine the pace of your first day and whether the resort feels right for everyone traveling.</p>
+              <button type="button" className="button button-secondary" onClick={() => setPhotoOpen(true)}>Enlarge Resort Photo</button>
+            </div>
+          </div>
+          <div className="leblanc-tour-grid">
+            <article id="moon-tour-room">
+              <p className="eyebrow">02 · Settle In</p>
+              <h3>Find room options for your group</h3>
+              <p>Compare room configurations, sleeping arrangements, and location within the resort. Ask about connecting rooms or larger accommodations if your party needs extra space.</p>
+              <a className="text-link" href={quoteHref}>Compare rooms for my dates →</a>
+            </article>
+            <article id="moon-tour-fun">
+              <p className="eyebrow">03 · Enjoy</p>
+              <h3>Plan the days around your travelers</h3>
+              <p>Review pools, dining, entertainment and age-appropriate activities. Availability, fees and access privileges depend on the resort and booking terms; we'll help confirm the details.</p>
+              <a className="text-link" href={quoteHref}>Ask about included experiences →</a>
+            </article>
+            <article id="moon-tour-fit">
+              <p className="eyebrow">04 · Choose</p>
+              <h3>Is this your best match?</h3>
+              <p><strong>Especially worth considering:</strong> {property.perfectFor.join(", ")}.</p>
+              <p>Compare total costs, walking distances, beach conditions and which amenities your reservation includes before choosing.</p>
+              <a className="text-link" href="/journal/moon-palace-the-grand-vs-moon-palace-cancun">Compare Cancun Moon Palace options →</a>
+            </article>
+          </div>
+          <div className="leblanc-tour-cta">
+            <div><h3>Let's find your family's best fit</h3><p>Get resort options matched to your dates, travelers and priorities.</p></div>
+            <a className="button button-primary" href={quoteHref}>Get My Moon Palace Quote</a>
+          </div>
+        </section>
+      )}
+
       {source === "fallback" ? (
         <section className="property-details">
           <div className="planning-card">
