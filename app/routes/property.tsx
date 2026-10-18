@@ -56,7 +56,7 @@ export function meta({ data }: Route.MetaArgs) {
 export default function PropertyPage({ loaderData }: Route.ComponentProps) {
   const { property, related, source, travelerStories } = loaderData;
   const collectionHref = findCollectionHrefForProperty(property.slug);
-  const quoteHref = `/quote?resort=${encodeURIComponent(property.name)}`;
+  const quoteHref = `/quote?resort=${encodeURIComponent(property.name)}&origin=property`;
 
   return (
     <main className="page-shell">

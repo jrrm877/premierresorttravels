@@ -15,7 +15,8 @@ export function loader({ request }: Route.LoaderArgs) {
   const params = new URL(request.url).searchParams;
   const style = params.get("style") ?? "";
   const resort = params.get("resort")?.trim().slice(0, 150) ?? "";
-  return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "", resort };
+  const origin = params.get("origin") === "property" && resort ? "Resort detail page" : "General quote page";
+  return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "", resort, origin };
 }
 
 type InquiryResponse = { success?: boolean; message?: string };
@@ -36,6 +37,8 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
   const sending = fetcher.state !== "idle";
   const invalidDates = Boolean(departure && returnDate && returnDate <= departure);
   const notes = [
+    "Lead origin: " + loaderData.origin,
+    ...(loaderData.origin === "Resort detail page" ? ["Originally selected resort: " + loaderData.resort] : []),
     "Preferred travel style: " + tripStyle,
     "Package requested: " + (includeFlights ? "Resort + airfare" : "Resort only"),
     "Check-in: " + (departure || "Flexible"),
