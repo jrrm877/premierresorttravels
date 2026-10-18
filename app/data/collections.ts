@@ -220,7 +220,7 @@ export const resortCollections: ResortCollection[] = [
     title: "Destination Weddings",
     slug: "destination-weddings",
     description:
-      "Resorts with the space, service, and guest appeal to support wedding celebrations.",
+      "Explore all-inclusive destination wedding resorts for ceremonies, guest room blocks, group celebrations, and travel planning. Compare family-friendly and adults-only options with help tailored to your guest list.",
     shortDescription: "Wedding-ready resorts for couples and guests.",
     heroImage: imageFor("playacar-palace"),
     featuredImage: imageFor("moon-palace-cancun"),
@@ -235,9 +235,9 @@ export const resortCollections: ResortCollection[] = [
     ],
     filters: ["Collection", "Family Friendly", "Adults Only"],
     tags: ["weddings", "groups", "celebrations"],
-    seoTitle: "Destination Wedding Resort Collection | Premier Resort Travel",
+    seoTitle: "All-Inclusive Destination Wedding Resorts | Premier Resort Travel",
     seoDescription:
-      "Explore luxury resorts for destination weddings, room blocks, guest experiences, welcome events, and celebration travel.",
+      "Compare all-inclusive destination wedding resorts in Mexico and the Caribbean, including guest room options, group travel, ceremony priorities, and planning help.",
     faqs: [
       {
         question: "How do we choose a destination wedding resort?",
