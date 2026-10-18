@@ -11,59 +11,32 @@ import "./styles.css";
 
 const footerLinkGroups = [
   {
-    title: "Quick Links",
+    title: "Explore",
     icon: "compass",
     links: [
+      ["Resort Collections", "/collections"],
       ["Destinations", "/destinations"],
-      ["Hotel Collections", "/collections"],
-      ["Travel Resources", "/journal"],
-      ["Our Travelers", "/traveler-stories"],
-      ["About Us", "/about"],
-      ["Contact Us", "/quote"],
-      ["Travel Blog", "/journal"],
-      ["FAQ", "/journal"],
+      ["Traveler Stories", "/traveler-stories"],
+      ["Travel Journal", "/journal"],
     ],
   },
   {
-    title: "Top Destinations",
-    icon: "pin",
-    links: [
-      ["Mexico", "/destinations"],
-      ["Caribbean", "/destinations"],
-      ["Jamaica", "/destinations"],
-      ["Italy", "/destinations"],
-      ["Maldives", "/destinations"],
-      ["Hawaii", "/destinations"],
-      ["Europe", "/destinations"],
-      ["All Destinations", "/destinations"],
-    ],
-  },
-  {
-    title: "Hotel Collections",
+    title: "Featured Resorts",
     icon: "hotel",
     links: [
       ["Palace Resorts", "/collections/palace-resorts"],
       ["Le Blanc", "/collections/le-blanc"],
       ["Moon Palace", "/collections/moon-palace"],
       ["Baglioni Hotels", "/collections/baglioni"],
-      ["Cozumel Palace", "/collections/palace-resorts"],
-      ["Playacar Palace", "/collections/palace-resorts"],
-      ["Luxury Boutique Hotels", "/collections/baglioni"],
-      ["All Collections", "/collections"],
     ],
   },
   {
-    title: "Travel Resources",
+    title: "Plan With Us",
     icon: "bag",
     links: [
-      ["Packing Lists", "/journal"],
-      ["Resort Finder", "/journal"],
-      ["Family Travel", "/journal"],
-      ["Destination Weddings", "/journal"],
-      ["Romantic Getaways", "/journal"],
-      ["Group Travel", "/journal"],
-      ["Travel Tips & Guides", "/journal"],
-      ["Where to Go When", "/journal"],
+      ["Get My Free Quote", "/quote"],
+      ["About Us", "/about"],
+      ["Travel Inspiration", "/journal"],
     ],
   },
 ] as const;
@@ -264,35 +237,15 @@ export default function App() {
                 </section>
               </div>
 
-              <div className="site-footer-highlights">
-                {footerHighlights.map(([title, text, icon]) => (
-                  <a href="/collections" key={title}>
-                    <FooterIcon name={icon} />
-                    <span>
-                      <strong>{title}</strong>
-                      <small>{text}</small>
-                    </span>
-                  </a>
-                ))}
-              </div>
-
-              <div className="site-footer-newsletter">
+              <div className="site-footer-newsletter site-footer-newsletter-cta">
                 <div className="site-footer-newsletter-copy">
                   <span className="site-footer-newsletter-icon"><FooterIcon name="mail" /></span>
                   <span>
-                    <strong>Get Resort Tips &amp; Exclusive Travel Inspiration</strong>
-                    <small>Be the first to know about special offers, destination ideas, and expert travel advice.</small>
+                    <strong>Planning your next escape?</strong>
+                    <small>Tell us what you have in mind and receive personalized resort recommendations.</small>
                   </span>
                 </div>
-                <form className="site-footer-subscribe" action="/journal" method="get">
-                  <label className="sr-only" htmlFor="footer-email">Email address</label>
-                  <input id="footer-email" name="email" type="email" placeholder="Your email address" />
-                  <button type="submit">Subscribe</button>
-                </form>
-                <div className="site-footer-palace-note">
-                  <span><FooterIcon name="palm" /></span>
-                  <p><strong>Proudly a Palace Pro Agent</strong>Preferred partner with Palace Resorts, offering expert knowledge and exclusive access for your next escape.</p>
-                </div>
+                <a className="button button-primary" href="/quote">Get My Free Quote</a>
               </div>
             </div>
 
