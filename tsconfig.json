@@ -4,13 +4,31 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "jsx": "react-jsx",
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2022"
+    ],
     "strict": true,
     "noEmit": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["@cloudflare/workers-types", "vite/client"]
+    "types": [
+      "@cloudflare/workers-types",
+      "vite/client"
+    ],
+    "rootDirs": [
+      ".",
+      "./.react-router/types"
+    ],
+    "skipLibCheck": true
   },
-  "include": ["app", "react-router.config.ts", "vite.config.ts", "worker-configuration.d.ts"]
+  "include": [
+    "app",
+    "./.react-router/types/**/*",
+    "react-router.config.ts",
+    "vite.config.ts",
+    "worker-configuration.d.ts"
+  ]
 }

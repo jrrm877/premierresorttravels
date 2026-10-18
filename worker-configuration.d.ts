@@ -1,3 +1,22 @@
-interface Env {
-  DB: D1Database;
+declare global {
+  interface Env {
+    DB: D1Database;
+    INQUIRY_NOTIFY_FROM?: string;
+    INQUIRY_NOTIFY_TO?: string;
+    INQUIRY_WEBHOOK_BEARER_TOKEN?: string;
+    INQUIRY_WEBHOOK_SECRET?: string;
+    INQUIRY_WEBHOOK_URL?: string;
+    RESEND_API_KEY?: string;
+    SITE_BASE_URL?: string;
+  }
 }
+
+declare module "react-router" {
+  interface AppLoadContext {
+    cloudflare: {
+      env: Env;
+    };
+  }
+}
+
+export {};

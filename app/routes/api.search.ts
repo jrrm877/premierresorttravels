@@ -78,7 +78,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
        LIMIT 20`
     );
 
-    const { results } = await statement.bind(...bindings).all();
+    const { results } = await statement.bind(...bindings).all<{ name: string; image_url: string | null; [key: string]: unknown }>();
 
     return Response.json({
       destinations: results

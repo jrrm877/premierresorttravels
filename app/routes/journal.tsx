@@ -10,7 +10,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 
   const featuredProperties = post.featuredPropertySlugs
     .map((slug) => findPropertyBySlug(slug))
-    .filter((property) => Boolean(property));
+    .filter((property): property is NonNullable<typeof property> => property !== undefined);
 
   return { post, featuredProperties };
 }
@@ -22,6 +22,7 @@ export function meta({ data }: Route.MetaArgs) {
 
   return [
     { title: `${data.post.title} | Premier Resort Travel` },
+    { tagName: "link", rel: "canonical", href: `https://premierresorttravels.com/journal/${data.post.slug}` },
     {
       name: "description",
       content: data.post.description,
@@ -31,6 +32,8 @@ export function meta({ data }: Route.MetaArgs) {
 
 export default function JournalPage({ loaderData }: Route.ComponentProps) {
   const { post, featuredProperties } = loaderData;
+  const inquiryNote = `I read "${post.title}" and would like help comparing resorts and planning a trip.`;
+  const inquiryHref = `/?popup=start&note=${encodeURIComponent(inquiryNote)}`;
 
   return (
     <main className="page-shell">
@@ -55,6 +58,7 @@ export default function JournalPage({ loaderData }: Route.ComponentProps) {
             <a className="button button-primary" href="#featured-properties">
               See matching stays
             </a>
+            <a className="button button-primary" href={inquiryHref}>Request personalized resort options</a>
             <a className="button button-secondary" href={post.collectionHref}>
               Explore this collection
             </a>
@@ -115,10 +119,20 @@ export default function JournalPage({ loaderData }: Route.ComponentProps) {
                 <a className="button button-secondary" href={`/properties/${property.slug}`}>
                   View property
                 </a>
+                <a className="text-link" href={`/?popup=start&note=${encodeURIComponent(`Interested in ${property.name} after reading ${post.title}`)}`}>
+                  Request options
+                </a>
               </div>
             </article>
           ))}
         </div>
+      </section>
+      <section className="hotel-collections-cta" aria-label="Request personalized travel options">
+        <div>
+          <h2>Ready to find the right resort for your trip?</h2>
+          <p>Tell us your dates, travelers, and priorities. We will help narrow the options.</p>
+        </div>
+        <a className="button button-primary" href={inquiryHref}>Request personalized options</a>
       </section>
     </main>
   );
