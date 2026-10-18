@@ -12,15 +12,20 @@ export function meta(_: Route.MetaArgs) {
 }
 
 export function loader({ request }: Route.LoaderArgs) {
-  const style = new URL(request.url).searchParams.get("style") ?? "";
-  return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "" };
+  const params = new URL(request.url).searchParams;
+  const style = params.get("style") ?? "";
+  const resort = params.get("resort")?.trim().slice(0, 150) ?? "";
+  return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "", resort };
 }
 
 type InquiryResponse = { success?: boolean; message?: string };
 export default function QuotePage({ loaderData }: Route.ComponentProps) {
   const fetcher = useFetcher<InquiryResponse>();
   const [includeFlights, setIncludeFlights] = useState(false);
-  const [destination, setDestination] = useState("");
+  const [destination, setDestination] = useState(loaderData.resort);
+  const [tripStyle, setTripStyle] = useState(loaderData.style || "Not sure yet");
+  const [datesKnown, setDatesKnown] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
   const [departure, setDeparture] = useState("");
   const [returnDate, setReturnDate] = useState("");
   const [airport, setAirport] = useState("");
@@ -31,7 +36,7 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
   const sending = fetcher.state !== "idle";
   const invalidDates = Boolean(departure && returnDate && returnDate <= departure);
   const notes = [
-    ...(loaderData.style ? ["Preferred travel style: " + loaderData.style] : []),
+    "Preferred travel style: " + tripStyle,
     "Package requested: " + (includeFlights ? "Resort + airfare" : "Resort only"),
     "Check-in: " + (departure || "Flexible"),
     "Check-out: " + (returnDate || "Flexible"),
@@ -46,10 +51,9 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
     <main className="page-shell" style={{ maxWidth: 1000, margin: "0 auto", padding: "3rem 1.25rem 5rem" }}>
       <p className="eyebrow">Personalized Vacation Quotes</p>
       {loaderData.style && <p>Planning a {loaderData.style.toLowerCase()} getaway? You’re in the right place.</p>}
-      <h1>Your dream vacation, without the planning stress.</h1>
+      <h1>Let’s plan your perfect getaway.</h1>
       <p className="lede" style={{ maxWidth: 680 }}>
-        Tell us what you have in mind. We'll research resort availability and, if you prefer,
-        airfare options too. No obligation to book.
+        Tell us a little about your trip. We’ll help you find the right resort and, if you prefer, airfare options too. No obligation to book.
       </p>
       <div style={{ maxWidth: 720, marginTop: 32, padding: 24, border: "1px solid #d5dcd9", borderRadius: 16 }}>
         {fetcher.data?.success ? (
@@ -61,9 +65,14 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
         ) : (
           <fetcher.Form method="post" action="/api/inquiry" style={{ display: "grid", gap: 18 }}>
             <input type="hidden" name="source" value="vacation-quote" />
-            <input type="hidden" name="tripStyle" value={includeFlights ? "Resort + airfare" : "Resort only"} />
+            <input type="hidden" name="tripStyle" value={tripStyle} />
             <input type="hidden" name="travelWindow" value={departure && returnDate ? departure + " to " + returnDate : "Flexible"} />
             <input type="hidden" name="notes" value={notes} />
+            <label style={{ display: "grid", gap: 6 }}>What kind of vacation?
+              <select value={tripStyle} onChange={e => setTripStyle(e.target.value)} style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }}>
+                {["Not sure yet", "Family", "Adults Only", "Romance"].map(option => <option key={option} value={option}>{option === "Not sure yet" ? "Help me decide" : option}</option>)}
+              </select>
+            </label>
             <fieldset style={{ border: 0, padding: 0 }}>
               <legend style={{ fontWeight: 700, marginBottom: 10 }}>What would you like included?</legend>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
@@ -77,18 +86,24 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
             {includeFlights && <label style={{ display: "grid", gap: 6 }}>Departure airport or city
               <input value={airport} onChange={e => setAirport(e.target.value)} required placeholder="Des Moines (DSM)" style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} />
             </label>}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 14 }}>
-              <label style={{ display: "grid", gap: 6 }}>Check-in date <input type="date" value={departure} onChange={e => setDeparture(e.target.value)} style={{ padding: 12 }} /></label>
-              <label style={{ display: "grid", gap: 6 }}>Check-out date <input type="date" min={departure || undefined} value={returnDate} onChange={e => setReturnDate(e.target.value)} style={{ padding: 12 }} /></label>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))", gap: 14 }}>
               <label style={{ display: "grid", gap: 6 }}>Adults <select value={adults} onChange={e => setAdults(e.target.value)} style={{ padding: 12 }}>{[1,2,3,4,5,6,7,8].map(n => <option key={n} value={n}>{n}</option>)}</select></label>
               <label style={{ display: "grid", gap: 6 }}>Children <select value={children} onChange={e => setChildren(e.target.value)} style={{ padding: 12 }}>{[0,1,2,3,4,5,6,7,8].map(n => <option key={n} value={n}>{n}</option>)}</select></label>
             </div>
-            <label style={{ display: "grid", gap: 6 }}>Approximate total budget in USD (optional)
-              <input value={budget} onChange={e => setBudget(e.target.value)} placeholder="e.g. $4,000 total" style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} />
-            </label>
-            <label style={{ display: "grid", gap: 6 }}>Anything else we should know? (optional)
-              <textarea value={preferences} onChange={e => setPreferences(e.target.value)} rows={3} placeholder="Room preferences, children's ages, flexible dates, accessibility needs..." style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} />
-            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: 10 }}><input type="checkbox" checked={datesKnown} onChange={e => { setDatesKnown(e.target.checked); if (!e.target.checked) { setDeparture(""); setReturnDate(""); } }} /> I have specific travel dates</label>
+            {datesKnown && <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 14 }}>
+              <label style={{ display: "grid", gap: 6 }}>Check-in date <input type="date" value={departure} onChange={e => setDeparture(e.target.value)} style={{ padding: 12 }} /></label>
+              <label style={{ display: "grid", gap: 6 }}>Check-out date <input type="date" min={departure || undefined} value={returnDate} onChange={e => setReturnDate(e.target.value)} style={{ padding: 12 }} /></label>
+            </div>}
+            <button type="button" aria-expanded={showDetails} onClick={() => setShowDetails(!showDetails)} style={{ background: "transparent", border: "none", textAlign: "left", padding: "8px 0", textDecoration: "underline", cursor: "pointer", font: "inherit" }}>{showDetails ? "Hide extra trip details −" : "Add budget or special requests (optional) +"}</button>
+            {showDetails && <>
+              <label style={{ display: "grid", gap: 6 }}>Approximate total budget in USD (optional)
+                <input value={budget} onChange={e => setBudget(e.target.value)} placeholder="e.g. $4,000 total" style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} />
+              </label>
+              <label style={{ display: "grid", gap: 6 }}>Anything else we should know? (optional)
+                <textarea value={preferences} onChange={e => setPreferences(e.target.value)} rows={3} placeholder="Room preferences, children's ages, flexible dates, accessibility needs..." style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} />
+              </label>
+            </>}
             <label style={{ display: "grid", gap: 6 }}>Full name <input name="fullName" required autoComplete="name" style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} /></label>
             <label style={{ display: "grid", gap: 6 }}>Email address <input name="email" type="email" required autoComplete="email" style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} /></label>
             <p style={{ fontSize: 14, margin: 0 }}>This is a request for an advisor-prepared quote, not a live-price search or booking. Rates, availability, and airfare are subject to confirmation. Your details are used to respond to your inquiry.</p>
