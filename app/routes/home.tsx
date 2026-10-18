@@ -156,7 +156,7 @@ const heroHighlights = [
 
 const travelerOptions = ["Couple", "Family", "Friends", "Group", "Destination Wedding"];
 const groupSizeOptions = ["2", "3-4", "5-6", "7+"];
-const tripPopupDelayMs = 60000;
+const tripPopupDelayMs = 120000;
 const popupBenefits = [
   "Handpicked resort recommendations",
   "Exclusive perks when available",
@@ -322,12 +322,12 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       >
         <div className="luxe-hero-copy">
           <h1>
-            Travel planning,
-            <span>made personal.</span>
+            Your dream vacation,
+            <span>without the planning stress.</span>
           </h1>
-          <p>Thoughtful recommendations. Exclusive perks. Unforgettable vacations chosen around you.</p>
+          <p>Tell us where you want to go—or let us help you decide. Get personalized resort options with no obligation to book.</p>
           <a className="button button-primary luxe-hero-cta" href="/quote">
-            Get a Vacation Quote
+            Get My Free Vacation Quote
           </a>
         </div>
       </section>
