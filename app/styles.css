@@ -8744,3 +8744,17 @@ button.portfolio-tab {
 @media (max-width: 760px) {
   .luxe-home .luxe-featured { padding-bottom: .5rem; }
 }
+
+/* Destination discovery v1 and accessible home navigation */
+.site-nav-home { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; min-height: 36px; }
+.site-nav-home svg { display: block; }
+.destination-discovery { max-width: 1180px; margin: 1.25rem auto 1.75rem; padding: 0 1.5rem; }
+.destination-search-label { display: block; margin-bottom: .5rem; font-weight: 700; color: var(--espresso); }
+.destination-search-controls { display: flex; gap: .75rem; padding: .55rem; border-radius: 999px; background: var(--white); border: 1px solid rgba(113,80,51,.15); box-shadow: 0 8px 26px rgba(55,37,20,.07); }
+.destination-search-controls input { flex: 1; min-width: 0; padding: .65rem 1.15rem; border: 0; outline-offset: -3px; background: transparent; font: inherit; color: var(--espresso); }
+.destination-search-controls .button { white-space: nowrap; }
+.destination-region-filters { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1rem; }
+.destination-region-filters button { cursor: pointer; border: 1px solid rgba(113,80,51,.2); border-radius: 999px; background: var(--white); padding: .65rem 1rem; color: var(--espresso); font: inherit; }
+.destination-region-filters button:hover, .destination-region-filters button.destination-region-active { background: #b68a56; color: white; border-color: #b68a56; }
+.destination-no-results { grid-column: 1/-1; padding: 2rem; background: var(--white); border-radius: 1rem; }
+@media(max-width:600px) { .destination-discovery { padding: 0 1rem; } .destination-search-controls { border-radius: 1.25rem; flex-wrap: wrap; } .destination-search-controls input { flex-basis: 100%; } .destination-search-controls .button { width: 100%; text-align: center; } .site-nav-home { min-width: 32px; } }

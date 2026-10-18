@@ -137,6 +137,7 @@ export default function App() {
               </NavLink>
 
               <nav className="site-nav" aria-label="Main menu">
+                <NavLink className="site-nav-link site-nav-home" to="/" aria-label="Home" title="Home"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10Z"/></svg></NavLink>
                 <NavLink className="site-nav-link" to="/collections">Resorts</NavLink>
                 <NavLink className="site-nav-link" to="/destinations">Destinations</NavLink>
                 <NavLink className="site-nav-link" to="/traveler-stories">Traveler Stories</NavLink>

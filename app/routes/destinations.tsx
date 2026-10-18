@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import { useMemo, useState, type CSSProperties } from "react";
 import { findPropertyBySlug } from "../lib/property-data";
 import type { Route } from "./+types/destinations";
 
@@ -243,6 +243,18 @@ function BookingBenefitIcon({ icon }: { icon: string }) {
 }
 
 export default function DestinationsPage() {
+  const [search, setSearch] = useState("");
+  const [region, setRegion] = useState("All destinations");
+  const visibleDestinations = useMemo(() => destinationCards.filter((destination) => {
+    const searchable = [destination.name, destination.subtitle ?? "", ...destination.resorts].join(" ").toLowerCase();
+    const matchesSearch = searchable.includes(search.trim().toLowerCase());
+    const matchesRegion = region === "All destinations" ||
+      (region === "Mexico" && /Cancun|Riviera Maya|Cozumel|Los Cabos/.test(destination.name)) ||
+      (region === "Caribbean" && /Jamaica|Punta Cana/.test(destination.name)) ||
+      (region === "Europe" && destination.name === "Italy") ||
+      (region === "Island escapes" && destination.name === "Maldives");
+    return matchesSearch && matchesRegion;
+  }), [search, region]);
   return (
     <main className="destinations-page">
       <section
@@ -253,19 +265,31 @@ export default function DestinationsPage() {
       >
         <div>
           <p className="eyebrow">Destinations</p>
-          <h1>The Premier Resort Travel collection</h1>
+          <h1>Find your next escape.</h1>
           <p>Mexico. The Caribbean. Europe. Island escapes. Resort stays chosen around the way you want the trip to feel.</p>
-          <a className="button button-primary" href="#destination-grid">Find Your Resort</a>
+          <a className="button button-primary" href="#destination-grid">Explore Destinations</a>
         </div>
       </section>
 
+      <section className="destination-discovery" aria-label="Find your destination">
+        <label className="destination-search-label" htmlFor="destination-search">Search destinations and resorts</label>
+        <div className="destination-search-controls">
+          <input id="destination-search" type="search" placeholder="Where would you like to go?" value={search} onChange={(event) => setSearch(event.target.value)} />
+          <a className="button button-primary" href="#destination-grid">View Matches</a>
+        </div>
+        <div className="destination-region-filters" role="group" aria-label="Filter destinations by region">
+          {["All destinations", "Mexico", "Caribbean", "Europe", "Island escapes"].map((option) => (
+            <button key={option} type="button" className={region === option ? "destination-region-active" : ""} aria-pressed={region === option} onClick={() => setRegion(option)}>{option}</button>
+          ))}
+        </div>
+      </section>
       <section className="destinations-panel" id="destination-grid" aria-labelledby="destination-grid-heading">
         <div className="destinations-side-heading">
           <p className="eyebrow">Browse By Destination</p>
-          <h2 id="destination-grid-heading">Where will your next vacation take you?</h2>
+          <h2 id="destination-grid-heading">Dream destinations, handpicked for you.</h2>
         </div>
         <div className="destination-tile-grid">
-          {destinationCards.map((destination) => (
+          {visibleDestinations.map((destination) => (
             <a key={destination.name} className="destination-tile-card" href={destination.href}>
               <img src={destination.image} alt="" loading="lazy" decoding="async" />
               <div>
@@ -277,6 +301,7 @@ export default function DestinationsPage() {
               </div>
             </a>
           ))}
+          {visibleDestinations.length === 0 ? <p className="destination-no-results">No destinations match your search. Try another location or clear the filters.</p> : null}
         </div>
       </section>
 
@@ -402,7 +427,7 @@ export default function DestinationsPage() {
         <div>
           <h2>Still not sure which resort is right?</h2>
           <p>Tell us about your trip and we will help you choose the right destination and resort from the Premier Resort Travel collection.</p>
-          <a className="button button-primary" href="/?popup=start">Plan My Trip</a>
+          <a className="button button-primary" href="/quote">Plan My Trip</a>
         </div>
       </section>
     </main>
