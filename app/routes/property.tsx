@@ -107,13 +107,13 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
           </div>
           <div className="hero-actions">
             <a className="button button-primary" href={quoteHref}>
-              Get a Quote for This Resort
+              Get My Free Vacation Quote
             </a>
             <a className="button button-secondary" href={collectionHref}>
               Back to collection
             </a>
           </div>
-          <p style={{ fontSize: "0.9rem", marginTop: "0.75rem" }}>Your resort choice will be included automatically. No obligation to book.</p>
+          <p style={{ fontSize: "0.9rem", marginTop: "0.75rem" }}>Free, personalized guidance. Your resort choice is included automatically, and there is no obligation to book.</p>
         </div>
       </section>
 
@@ -173,7 +173,7 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
           </div>
           <div className="leblanc-tour-cta">
             <div><h3>Ready to picture your stay?</h3><p>Share your dates and priorities for a personalized resort recommendation.</p></div>
-            <a className="button button-primary" href={quoteHref}>Get My Le Blanc Quote</a>
+            <a className="button button-primary" href={quoteHref}>Get My Free Vacation Quote</a>
           </div>
         </section>
       )}
@@ -224,10 +224,39 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
           </div>
           <div className="leblanc-tour-cta">
             <div><h3>Let's find your family's best fit</h3><p>Get resort options matched to your dates, travelers and priorities.</p></div>
-            <a className="button button-primary" href={quoteHref}>Get My Moon Palace Quote</a>
+            <a className="button button-primary" href={quoteHref}>Get My Free Vacation Quote</a>
           </div>
         </section>
       )}
+
+      <section className="property-details resort-conversion" aria-labelledby="resort-conversion-heading">
+        <div className="section-heading section-heading-stack">
+          <p className="eyebrow">Find Your Perfect Stay</p>
+          <h2 id="resort-conversion-heading">Is {property.name} right for your vacation?</h2>
+          <p>Explore what makes this resort appealing, then let us help you compare options and get a personalized quote for your dates.</p>
+        </div>
+        <div className="property-detail-grid">
+          <article className="planning-card">
+            <h3>Best for</h3>
+            <p>{property.perfectFor.join(" · ")}</p>
+          </article>
+          <article className="planning-card">
+            <h3>What stands out</h3>
+            <p>{property.highlight}</p>
+          </article>
+          <article className="planning-card">
+            <h3>What we'll confirm</h3>
+            <p>Room options, current pricing, available amenities and inclusions for your travel dates.</p>
+          </article>
+        </div>
+        <div className="leblanc-tour-cta">
+          <div>
+            <h3>Ready to explore your options?</h3>
+            <p>Tell us a little about your trip. We'll help you find the right fit with no obligation to book.</p>
+          </div>
+          <a className="button button-primary" href={quoteHref}>Get My Free Vacation Quote</a>
+        </div>
+      </section>
 
       {source === "fallback" ? (
         <section className="property-details">
