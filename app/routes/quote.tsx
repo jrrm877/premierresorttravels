@@ -15,8 +15,9 @@ export function loader({ request }: Route.LoaderArgs) {
   const params = new URL(request.url).searchParams;
   const style = params.get("style") ?? "";
   const resort = params.get("resort")?.trim().slice(0, 150) ?? "";
-  const origin = params.get("origin") === "property" && resort ? "Resort detail page" : "General quote page";
-  return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "", resort, origin };
+  const origin = params.get("origin") === "property" && resort ? "Resort detail page" : params.get("origin") === "journal" ? "Travel journal" : "General quote page";
+  const initialNote = params.get("origin") === "journal" ? (params.get("note")?.trim().slice(0, 500) ?? "") : "";
+  return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "", resort, origin, initialNote };
 }
 
 type InquiryResponse = { success?: boolean; message?: string };
@@ -33,7 +34,7 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
   const [adults, setAdults] = useState("2");
   const [children, setChildren] = useState("0");
   const [budget, setBudget] = useState("");
-  const [preferences, setPreferences] = useState("");
+  const [preferences, setPreferences] = useState(loaderData.initialNote);
   const sending = fetcher.state !== "idle";
   const invalidDates = Boolean(departure && returnDate && returnDate <= departure);
   const notes = [
