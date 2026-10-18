@@ -1,0 +1,50 @@
+name: Smoke test Cloudflare Worker runtime
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - name: Start local Cloudflare Worker
+        run: |
+          npx wrangler dev --local --port 8787 > /tmp/worker-smoke.log 2>&1 &
+          echo $! > /tmp/worker-smoke.pid
+      - name: Smoke test server startup and routes
+        run: |
+          set -euo pipefail
+          trap 'cat /tmp/worker-smoke.log' ERR
+          for i in $(seq 1 40); do
+            if curl --silent --output /dev/null http://127.0.0.1:8787/; then break; fi
+            sleep 2
+          done
+          for path in / /robots.txt /sitemap.xml /collections/palace-resorts; do
+            code=$(curl --silent --show-error --output /tmp/smoke-response --write-out '%{http_code}' "http://127.0.0.1:8787$path")
+            echo "$path -> $code"
+            if [ "$code" != "200" ]; then
+              cat /tmp/smoke-response
+              exit 1
+            fi
+          done
+          grep -qi '<html' <(curl --silent http://127.0.0.1:8787/)
+          grep -qi 'user-agent' <(curl --silent http://127.0.0.1:8787/robots.txt)
+          grep -qi '<urlset' <(curl --silent http://127.0.0.1:8787/sitemap.xml)
+      - name: Print Worker logs on failure
+        if: failure()
+        run: cat /tmp/worker-smoke.log || true
