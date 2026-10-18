@@ -8800,3 +8800,26 @@ button.portfolio-tab {
 .luxe-home .luxe-home-searches .section-heading h2 { max-width:26ch; }
 .luxe-home .luxe-home-searches .section-heading p { max-width:76ch; }
 @media(max-width:700px) { .luxe-home .luxe-home-searches { width:calc(100% - 1.25rem); margin:1.25rem auto; padding:1.25rem; border-radius:20px; } }
+
+/* Spacious, photo-first collection layouts on large screens. */
+@media (min-width: 1100px) {
+  .collection-page-shell { width: min(1440px, calc(100% - 4rem)); }
+  .collection-page-shell .collection-photo-grid { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1.5rem; }
+  .collection-page-shell .collection-photo-grid:has(> :nth-child(2):last-child) { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .collection-page-shell .collection-photo-grid:has(> :nth-child(4):last-child) { grid-template-columns: repeat(4,minmax(0,1fr)); }
+  .collection-page-shell .collection-photo-grid .destination-image { height: clamp(240px,23vw,350px); }
+  .collection-page-shell .collection-photo-grid .portfolio-card { min-width: 0; }
+}
+.collection-page-shell .collection-hero { gap: clamp(1.5rem,3vw,3.5rem); }
+.collection-page-shell .collection-hero-copy h1 { max-width: 20ch; }
+.collection-page-shell .collection-resorts-section { scroll-margin-top: 7rem; }
+.collection-page-shell .collection-resorts-section .section-heading { margin-bottom: 1.25rem; }
+.collection-page-shell .collection-photo-grid .portfolio-card { display: flex; flex-direction: column; }
+.collection-page-shell .collection-photo-grid .card-actions { margin-top: auto; }
+@media (max-width: 1099px) and (min-width: 650px) {
+  .collection-page-shell .collection-photo-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 649px) {
+  .collection-page-shell { width: calc(100% - 1.25rem); }
+  .collection-page-shell .collection-photo-grid { grid-template-columns: 1fr; }
+}
