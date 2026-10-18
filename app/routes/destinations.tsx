@@ -248,7 +248,7 @@ export default function DestinationsPage() {
       <section
         className="destinations-hero"
         style={{
-          backgroundImage: `linear-gradient(90deg, rgba(255, 252, 247, 0.72), rgba(255, 252, 247, 0.1)), url("https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/4parh4uc8p5gj5t9vpsd4n3j34/800?angle=0")`,
+          backgroundImage: `linear-gradient(90deg, rgba(255, 252, 247, 0.96) 0%, rgba(255, 252, 247, 0.88) 39%, rgba(255, 252, 247, 0.28) 76%, rgba(255, 252, 247, 0.08) 100%), url("https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/4parh4uc8p5gj5t9vpsd4n3j34/800?angle=0")`,
         }}
       >
         <div>
