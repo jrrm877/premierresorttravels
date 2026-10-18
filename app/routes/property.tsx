@@ -56,6 +56,7 @@ export function meta({ data }: Route.MetaArgs) {
 export default function PropertyPage({ loaderData }: Route.ComponentProps) {
   const { property, related, source, travelerStories } = loaderData;
   const collectionHref = findCollectionHrefForProperty(property.slug);
+  const quoteHref = `/quote?resort=${encodeURIComponent(property.name)}`;
 
   return (
     <main className="page-shell">
@@ -79,13 +80,14 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
             <span className="tier-pill">{property.brand}</span>
           </div>
           <div className="hero-actions">
-            <a className="button button-primary" href="/#plan-trip">
-              Request a quote
+            <a className="button button-primary" href={quoteHref}>
+              Get a Quote for This Resort
             </a>
             <a className="button button-secondary" href={collectionHref}>
               Back to collection
             </a>
           </div>
+          <p style={{ fontSize: "0.9rem", marginTop: "0.75rem" }}>Your resort choice will be included automatically. No obligation to book.</p>
         </div>
       </section>
 
