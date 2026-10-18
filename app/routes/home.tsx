@@ -216,8 +216,7 @@ export default function Home() {
               aria-label={`Request a quote for ${style.title}`}
             >
               <img src={style.image} alt="" loading="lazy" decoding="async" />
-              <span className="luxe-style-icon" aria-hidden="true">{style.icon}</span>
-              <strong>{style.title}</strong>
+              <span className="luxe-style-card-content"><strong>{style.title}</strong><span>Plan this getaway →</span></span>
             </a>
           ))}
         </div>

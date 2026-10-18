@@ -19,7 +19,7 @@ const footerLinkGroups = [
       ["Travel Resources", "/journal"],
       ["Our Travelers", "/traveler-stories"],
       ["About Us", "/about"],
-      ["Contact Us", "/?popup=start"],
+      ["Contact Us", "/quote"],
       ["Travel Blog", "/journal"],
       ["FAQ", "/journal"],
     ],
@@ -164,35 +164,14 @@ export default function App() {
               </NavLink>
 
               <nav className="site-nav" aria-label="Main menu">
-                <NavLink className="site-nav-link site-nav-home-link" to="/" end aria-label="Home">
-                  <span className="site-nav-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <path d="M3 10.6 12 3l9 7.6" />
-                      <path d="M5.5 9.5V21h13V9.5" />
-                      <path d="M9.5 21v-6h5v6" />
-                    </svg>
-                  </span>
-                </NavLink>
-                <NavLink className="site-nav-link" to="/destinations">
-                  Destinations
-                </NavLink>
-                <NavLink className="site-nav-link" to="/collections">
-                  Collections
-                </NavLink>
-                <NavLink className="site-nav-link" to="/journal">
-                  Resources
-                </NavLink>
-                <NavLink className="site-nav-link" to="/traveler-stories">
-                  Our Travelers
-                </NavLink>
-                <NavLink className="site-nav-link" to="/quote">Get a Quote</NavLink>
-                <NavLink className="site-nav-link" to="/about">
-                  About Us
-                </NavLink>
+                <NavLink className="site-nav-link" to="/collections">Resorts</NavLink>
+                <NavLink className="site-nav-link" to="/destinations">Destinations</NavLink>
+                <NavLink className="site-nav-link" to="/traveler-stories">Traveler Stories</NavLink>
+                <NavLink className="site-nav-link" to="/about">About Us</NavLink>
               </nav>
 
               <a className="button button-primary site-header-cta" href="/quote">
-                Start Planning
+                Get My Free Quote
               </a>
             </div>
           </header>
@@ -243,7 +222,7 @@ export default function App() {
                 </section>
 
                 <section className="site-footer-pro" aria-label="Palace Pro affiliation">
-                  <a className="button button-primary site-footer-plan-button" href="/?popup=start">
+                  <a className="button button-primary site-footer-plan-button" href="/quote">
                     Start Planning
                     <span aria-hidden="true">→</span>
                   </a>
@@ -325,7 +304,7 @@ export default function App() {
                 <a href="/journal">Privacy Policy</a>
                 <a href="/journal">Terms of Use</a>
                 <a href="/journal">Accessibility</a>
-                <a href="/?popup=start">Contact</a>
+                <a href="/quote">Contact</a>
               </nav>
             </div>
           </footer>
