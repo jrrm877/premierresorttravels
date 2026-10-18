@@ -59,6 +59,7 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
   const relatedCollections = loaderData?.relatedCollections ?? getRelatedCollections(collection);
   const collectionUrl = `https://premierresorttravels.com/collections/${collection.slug}`;
   const isWeddingCollection = collection.slug === "destination-weddings";
+  const isPalaceCollection = collection.slug === "palace-resorts";
   const quoteHref = `/quote?origin=collection&note=${encodeURIComponent(isWeddingCollection ? "I am planning a destination wedding. Please help compare all-inclusive resort options, guest room blocks, wedding events, and estimated group costs." : `Interested in ${collection.title} resorts. Please help me compare options.`)}`;
 
   const collectionSchema = {
@@ -148,6 +149,22 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
           </div>
         </div>
       </section>
+
+      {isPalaceCollection ? (
+        <section className="property-details" aria-label="Compare Palace Resorts">
+          <div className="section-heading section-heading-stack">
+            <div><p className="eyebrow">Palace Resorts Comparison</p><h2>Which Palace Resort should you choose?</h2></div>
+            <p className="section-copy">Each Palace Resort offers a different setting. Compare the destination and trip style first, then request personalized options for your dates and travelers.</p>
+          </div>
+          <div className="planning-grid">
+            <article className="planning-card"><h3>Beach Palace — Cancun</h3><p>A Cancun beach vacation option for travelers who want to explore the Hotel Zone and spend time by the Caribbean.</p><a className="text-link" href="/properties/beach-palace">Explore Beach Palace</a></article>
+            <article className="planning-card"><h3>Cozumel Palace — Cozumel</h3><p>Consider Cozumel for an island-focused getaway, especially if snorkeling and marine activities are high priorities.</p><a className="text-link" href="/properties/cozumel-palace">Explore Cozumel Palace</a></article>
+            <article className="planning-card"><h3>Playacar Palace — Playa del Carmen</h3><p>A choice for travelers who want a Riviera Maya base near Playa del Carmen and its dining and shopping areas.</p><a className="text-link" href="/properties/playacar-palace">Explore Playacar Palace</a></article>
+            <article className="planning-card"><h3>Sun Palace — Cancun</h3><p>Consider this Cancun option for a couples-focused escape. Confirm current age policies and room availability before booking.</p><a className="text-link" href="/properties/sun-palace">Explore Sun Palace</a></article>
+          </div>
+          <div className="hero-actions"><a className="button button-primary" href={quoteHref}>Compare Palace Resort Quotes</a><a className="button button-secondary" href="/collections/moon-palace">Explore Moon Palace Resorts</a></div>
+        </section>
+      ) : null}
 
       {isWeddingCollection ? (
         <section className="property-details" aria-label="All-inclusive destination wedding planning">
