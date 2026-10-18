@@ -10,7 +10,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 
   const featuredProperties = post.featuredPropertySlugs
     .map((slug) => findPropertyBySlug(slug))
-    .filter((property) => Boolean(property));
+    .filter((property): property is NonNullable<typeof property> => property !== undefined);
 
   return { post, featuredProperties };
 }
