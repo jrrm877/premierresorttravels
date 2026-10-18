@@ -1,7 +1,9 @@
+import { requireAdvisorAccess } from "../lib/advisor-access";
 import { fallbackProperties, fetchDestinationsFromDb } from "../lib/catalog";
 import type { Route } from "./+types/advisor.properties";
 
-export async function loader({ context }: Route.LoaderArgs) {
+export async function loader({ request, context }: Route.LoaderArgs) {
+  requireAdvisorAccess(request, context.cloudflare.env);
   try {
     const properties = await fetchDestinationsFromDb(context.cloudflare.env.DB);
     return { properties, source: "database" };
