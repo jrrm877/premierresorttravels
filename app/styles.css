@@ -8724,3 +8724,16 @@ button.portfolio-tab {
   .site-footer-directory { grid-template-columns: 1fr; }
   .site-footer-newsletter-cta .button { width: 100%; text-align: center; }
 }
+
+/* October 2026: targeted whitespace and hero readability refinements. */
+.luxe-about-band { padding-top: 2rem; padding-bottom: 1.4rem; }
+.homepage-stories-section { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+.homepage-stories-section .story-carousel { padding-bottom: .75rem; }
+.luxe-featured { padding-top: 1.5rem; padding-bottom: 2rem; }
+.destinations-hero h1 { color: #241711; text-shadow: 0 1px 0 rgba(255,255,255,.4); }
+.destinations-hero p:not(.eyebrow) { color: #34251e; }
+@media (max-width: 760px) {
+  .luxe-about-band { padding-top: 1.5rem; padding-bottom: 1.25rem; }
+  .homepage-stories-section { padding-block: 1.5rem; }
+  .luxe-featured { padding-block: 1.5rem; }
+}
