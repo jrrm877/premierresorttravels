@@ -65,7 +65,7 @@ function buildHtmlBody(payload: InquiryNotificationPayload) {
   ]
     .map(
       ([label, value]) =>
-        `<tr><td style="padding:8px 12px;font-weight:700;border-bottom:1px solid #e8dccf;">${label}</td><td style="padding:8px 12px;border-bottom:1px solid #e8dccf;">${value}</td></tr>`
+        `<tr><td style="padding:8px 12px;font-weight:700;border-bottom:1px solid #e8dccf;">${escapeHtml(label)}</td><td style="padding:8px 12px;border-bottom:1px solid #e8dccf;">${escapeHtml(value)}</td></tr>`
     )
     .join("");
 
@@ -79,7 +79,7 @@ function buildHtmlBody(payload: InquiryNotificationPayload) {
         <div style="padding:24px;">
           <table style="width:100%;border-collapse:collapse;margin-bottom:20px;">${rows}</table>
           <h2 style="margin:0 0 10px;font-size:16px;">Notes</h2>
-          <p style="margin:0;padding:16px;background:#f8f3eb;border:1px solid #eadfcf;border-radius:14px;white-space:pre-wrap;line-height:1.6;">${payload.notes.trim() || "No additional notes were provided."}</p>
+          <p style="margin:0;padding:16px;background:#f8f3eb;border:1px solid #eadfcf;border-radius:14px;white-space:pre-wrap;line-height:1.6;">${escapeHtml(payload.notes.trim() || "No additional notes were provided.")}</p>
         </div>
       </div>
     </div>
@@ -169,7 +169,7 @@ async function sendCustomerAcknowledgment(
     return false;
   }
 
-  const name = payload.fullName.trim().split(/\\s+/)[0] || "there";
+  const name = payload.fullName.trim().split(/\s+/)[0] || "there";
   const destination = formatLabel(payload.destinationInterest);
   const travelWindow = formatLabel(payload.travelWindow);
   const tripStyle = formatLabel(payload.tripStyle);
@@ -188,7 +188,7 @@ async function sendCustomerAcknowledgment(
     "Have a question or need to update your request? Simply reply to this email.",
     "",
     "Premier Resort Travel",
-  ].join("\\n");
+  ].join("\n");
   const html = `<div style="background:#f8f1e8;padding:28px 12px;font-family:Georgia,serif;color:#2d1f16"><div style="max-width:600px;margin:auto;background:#fffdf9;border:1px solid #e8dccf;border-radius:16px;overflow:hidden"><div style="background:#f0e0c6;padding:24px"><p style="font-size:12px;letter-spacing:3px;color:#946c43">PREMIER RESORT TRAVEL</p><h1 style="margin:0;font-size:28px">Your getaway starts here.</h1></div><div style="padding:24px;line-height:1.7"><p>Hi ${escapeHtml(name)},</p><p>Thank you for reaching out! We've received your vacation quote request and look forward to helping you plan.</p><div style="background:#f8f3eb;padding:16px;border-radius:10px"><strong>Your request</strong><p>Destination or resort: ${escapeHtml(destination)}<br>Travel dates: ${escapeHtml(travelWindow)}<br>Trip type: ${escapeHtml(tripStyle)}</p></div><p>We'll personally review your details and follow up with tailored options. Prices and availability are confirmed when quoted; this is not a booking confirmation.</p><p>There's no obligation to book. Need to update your request? Simply reply to this email.</p><p>Warmly,<br><strong>Premier Resort Travel</strong></p></div></div></div>`;
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
