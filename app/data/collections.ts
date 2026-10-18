@@ -1,4 +1,4 @@
-import { findPropertyBySlug } from "../lib/property-data";
+import { collectionImagesByPropertySlug } from "./collection-images";
 
 export type CollectionFaq = {
   question: string;
@@ -25,7 +25,7 @@ export type ResortCollection = {
 };
 
 const imageFor = (slug: string, fallback = "/images/home-about-gallery-main.jpg") =>
-  findPropertyBySlug(slug)?.image ?? fallback;
+  collectionImagesByPropertySlug[slug] ?? fallback;
 
 const sharedFaqs = {
   fit: {
