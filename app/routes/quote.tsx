@@ -65,7 +65,7 @@ export default function QuotePage() {
               </div>
             </fieldset>
             <label style={{ display: "grid", gap: 6 }}>Destination or preferred resort
-              <input name="destinationInterest" value={destination.trim() || "Open to ideas"} onChange={e => setDestination(e.target.value)} placeholder="Cancun, Moon Palace, or open to ideas" style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} />
+              <input name="destinationInterest" value={destination} onChange={e => setDestination(e.target.value)} placeholder="Cancun, Moon Palace, or open to ideas" style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} />
             </label>
             {includeFlights && <label style={{ display: "grid", gap: 6 }}>Departure airport or city
               <input value={airport} onChange={e => setAirport(e.target.value)} required placeholder="Des Moines (DSM)" style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} />
