@@ -8767,3 +8767,22 @@ button.portfolio-tab {
 .collection-photo-grid .collection-photo-link:focus-visible { outline: 3px solid #aa783f; outline-offset: 3px; }
 @media (max-width: 900px) { .collection-photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) { .collection-photo-grid { grid-template-columns: 1fr; } .collection-photo-grid .destination-image { height: 260px; } }
+
+/* Collection landing pages: use desktop width and reduce unproductive whitespace. */
+@media (min-width: 901px) {
+  .collection-page-shell { width: min(1440px, calc(100% - 3rem)); }
+  .collection-page-shell .collection-hero { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
+  .collection-page-shell .collection-resorts-section .collection-photo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .collection-page-shell .collection-resorts-section .collection-photo-grid:has(> :nth-child(4)):not(:has(> :nth-child(5))) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .collection-page-shell .collection-resorts-section .collection-photo-grid:has(> :nth-child(2)):not(:has(> :nth-child(3))) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .collection-page-shell .collection-resorts-section .collection-photo-grid:has(> :only-child) { grid-template-columns: minmax(0, 680px); }
+  .collection-page-shell .collection-resorts-section .collection-photo-grid:has(> :nth-child(2)):not(:has(> :nth-child(3))) .destination-image { height: 320px; }
+}
+.collection-page-shell .section-heading h2 { max-width: 25ch; }
+.collection-page-shell .section-heading-stack { gap: .65rem; }
+.collection-page-shell .section-copy { max-width: 72ch; }
+.collection-page-shell .collection-overview { padding-block: 1.5rem; }
+.collection-page-shell .collection-overview .collection-summary-grid { margin-top: 1rem; }
+.collection-page-shell .collection-resorts-section .portfolio-card { display: flex; flex-direction: column; }
+.collection-page-shell .collection-resorts-section .portfolio-card .card-actions { margin-top: auto; }
+.collection-page-shell .collection-resorts-section .collection-photo-grid { align-items: stretch; }
