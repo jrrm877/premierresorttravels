@@ -255,6 +255,7 @@ export default function DestinationsPage() {
       (region === "Island escapes" && destination.name === "Maldives");
     return matchesSearch && matchesRegion;
   }), [search, region]);
+  const filtersActive = search.trim().length > 0 || region !== "All destinations";
   return (
     <main className="destinations-page">
       <section
@@ -281,6 +282,10 @@ export default function DestinationsPage() {
           {["All destinations", "Mexico", "Caribbean", "Europe", "Island escapes"].map((option) => (
             <button key={option} type="button" className={region === option ? "destination-region-active" : ""} aria-pressed={region === option} onClick={() => setRegion(option)}>{option}</button>
           ))}
+        </div>
+        <div className="destination-filter-feedback" role="status" aria-live="polite" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.75rem", marginTop: "1rem" }}>
+          <span>{visibleDestinations.length} {visibleDestinations.length === 1 ? "destination" : "destinations"} found{filtersActive ? " for your filters" : ""}</span>
+          {filtersActive ? <button type="button" onClick={() => { setSearch(""); setRegion("All destinations"); }} style={{ background: "transparent", border: "1px solid currentColor", borderRadius: "999px", padding: "0.5rem 1rem", color: "inherit", cursor: "pointer", font: "inherit" }}>Clear filters</button> : null}
         </div>
       </section>
       <section className="destinations-panel" id="destination-grid" aria-labelledby="destination-grid-heading">
