@@ -79,6 +79,12 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
     ],
   };
   const comparisonLinks = comparisonGuides[property.slug] ?? [];
+  const officialGallery: Record<string, string> = {
+    "moon-palace-the-grand-cancun": "https://thegrand.moonpalace.com/gallery",
+    "le-blanc-spa-resort-cancun": "https://cancun.leblancsparesorts.com/gallery",
+  };
+  const officialGalleryHref = officialGallery[property.slug];
+
 
 
   return (
@@ -257,6 +263,27 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
           <a className="button button-primary" href={quoteHref}>Get My Free Vacation Quote</a>
         </div>
       </section>
+
+      {officialGalleryHref ? (
+        <section className="property-details resort-official-gallery" aria-labelledby="official-gallery-heading">
+          <div className="section-heading section-heading-stack">
+            <p className="eyebrow">Authentic Resort Photography</p>
+            <h2 id="official-gallery-heading">Explore more photos of {property.name}</h2>
+            <p>See the resort's official photography before choosing your stay, including available views of accommodations, pools and experiences. Images and facilities may change.</p>
+          </div>
+          <div className="leblanc-tour-feature">
+            <img src={property.image_url || ""} alt={property.name + " resort view"} loading="lazy" decoding="async" />
+            <div>
+              <h3>See the resort through its official gallery</h3>
+              <p>Explore additional property photography from the resort itself, then return here for personalized advice on rooms, inclusions and dates.</p>
+              <div className="hero-actions">
+                <a className="button button-secondary" href={officialGalleryHref} target="_blank" rel="noopener noreferrer">View Official Photo Gallery ↗</a>
+                <a className="button button-primary" href={quoteHref}>Get My Free Vacation Quote</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {source === "fallback" ? (
         <section className="property-details">
