@@ -185,12 +185,13 @@ export default function App() {
                 <NavLink className="site-nav-link" to="/traveler-stories">
                   Our Travelers
                 </NavLink>
+                <NavLink className="site-nav-link" to="/quote">Get a Quote</NavLink>
                 <NavLink className="site-nav-link" to="/about">
                   About Us
                 </NavLink>
               </nav>
 
-              <a className="button button-primary site-header-cta" href="/?popup=start">
+              <a className="button button-primary site-header-cta" href="/quote">
                 Start Planning
               </a>
             </div>
