@@ -60,11 +60,20 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
       <p className="lede" style={{ maxWidth: 680 }}>
         Just the basics: where you want to go, when you might travel, who is coming, and your budget. Not sure about something? That’s fine. No obligation to book.
       </p>
+      <section aria-label="How your personalized quote works" style={{ maxWidth: 720, marginTop: 28 }}>
+        <h2 style={{ fontSize: "1.35rem", marginBottom: 12 }}>What happens after you send your request?</h2>
+        <ol style={{ display: "grid", gap: 12, paddingLeft: 22, lineHeight: 1.6 }}>
+          <li><strong>We review your trip.</strong> Your destination, travelers and preferences help us understand what matters most.</li>
+          <li><strong>We research the options.</strong> An advisor can compare resort choices, room categories and available pricing for your dates.</li>
+          <li><strong>You decide.</strong> We'll follow up with personalized recommendations. There is no obligation to book.</li>
+        </ol>
+        <p style={{ fontSize: 14 }}>This form is an inquiry, not a payment or reservation. No booking is made when you submit it.</p>
+      </section>
       <div style={{ maxWidth: 720, marginTop: 32, padding: 24, border: "1px solid #d5dcd9", borderRadius: 16 }}>
         {fetcher.data?.success ? (
           <div role="status">
             <h2>Request received.</h2>
-            <p>Thanks! We'll review your trip details and follow up with personalized options. Prices and availability are confirmed when quoted.</p>
+            <p>Thank you! Your vacation request has been received. We'll review your trip details and follow up using the email you provided. No booking has been made. Prices and availability are confirmed when quoted.</p>
             <a className="button button-secondary" href="/collections">Explore resorts</a>
           </div>
         ) : (
