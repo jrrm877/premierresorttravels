@@ -127,6 +127,61 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
         </div>
       ) : null}
 
+
+      {property.slug === "le-blanc-spa-resort-cancun" ? (
+        <section className="property-details resort-walkthrough" aria-labelledby="resort-tour-heading">
+          <div className="section-heading section-heading-stack">
+            <div>
+              <p className="eyebrow">Explore Before You Book</p>
+              <h2 id="resort-tour-heading">Picture your stay at Le Blanc Cancun</h2>
+            </div>
+            <p className="section-copy">A guided look at the experiences to consider before choosing this adults-only Cancun resort. Your advisor can confirm current room categories, amenities, and availability for your dates.</p>
+          </div>
+          <nav className="resort-tour-nav" aria-label="Explore the resort experience">
+            <a href="#resort-tour-arrival">Arrival & atmosphere</a>
+            <a href="#resort-tour-rooms">Rooms & views</a>
+            <a href="#resort-tour-dining">Dining & relaxation</a>
+            <a href="#resort-tour-fit">Is it right for you?</a>
+          </nav>
+          <div className="resort-tour-feature" id="resort-tour-arrival">
+            <div className="resort-tour-feature-image">
+              <img src={property.image_url || ""} alt={`Exterior view of ${property.name}`} loading="lazy" decoding="async" />
+            </div>
+            <div>
+              <p className="eyebrow">01 / Arrive</p>
+              <h3>Begin with the atmosphere</h3>
+              <p>Le Blanc Spa Resort Cancun is positioned for adults seeking a polished, quieter all-inclusive escape. Start by imagining how you want to spend your days: oceanfront relaxation, time together, and a slower vacation rhythm.</p>
+              <a className="text-link" href={quoteHref}>Ask about a Cancun stay →</a>
+            </div>
+          </div>
+          <div className="resort-tour-steps">
+            <article className="resort-tour-step" id="resort-tour-rooms">
+              <p className="eyebrow">02 / Unpack</p>
+              <h3>Choose your room and view</h3>
+              <p>Room location, bedding, outlook, and category can shape your experience. Ask us to compare the room types currently offered for your travel dates rather than assuming every room has the same view.</p>
+              <a href={quoteHref} className="text-link">Compare available rooms →</a>
+            </article>
+            <article className="resort-tour-step" id="resort-tour-dining">
+              <p className="eyebrow">03 / Settle in</p>
+              <h3>Plan your days around what matters</h3>
+              <p>Consider whether dining, spa time, poolside relaxation, and access to Cancun are your priorities. We can help verify current restaurant, activity, and spa details before you commit.</p>
+              <a href={quoteHref} className="text-link">Ask about amenities →</a>
+            </article>
+            <article className="resort-tour-step" id="resort-tour-fit">
+              <p className="eyebrow">04 / Decide</p>
+              <h3>Is Le Blanc Cancun your fit?</h3>
+              <p><strong>Consider it if:</strong> you prefer an adults-only, couples-oriented resort and a calm luxury atmosphere.</p>
+              <p><strong>Compare alternatives if:</strong> you are traveling with children or want a family activity-focused resort.</p>
+              <a href="/journal/le-blanc-cancun-vs-le-blanc-los-cabos" className="text-link">Compare Cancun and Los Cabos →</a>
+            </article>
+          </div>
+          <div className="resort-tour-cta">
+            <div><h3>Can you picture yourself here?</h3><p>Tell us your dates, travelers, and priorities. We'll help confirm whether this resort is the right match.</p></div>
+            <a className="button button-primary" href={quoteHref}>Get My Le Blanc Quote</a>
+          </div>
+        </section>
+      ) : null}
+
       {source === "fallback" ? (
         <section className="property-details">
           <div className="planning-card">
