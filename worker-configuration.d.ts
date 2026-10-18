@@ -1,5 +1,7 @@
-interface Env {
-  DB: D1Database;
+declare global {
+  interface Env {
+    DB: D1Database;
+  }
 }
 
 declare module "react-router" {
