@@ -188,7 +188,7 @@ export const journalPosts: JournalPost[] = [
     eyebrow: "Cancun Resort Comparison",
     title: "Moon Palace The Grand Cancun vs. Moon Palace Cancun: Which should you choose?",
     description: "Compare Moon Palace The Grand Cancun and Moon Palace Cancun for your next family vacation. Learn what to check about room categories, dining, activities, access and total trip cost before requesting a personalized quote.",
-    image: findPropertyBySlug("moon-palace-the-grand-cancun")?.image ?? collectionCards[1].image,
+    image: "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/4parh4uc8p5gj5t9vpsd4n3j34/1600?angle=0",
     readTime: "5 min read",
     collectionHref: "/collections/moon-palace",
     cta: "Compare Moon Palace Cancun resorts",
