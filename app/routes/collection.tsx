@@ -115,7 +115,7 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
   };
 
   return (
-    <main className="page-shell">
+    <main className="page-shell collection-page-shell">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
@@ -150,7 +150,7 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
         </div>
       </section>
 
-      <section className="portfolio-section accent-gold" id="collection-resorts">
+      <section className="portfolio-section accent-gold collection-resorts-section" id="collection-resorts">
         <div className="section-heading section-heading-stack">
           <div>
             <p className="eyebrow">Resort Matches</p>
