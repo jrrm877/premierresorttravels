@@ -154,6 +154,63 @@ async function sendWebhookNotification(
   return true;
 }
 
+
+function escapeHtml(value: string) {
+  return value.replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+  })[char] ?? char);
+}
+
+async function sendCustomerAcknowledgment(
+  env: InquiryNotificationEnv,
+  payload: InquiryNotificationPayload
+) {
+  if (payload.source !== "vacation-quote" || !env.RESEND_API_KEY || !env.INQUIRY_NOTIFY_FROM) {
+    return false;
+  }
+
+  const name = payload.fullName.trim().split(/\\s+/)[0] || "there";
+  const destination = formatLabel(payload.destinationInterest);
+  const travelWindow = formatLabel(payload.travelWindow);
+  const tripStyle = formatLabel(payload.tripStyle);
+  const text = [
+    `Hi ${name},`,
+    "",
+    "Thank you for reaching out to Premier Resort Travel! We received your vacation quote request.",
+    "",
+    `Destination or resort: ${destination}`,
+    `Travel dates: ${travelWindow}`,
+    `Trip type: ${tripStyle}`,
+    "",
+    "We'll personally review your trip details and follow up with tailored resort options. Prices and availability are confirmed when quoted; this is not a booking confirmation.",
+    "There's no obligation to book.",
+    "",
+    "Have a question or need to update your request? Simply reply to this email.",
+    "",
+    "Premier Resort Travel",
+  ].join("\\n");
+  const html = `<div style="background:#f8f1e8;padding:28px 12px;font-family:Georgia,serif;color:#2d1f16"><div style="max-width:600px;margin:auto;background:#fffdf9;border:1px solid #e8dccf;border-radius:16px;overflow:hidden"><div style="background:#f0e0c6;padding:24px"><p style="font-size:12px;letter-spacing:3px;color:#946c43">PREMIER RESORT TRAVEL</p><h1 style="margin:0;font-size:28px">Your getaway starts here.</h1></div><div style="padding:24px;line-height:1.7"><p>Hi ${escapeHtml(name)},</p><p>Thank you for reaching out! We've received your vacation quote request and look forward to helping you plan.</p><div style="background:#f8f3eb;padding:16px;border-radius:10px"><strong>Your request</strong><p>Destination or resort: ${escapeHtml(destination)}<br>Travel dates: ${escapeHtml(travelWindow)}<br>Trip type: ${escapeHtml(tripStyle)}</p></div><p>We'll personally review your details and follow up with tailored options. Prices and availability are confirmed when quoted; this is not a booking confirmation.</p><p>There's no obligation to book. Need to update your request? Simply reply to this email.</p><p>Warmly,<br><strong>Premier Resort Travel</strong></p></div></div></div>`;
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: env.INQUIRY_NOTIFY_FROM,
+      to: [payload.email],
+      ...(env.INQUIRY_NOTIFY_TO ? { reply_to: env.INQUIRY_NOTIFY_TO } : {}),
+      subject: "We received your vacation quote request | Premier Resort Travel",
+      text,
+      html,
+    }),
+  });
+  if (!response.ok) {
+    throw new Error(`Resend customer acknowledgment failed: ${response.status} ${await response.text()}`);
+  }
+  return true;
+}
+
 export async function deliverInquiryNotifications(
   env: InquiryNotificationEnv,
   payload: InquiryNotificationPayload
@@ -191,6 +248,18 @@ export async function deliverInquiryNotifications(
     } catch (error) {
       failed.push("webhook");
       console.error("Webhook inquiry notification failed", error);
+    }
+  }
+
+  if (payload.source === "vacation-quote" && env.RESEND_API_KEY && env.INQUIRY_NOTIFY_FROM) {
+    attempted.push("customer-confirmation");
+    try {
+      if (await sendCustomerAcknowledgment(env, payload)) {
+        delivered.push("customer-confirmation");
+      }
+    } catch (error) {
+      failed.push("customer-confirmation");
+      console.error("Customer quote acknowledgment failed", error);
     }
   }
 
