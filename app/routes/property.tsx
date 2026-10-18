@@ -60,7 +60,12 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
   const quoteHref = `/quote?resort=${encodeURIComponent(property.name)}&origin=property`;
   const comparisonGuides: Record<string, { href: string; title: string }[]> = {
     "moon-palace-the-grand-cancun": [
+      { href: "/journal/moon-palace-the-grand-vs-moon-palace-cancun", title: "Moon Palace The Grand vs. Moon Palace Cancun" },
       { href: "/journal/moon-palace-the-grand-cancun-family-guide", title: "Moon Palace The Grand Cancun family guide" },
+      { href: "/journal/best-all-inclusive-resorts-in-cancun-for-families", title: "Compare Cancun family resorts" },
+    ],
+    "moon-palace-cancun": [
+      { href: "/journal/moon-palace-the-grand-vs-moon-palace-cancun", title: "Moon Palace The Grand vs. Moon Palace Cancun" },
       { href: "/journal/best-all-inclusive-resorts-in-cancun-for-families", title: "Compare Cancun family resorts" },
     ],
     "le-blanc-spa-resort-cancun": [
