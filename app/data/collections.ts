@@ -471,16 +471,16 @@ export const brandCollections: ResortCollection[] = [
     title: "Palace Resorts",
     slug: "palace-resorts",
     description:
-      "All-inclusive luxury resorts for families, couples, groups, destination weddings, and easy beach vacations.",
+      "Compare Palace Resorts in Mexico and the Caribbean, including Beach Palace, Cozumel Palace, Playacar Palace, and Sun Palace. Find the right all-inclusive stay for your travel style and dates.",
     shortDescription: "Classic all-inclusive beach resorts with broad traveler appeal.",
     heroImage: imageFor("beach-palace"),
     featuredImage: imageFor("playacar-palace"),
     resortIds: ["beach-palace", "cozumel-palace", "playacar-palace", "sun-palace"],
     filters: ["Brand", "Family Friendly", "Adults Only", "All-Inclusive"],
     tags: ["palace-resorts", "all-inclusive", "beach", "groups"],
-    seoTitle: "Palace Resorts Collection | Premier Resort Travel",
+    seoTitle: "Compare Palace Resorts: Cancun, Cozumel & More | Premier Resort Travel",
     seoDescription:
-      "Explore Palace Resorts with Premier Resort Travel, including Beach Palace, Cozumel Palace, Playacar Palace, and Sun Palace.",
+      "Compare Beach Palace, Cozumel Palace, Playacar Palace, and Sun Palace by destination and trip style. Request personalized all-inclusive resort options.",
     faqs: [
       sharedFaqs.fit,
       {
