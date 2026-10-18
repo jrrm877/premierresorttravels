@@ -8758,3 +8758,12 @@ button.portfolio-tab {
 .destination-region-filters button:hover, .destination-region-filters button.destination-region-active { background: #b68a56; color: white; border-color: #b68a56; }
 .destination-no-results { grid-column: 1/-1; padding: 2rem; background: var(--white); border-radius: 1rem; }
 @media(max-width:600px) { .destination-discovery { padding: 0 1rem; } .destination-search-controls { border-radius: 1.25rem; flex-wrap: wrap; } .destination-search-controls input { flex-basis: 100%; } .destination-search-controls .button { width: 100%; text-align: center; } .site-nav-home { min-width: 32px; } }
+
+/* Photo-first resort browsing on collection pages. */
+.collection-photo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.collection-photo-grid .collection-photo-link { display: block; overflow: hidden; border-radius: 1rem; }
+.collection-photo-grid .destination-image { width: 100%; height: 245px; object-fit: cover; transition: transform .25s ease; }
+.collection-photo-grid .collection-photo-link:hover .destination-image { transform: scale(1.035); }
+.collection-photo-grid .collection-photo-link:focus-visible { outline: 3px solid #aa783f; outline-offset: 3px; }
+@media (max-width: 900px) { .collection-photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .collection-photo-grid { grid-template-columns: 1fr; } .collection-photo-grid .destination-image { height: 260px; } }
