@@ -8686,3 +8686,41 @@ button.portfolio-tab {
 @media (prefers-reduced-motion: reduce) {
   .luxe-style-card, .luxe-style-card img { transition: none; }
 }
+
+/* Homepage and footer refinement: compact navigation, aligned stories, honest CTA. */
+.site-header { padding-top: .35rem; }
+.site-header-inner { padding-block: .55rem; box-shadow: 0 10px 26px rgba(52,33,22,.07); }
+.homepage-stories-section > .section-heading {
+  width: min(1160px, calc(100% - 3rem));
+  margin-inline: auto;
+}
+.homepage-stories-section .story-carousel {
+  max-width: 100%;
+  padding-block: 1rem 1.5rem;
+}
+.site-footer-directory {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.site-footer-link-column {
+  min-height: 0;
+  padding-block: 1.25rem;
+}
+.site-footer-newsletter-cta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+}
+.site-footer-newsletter-cta .button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+@media (max-width: 900px) {
+  .site-footer-directory { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .site-footer-newsletter-cta { flex-wrap: wrap; }
+}
+@media (max-width: 520px) {
+  .homepage-stories-section > .section-heading { width: calc(100% - 2rem); }
+  .site-footer-directory { grid-template-columns: 1fr; }
+  .site-footer-newsletter-cta .button { width: 100%; text-align: center; }
+}
