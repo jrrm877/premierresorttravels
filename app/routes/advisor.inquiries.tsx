@@ -34,6 +34,13 @@ function isQuickNoteLead(inquiry: InquiryRecord) {
   );
 }
 
+function leadAttribution(inquiry: InquiryRecord) {
+  const notes = inquiry.notes ?? "";
+  const origin = notes.match(/^Lead origin: (.+)$/m)?.[1]?.trim();
+  const resort = notes.match(/^Originally selected resort: (.+)$/m)?.[1]?.trim();
+  return { origin: origin === "Resort detail page" ? "Resort detail page" : origin === "General quote page" ? "General quote page" : "Unattributed", resort: origin === "Resort detail page" ? resort : null };
+}
+
 export async function loader({ context }: Route.LoaderArgs) {
   const { DB } = context.cloudflare.env;
 
@@ -63,6 +70,12 @@ export function meta(_: Route.MetaArgs) {
 
 export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
   const { inquiries, stats } = loaderData;
+  const sources = inquiries.map(leadAttribution);
+  const resortCounts = new Map<string, number>();
+  for (const source of sources) if (source.resort) resortCounts.set(source.resort, (resortCounts.get(source.resort) ?? 0) + 1);
+  const topResorts = [...resortCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  const resortLeads = sources.filter(source => source.origin === "Resort detail page").length;
+  const generalLeads = sources.filter(source => source.origin === "General quote page").length;
 
   return (
     <main className="page-shell">
@@ -98,6 +111,23 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
         </div>
       </section>
 
+      <section className="property-details">
+        <div className="section-heading section-heading-stack">
+          <div><p className="eyebrow">Lead Sources</p><h2>Which resorts generate inquiries?</h2>
+            <p>These are submitted inquiry counts, not visitor conversion rates. Older inquiries may lack attribution.</p>
+          </div>
+        </div>
+        <div className="planning-grid">
+          <article className="planning-card"><h3>{resortLeads}</h3><p>From resort pages</p></article>
+          <article className="planning-card"><h3>{generalLeads}</h3><p>From general quote page</p></article>
+          <article className="planning-card"><h3>{sources.length - resortLeads - generalLeads}</h3><p>Unattributed or older leads</p></article>
+        </div>
+        <article className="planning-card" style={{ marginTop: 20 }}>
+          <h3>Resorts generating leads</h3>
+          {topResorts.length ? <ol>{topResorts.map(([resort, count]) => <li key={resort}>{resort}: {count} {count === 1 ? "inquiry" : "inquiries"}</li>)}</ol> : <p>No resort-attributed inquiries yet.</p>}
+        </article>
+      </section>
+
       <section className="related-properties">
         <div className="section-heading section-heading-stack">
           <div>
@@ -124,6 +154,7 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
                 </div>
                 <div className="property-pill-row">
                   {isQuickNoteLead(inquiry) ? <span className="feature-badge">Quick note</span> : null}
+                  <span className="tier-pill">{leadAttribution(inquiry).origin}</span>
                   {inquiry.destination_interest ? (
                     <span className="feature-badge">{inquiry.destination_interest}</span>
                   ) : null}
