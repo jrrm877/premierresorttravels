@@ -58,7 +58,7 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
       {loaderData.style && <p>Planning a {loaderData.style.toLowerCase()} getaway? You’re in the right place.</p>}
       <h1>Let’s plan your perfect getaway.</h1>
       <p className="lede" style={{ maxWidth: 680 }}>
-        Tell us a little about your trip. We’ll help you find the right resort and, if you prefer, airfare options too. No obligation to book.
+        Just the basics: where you want to go, when you might travel, who is coming, and your budget. Not sure about something? That’s fine. No obligation to book.
       </p>
       <div style={{ maxWidth: 720, marginTop: 32, padding: 24, border: "1px solid #d5dcd9", borderRadius: 16 }}>
         {fetcher.data?.success ? (
@@ -100,11 +100,19 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
               <label style={{ display: "grid", gap: 6 }}>Check-in date <input type="date" value={departure} onChange={e => setDeparture(e.target.value)} style={{ padding: 12 }} /></label>
               <label style={{ display: "grid", gap: 6 }}>Check-out date <input type="date" min={departure || undefined} value={returnDate} onChange={e => setReturnDate(e.target.value)} style={{ padding: 12 }} /></label>
             </div>}
-            <button type="button" aria-expanded={showDetails} onClick={() => setShowDetails(!showDetails)} style={{ background: "transparent", border: "none", textAlign: "left", padding: "8px 0", textDecoration: "underline", cursor: "pointer", font: "inherit" }}>{showDetails ? "Hide extra trip details −" : "Add budget or special requests (optional) +"}</button>
+            <label style={{ display: "grid", gap: 6 }}>Approximate total vacation budget (optional)
+              <select value={budget} onChange={e => setBudget(e.target.value)} style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }}>
+                <option value="">Not sure yet — help me decide</option>
+                <option value="Under $2,500">Under $2,500</option>
+                <option value="$2,500–$4,000">$2,500–$4,000</option>
+                <option value="$4,000–$6,000">$4,000–$6,000</option>
+                <option value="$6,000–$10,000">$6,000–$10,000</option>
+                <option value="$10,000+">$10,000+</option>
+                <option value="Flexible">Flexible — show me options</option>
+              </select>
+            </label>
+            <button type="button" aria-expanded={showDetails} onClick={() => setShowDetails(!showDetails)} style={{ background: "transparent", border: "none", textAlign: "left", padding: "8px 0", textDecoration: "underline", cursor: "pointer", font: "inherit" }}>{showDetails ? "Hide special requests −" : "Add special requests (optional) +"}</button>
             {showDetails && <>
-              <label style={{ display: "grid", gap: 6 }}>Approximate total budget in USD (optional)
-                <input value={budget} onChange={e => setBudget(e.target.value)} placeholder="e.g. $4,000 total" style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} />
-              </label>
               <label style={{ display: "grid", gap: 6 }}>Anything else we should know? (optional)
                 <textarea value={preferences} onChange={e => setPreferences(e.target.value)} rows={3} placeholder="Room preferences, children's ages, flexible dates, accessibility needs..." style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} />
               </label>
