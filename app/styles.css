@@ -8737,3 +8737,10 @@ button.portfolio-tab {
   .homepage-stories-section { padding-block: 1.5rem; }
   .luxe-featured { padding-block: 1.5rem; }
 }
+
+/* Homepage-only minimal transition between Featured Collections and footer. */
+.luxe-home .luxe-featured { padding-bottom: .5rem; }
+.luxe-home:has(> .luxe-featured) + .site-footer { margin-top: .5rem; }
+@media (max-width: 760px) {
+  .luxe-home .luxe-featured { padding-bottom: .5rem; }
+}
