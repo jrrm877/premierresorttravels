@@ -223,7 +223,7 @@ export default function Home() {
         <p style={{ textAlign: "center", marginTop: 24 }}><a href="/collections">Explore all resort collections →</a></p>
       </section>
 
-      <section className="property-details" aria-labelledby="popular-resort-searches">
+      <section className="property-details luxe-home-searches" aria-labelledby="popular-resort-searches">
         <div className="section-heading section-heading-stack">
           <div>
             <p className="eyebrow">Start With Your Destination</p>
