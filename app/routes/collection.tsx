@@ -150,6 +150,56 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
         </div>
       </section>
 
+      <section className="portfolio-section accent-gold" id="collection-resorts">
+        <div className="section-heading section-heading-stack">
+          <div>
+            <p className="eyebrow">Resort Matches</p>
+            <h2>Explore the resorts and their photos</h2>
+          </div>
+          <p className="section-copy">
+            Tap a resort photo to explore its details, or start planning and we will help identify the
+            strongest fit for your dates and travelers.
+          </p>
+        </div>
+
+        <div className="portfolio-grid collection-photo-grid">
+          {resorts.map((resort) => (
+            <article key={resort.id} className="portfolio-card">
+              <a className="portfolio-image-shell collection-photo-link" href={`/properties/${resort.slug}`} aria-label={`View photos and details for ${resort.name}`}>
+                <img
+                  className="destination-image"
+                  src={resort.image}
+                  alt={resort.name}
+                  loading="lazy"
+                  decoding="async"
+                  sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                />
+              </a>
+              <div className="portfolio-meta">
+                <span className="feature-badge">{resort.brand}</span>
+                <p className="card-region">{resort.destination}</p>
+              </div>
+              <h3>{resort.name}</h3>
+              <p>{resort.highlight}</p>
+              <div className="collection-highlight-list">
+                {resort.adultsOnly ? <span className="tier-pill">Adults Only</span> : null}
+                {resort.familyFriendly ? <span className="tier-pill">Family Friendly</span> : null}
+                {resort.seaView ? <span className="tier-pill">Sea View</span> : null}
+              </div>
+              <div className="card-actions card-actions-inline">
+                <a className="button button-secondary" href={`/properties/${resort.slug}`}>
+                  Explore Resort
+                </a>
+                <a className="text-link" href={quoteHref}>
+                  Start Planning
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+
       {isPalaceCollection ? (
         <section className="property-details" aria-label="Compare Palace Resorts">
           <div className="section-heading section-heading-stack">
@@ -215,55 +265,6 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
         </div>
 
         {collection.note ? <p className="collection-note">{collection.note}</p> : null}
-      </section>
-
-      <section className="portfolio-section accent-gold" id="collection-resorts">
-        <div className="section-heading section-heading-stack">
-          <div>
-            <p className="eyebrow">Resort Matches</p>
-            <h2>Featured resorts in this collection</h2>
-          </div>
-          <p className="section-copy">
-            Open a resort page for more detail, or start planning and we will help identify the
-            strongest fit for your dates and travelers.
-          </p>
-        </div>
-
-        <div className="portfolio-grid">
-          {resorts.map((resort) => (
-            <article key={resort.id} className="portfolio-card">
-              <div className="portfolio-image-shell">
-                <img
-                  className="destination-image"
-                  src={resort.image}
-                  alt={resort.name}
-                  loading="lazy"
-                  decoding="async"
-                  sizes="(max-width: 1100px) 100vw, 25vw"
-                />
-              </div>
-              <div className="portfolio-meta">
-                <span className="feature-badge">{resort.brand}</span>
-                <p className="card-region">{resort.destination}</p>
-              </div>
-              <h3>{resort.name}</h3>
-              <p>{resort.highlight}</p>
-              <div className="collection-highlight-list">
-                {resort.adultsOnly ? <span className="tier-pill">Adults Only</span> : null}
-                {resort.familyFriendly ? <span className="tier-pill">Family Friendly</span> : null}
-                {resort.seaView ? <span className="tier-pill">Sea View</span> : null}
-              </div>
-              <div className="card-actions card-actions-inline">
-                <a className="button button-secondary" href={`/properties/${resort.slug}`}>
-                  Explore Resort
-                </a>
-                <a className="text-link" href={quoteHref}>
-                  Start Planning
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
       </section>
 
       <section className="quote-section">
