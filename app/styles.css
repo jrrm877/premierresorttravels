@@ -8794,3 +8794,9 @@ button.portfolio-tab {
 .leblanc-tour-cta h3 { margin:0 0 .4rem; }
 .leblanc-tour-cta p { margin:0; }
 @media(max-width:850px) { .leblanc-tour-feature,.leblanc-tour-grid { grid-template-columns:1fr; } .leblanc-tour-cta { flex-direction:column; align-items:flex-start; } }
+
+/* Homepage resort discovery: align the panel with editorial content width. */
+.luxe-home .luxe-home-searches { width:min(1180px,calc(100% - 2rem)); margin:2rem auto; padding:clamp(1.5rem,3vw,2.75rem); border:1px solid var(--line); border-radius:28px; background:rgba(255,250,242,.86); box-shadow:0 14px 35px rgba(52,33,22,.07); }
+.luxe-home .luxe-home-searches .section-heading h2 { max-width:26ch; }
+.luxe-home .luxe-home-searches .section-heading p { max-width:76ch; }
+@media(max-width:700px) { .luxe-home .luxe-home-searches { width:calc(100% - 1.25rem); margin:1.25rem auto; padding:1.25rem; border-radius:20px; } }
