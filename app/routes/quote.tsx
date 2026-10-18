@@ -11,8 +11,13 @@ export function meta(_: Route.MetaArgs) {
   ];
 }
 
+export function loader({ request }: Route.LoaderArgs) {
+  const style = new URL(request.url).searchParams.get("style") ?? "";
+  return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "" };
+}
+
 type InquiryResponse = { success?: boolean; message?: string };
-export default function QuotePage() {
+export default function QuotePage({ loaderData }: Route.ComponentProps) {
   const fetcher = useFetcher<InquiryResponse>();
   const [includeFlights, setIncludeFlights] = useState(false);
   const [destination, setDestination] = useState("");
@@ -26,6 +31,7 @@ export default function QuotePage() {
   const sending = fetcher.state !== "idle";
   const invalidDates = Boolean(departure && returnDate && returnDate <= departure);
   const notes = [
+    ...(loaderData.style ? ["Preferred travel style: " + loaderData.style] : []),
     "Package requested: " + (includeFlights ? "Resort + airfare" : "Resort only"),
     "Check-in: " + (departure || "Flexible"),
     "Check-out: " + (returnDate || "Flexible"),
@@ -39,6 +45,7 @@ export default function QuotePage() {
   return (
     <main className="page-shell" style={{ maxWidth: 1000, margin: "0 auto", padding: "3rem 1.25rem 5rem" }}>
       <p className="eyebrow">Personalized Vacation Quotes</p>
+      {loaderData.style && <p>Planning a {loaderData.style.toLowerCase()} getaway? You’re in the right place.</p>}
       <h1>Your dream vacation, without the planning stress.</h1>
       <p className="lede" style={{ maxWidth: 680 }}>
         Tell us what you have in mind. We'll research resort availability and, if you prefer,

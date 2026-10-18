@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import { useFetcher } from "react-router";
 import { featuredCollection } from "../data/collections";
 import { collectionCards, portfolioSections } from "../lib/property-data";
 import { featuredTravelerStories } from "../lib/traveler-stories";
@@ -154,67 +152,10 @@ const heroHighlights = [
   },
 ];
 
-const travelerOptions = ["Couple", "Family", "Friends", "Group", "Destination Wedding"];
-const groupSizeOptions = ["2", "3-4", "5-6", "7+"];
-const tripPopupDelayMs = 120000;
-const popupBenefits = [
-  "Handpicked resort recommendations",
-  "Exclusive perks when available",
-  "Personalized itineraries",
-  "Expert advice from a travel advisor",
-  "No obligation to book",
-];
-
 const travelStyleCards = [
-  {
-    title: "Adults Only",
-    image: "/images/home-style-adults-only.jpg",
-    icon: "Palm",
-    priority: "Relaxation",
-    traveler: "Couple",
-  },
-  {
-    title: "Family",
-    image: "/images/home-style-family-beach.jpg",
-    icon: "Family",
-    priority: "Kids Activities",
-    traveler: "Family",
-  },
-  {
-    title: "Europe",
-    image: "/images/home-style-europe.jpg",
-    icon: "Hotel",
-    priority: "Food & Dining",
-    traveler: "Couple",
-  },
-  {
-    title: "Romance",
-    image: "/images/home-style-romantic-dinner.jpg",
-    icon: "Heart",
-    priority: "Romance",
-    traveler: "Couple",
-  },
-  {
-    title: "Spa & Wellness",
-    image: "/images/home-style-spa.jpg",
-    icon: "Spa",
-    priority: "Spa",
-    traveler: "Couple",
-  },
-  {
-    title: "Food & Drink",
-    image: "/images/home-style-food.jpg",
-    icon: "Dining",
-    priority: "Food & Dining",
-    traveler: "Friends",
-  },
-  {
-    title: "Adventure",
-    image: "/images/home-style-adventure.jpg",
-    icon: "Dive",
-    priority: "Beach",
-    traveler: "Friends",
-  },
+  { title: "Family Vacations", image: "/images/home-style-family-beach.jpg", icon: "Family", style: "Family" },
+  { title: "Adults-Only Escapes", image: "/images/home-style-adults-only.jpg", icon: "Palm", style: "Adults Only" },
+  { title: "Romantic Getaways", image: "/images/home-style-romantic-dinner.jpg", icon: "Heart", style: "Romance" },
 ];
 
 const partnerLogos = [
@@ -241,76 +182,7 @@ const partnerLogos = [
 ];
 const homepageStories = featuredTravelerStories(6);
 
-export default function Home({ loaderData }: Route.ComponentProps) {
-  const [leadName, setLeadName] = useState("");
-  const [leadEmail, setLeadEmail] = useState("");
-  const [leadDestination, setLeadDestination] = useState("");
-  const [leadTraveler, setLeadTraveler] = useState(travelerOptions[0]);
-  const [leadGroupSize, setLeadGroupSize] = useState(groupSizeOptions[0]);
-  const [leadPriorities, setLeadPriorities] = useState("Relaxation");
-  const [showTripPopup, setShowTripPopup] = useState(false);
-  const fetcher = useFetcher<SearchResponse>();
-  const leadFetcher = useFetcher<{ success?: boolean; message?: string }>();
-  const inquiryFetcher = useFetcher<{ success?: boolean; message?: string }>();
-  const results = fetcher.data?.destinations ?? [];
-  const hasSearch = fetcher.state !== "idle" || fetcher.data;
-
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    if (loaderData.initialInquiryNote || new URLSearchParams(window.location.search).get("popup") === "start") {
-      setShowTripPopup(true);
-      return;
-    }
-
-    if (window.sessionStorage.getItem("trip-popup-dismissed") === "true") {
-      return;
-    }
-
-    const timer = window.setTimeout(() => {
-      setShowTripPopup(true);
-    }, tripPopupDelayMs);
-
-    return () => window.clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    if (leadFetcher.data?.success) {
-      setLeadName("");
-      setLeadEmail("");
-      setLeadDestination("");
-      setLeadTraveler(travelerOptions[0]);
-      setLeadGroupSize(groupSizeOptions[0]);
-      setLeadPriorities("Relaxation");
-      setShowTripPopup(false);
-
-      if (typeof window !== "undefined") {
-        window.sessionStorage.setItem("trip-popup-dismissed", "true");
-      }
-    }
-  }, [leadFetcher.data]);
-
-  function closeTripPopup() {
-    setShowTripPopup(false);
-
-    if (typeof window !== "undefined") {
-      window.sessionStorage.setItem("trip-popup-dismissed", "true");
-    }
-  }
-
-  function openTripPopup() {
-    setShowTripPopup(true);
-  }
-
-  function openStylePlanner(style: (typeof travelStyleCards)[number]) {
-    setLeadTraveler(style.traveler);
-    setLeadGroupSize(style.traveler === "Family" ? "3-4" : style.traveler === "Group" ? "7+" : "2");
-    setLeadPriorities(style.priority);
-    setShowTripPopup(true);
-  }
-
+export default function Home() {
   return (
     <main className="luxe-home">
       <section
@@ -337,19 +209,19 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         <h2 id="travel-styles-heading">Find the perfect kind of escape.</h2>
         <div className="luxe-style-grid">
           {travelStyleCards.map((style) => (
-            <button
+            <a
               key={style.title}
               className="luxe-style-card"
-              type="button"
-              onClick={() => openStylePlanner(style)}
-              aria-label={`Start planning a ${style.title} trip`}
+              href={`/quote?style=${encodeURIComponent(style.style)}`}
+              aria-label={`Request a quote for ${style.title}`}
             >
               <img src={style.image} alt="" loading="lazy" decoding="async" />
               <span className="luxe-style-icon" aria-hidden="true">{style.icon}</span>
               <strong>{style.title}</strong>
-            </button>
+            </a>
           ))}
         </div>
+        <p style={{ textAlign: "center", marginTop: 24 }}><a href="/collections">Explore all resort collections →</a></p>
       </section>
 
       <section className="luxe-partners" aria-label="Preferred partners">
@@ -464,158 +336,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         </a>
       </section>
 
-      {showTripPopup ? (
-        <div className="trip-popup-backdrop" role="presentation">
-          <section
-            className="trip-popup"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="trip-popup-title"
-          >
-            <div className="trip-popup-visual">
-              <div className="trip-popup-visual-copy">
-                <h2>Let's build your <em>perfect</em> vacation.</h2>
-                <p>Share the essentials and we'll follow up with resort recommendations shaped around your trip.</p>
-              </div>
-              <div className="trip-popup-benefits" aria-label="When you inquire, you will receive">
-                {popupBenefits.map((benefit) => (
-                  <span key={benefit}>{benefit}</span>
-                ))}
-              </div>
-            </div>
-
-            <leadFetcher.Form className="trip-popup-form" method="post" action="/api/inquiry">
-              <button
-                className="trip-popup-close"
-                type="button"
-                aria-label="Close trip planner"
-                onClick={closeTripPopup}
-              >
-                ×
-              </button>
-
-              <p className="eyebrow">Start Planning</p>
-              <h2 id="trip-popup-title">Tell us about your dream trip.</h2>
-
-              <label className="trip-popup-field">
-                <span>Where would you like to go?</span>
-                <input
-                  name="destinationInterest"
-                  type="text"
-                  placeholder="Cancun, Italy, Hawaii..."
-                  value={leadDestination}
-                  onChange={(event) => setLeadDestination(event.target.value)}
-                  required
-                />
-              </label>
-
-              <div className="trip-popup-divider" />
-
-              <fieldset className="trip-popup-options">
-                <legend>Who's traveling?</legend>
-                <div>
-                  {travelerOptions.map((option) => (
-                    <button
-                      key={option}
-                      className={leadTraveler === option ? "is-selected" : ""}
-                      type="button"
-                      onClick={() => setLeadTraveler(option)}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              </fieldset>
-
-              <div className="trip-popup-divider" />
-
-              <fieldset className="trip-popup-options">
-                <legend>Approximate group size</legend>
-                <div>
-                  {groupSizeOptions.map((option) => (
-                    <button
-                      key={option}
-                      className={leadGroupSize === option ? "is-selected" : ""}
-                      type="button"
-                      onClick={() => setLeadGroupSize(option)}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              </fieldset>
-
-              <div className="trip-popup-divider" />
-
-              <label className="trip-popup-field">
-                <span>What matters most to you?</span>
-                <input
-                  name="tripPriorities"
-                  type="text"
-                  placeholder="Relaxation, beach, food, kids activities..."
-                  value={leadPriorities}
-                  onChange={(event) => setLeadPriorities(event.target.value)}
-                />
-              </label>
-
-              <div className="trip-popup-divider" />
-
-              <div className="trip-popup-contact">
-                <label className="trip-popup-field">
-                  <span>Your name</span>
-                  <input
-                    name="fullName"
-                    type="text"
-                    placeholder="First and last name"
-                    value={leadName}
-                    onChange={(event) => setLeadName(event.target.value)}
-                    required
-                  />
-                </label>
-                <label className="trip-popup-field">
-                  <span>Email address</span>
-                  <input
-                    name="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    value={leadEmail}
-                    onChange={(event) => setLeadEmail(event.target.value)}
-                    required
-                  />
-                </label>
-              </div>
-
-              <input type="hidden" name="tripStyle" value={leadTraveler} />
-              <input type="hidden" name="travelWindow" value="" />
-              <input
-                type="hidden"
-                name="notes"
-                value={`${loaderData.initialInquiryNote ? `${loaderData.initialInquiryNote} ` : ""}Popup lead capture. Traveler type: ${leadTraveler}. Approximate group size: ${leadGroupSize}. Priorities: ${
-                  leadPriorities.trim() || "Not selected"
-                }.`}
-              />
-              <input type="hidden" name="source" value="homepage-trip-popup" />
-
-              <button className="button button-primary trip-popup-submit" type="submit">
-                {leadFetcher.state === "submitting"
-                  ? "Sending..."
-                  : "Get my personalized recommendations"}
-                <span aria-hidden="true">-&gt;</span>
-              </button>
-
-              {leadFetcher.data?.message ? (
-                <p className="form-status">{leadFetcher.data.message}</p>
-              ) : null}
-
-              <div className="trip-popup-trust" aria-label="Planning assurances">
-                <span>Your information is never shared</span>
-                <span>Palace Pro Agency trusted advisor</span>
-                <span>No planning fee for qualifying bookings</span>
-              </div>
-            </leadFetcher.Form>
-          </section>
-        </div>
-      ) : null}
     </main>
   );
 }
