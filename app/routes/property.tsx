@@ -46,6 +46,7 @@ export function meta({ data }: Route.MetaArgs) {
 
   return [
     { title: `${data.property.name} | Premier Resort Travel` },
+    { tagName: "link", rel: "canonical", href: `https://premierresorttravels.com/properties/${encodeURIComponent(data.property.slug)}` },
     {
       name: "description",
       content: `${data.property.name} in ${data.property.location}. ${data.property.description}`,

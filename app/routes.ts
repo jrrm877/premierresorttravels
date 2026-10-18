@@ -2,6 +2,8 @@ import { index, route } from "@react-router/dev/routes";
 
 export default [
   index("routes/home.tsx"),
+  route("sitemap.xml", "routes/sitemap[.]xml.ts"),
+  route("robots.txt", "routes/robots[.]txt.ts"),
   route("api/search", "routes/api.search.ts"),
   route("api/inquiry", "routes/api.inquiry.ts"),
   route("advisor/inquiries", "routes/advisor.inquiries.tsx"),
