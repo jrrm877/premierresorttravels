@@ -26,6 +26,7 @@ export function meta({ data }: Route.MetaArgs) {
 
   return [
     { title: data.collection.seoTitle },
+    { tagName: "link", rel: "canonical", href: `https://premierresorttravels.com/collections/${data.collection.slug}` },
     {
       name: "description",
       content: data.collection.seoDescription,
@@ -57,6 +58,8 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
   const resorts = loaderData?.resorts ?? resortsForCollection(collection.resortIds);
   const relatedCollections = loaderData?.relatedCollections ?? getRelatedCollections(collection);
   const collectionUrl = `https://premierresorttravels.com/collections/${collection.slug}`;
+  const isWeddingCollection = collection.slug === "destination-weddings";
+  const quoteHref = `/quote?origin=collection&note=${encodeURIComponent(isWeddingCollection ? "I am planning a destination wedding. Please help compare all-inclusive resort options, guest room blocks, wedding events, and estimated group costs." : `Interested in ${collection.title} resorts. Please help me compare options.`)}`;
 
   const collectionSchema = {
     "@context": "https://schema.org",
@@ -139,12 +142,30 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
             <a className="button button-primary" href="#collection-resorts">
               View Resorts
             </a>
-            <a className="button button-secondary" href="/quote">
-              Plan This Style
+            <a className="button button-secondary" href={quoteHref}>
+              {isWeddingCollection ? "Plan My Destination Wedding" : "Plan This Style"}
             </a>
           </div>
         </div>
       </section>
+
+      {isWeddingCollection ? (
+        <section className="property-details" aria-label="All-inclusive destination wedding planning">
+          <div className="section-heading section-heading-stack">
+            <div>
+              <p className="eyebrow">All-Inclusive Destination Wedding Planning</p>
+              <h2>Compare wedding resorts around your guest list, not just the ceremony</h2>
+            </div>
+            <p className="section-copy">Start with your destination, estimated guest count, and preferred dates. We can help narrow resorts by room options, family-friendly or adults-only atmosphere, group logistics, and the events you envision. Wedding packages, inclusions, and pricing vary by property and date.</p>
+          </div>
+          <div className="planning-grid">
+            <article className="planning-card"><h3>Guest rooms and group needs</h3><p>Compare accommodation styles, possible room-block arrangements, and whether the resort suits children, adults, or a mixed guest list.</p></article>
+            <article className="planning-card"><h3>Ceremony and celebration priorities</h3><p>Identify the ceremony setting, welcome gathering, reception preferences, and questions to confirm with each resort wedding team.</p></article>
+            <article className="planning-card"><h3>Realistic trip costs</h3><p>Ask about travel dates, guest budgets, room categories, and package terms before assuming a promotion or wedding inclusion applies.</p></article>
+          </div>
+          <div className="hero-actions"><a className="button button-primary" href={quoteHref}>Request Wedding Resort Options</a><a className="button button-secondary" href="/journal/best-palace-resorts-for-destination-weddings">Read the Palace Resorts Wedding Guide</a></div>
+        </section>
+      ) : null}
 
       <section className="property-details">
         <div className="section-heading section-heading-stack">
@@ -219,7 +240,7 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
                 <a className="button button-secondary" href={`/properties/${resort.slug}`}>
                   Explore Resort
                 </a>
-                <a className="text-link" href={`/?popup=start&note=${encodeURIComponent(collection.title)}`}>
+                <a className="text-link" href={quoteHref}>
                   Start Planning
                 </a>
               </div>
@@ -284,8 +305,8 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
           <h2>Want help choosing within {collection.title}?</h2>
           <p>We will compare the best-fit resorts around your dates, travelers, and priorities.</p>
         </div>
-        <a className="button button-primary" href={`/?popup=start&note=${encodeURIComponent(collection.title)}`}>
-          Start Planning
+        <a className="button button-primary" href={quoteHref}>
+          {isWeddingCollection ? "Request Wedding Planning Help" : "Start Planning"}
         </a>
       </section>
     </main>
