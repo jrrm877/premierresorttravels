@@ -61,7 +61,7 @@ export const collectionCards: CollectionCard[] = [
       "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/637bgbt7q51510amjja22f7o2b/240?angle=0"
     )!,
     cta: "Explore adults-only stays",
-    href: "/collections/adults-only-resorts",
+    href: "/collections/adults-only",
   },
   {
     title: "Family resorts with range",
@@ -71,7 +71,7 @@ export const collectionCards: CollectionCard[] = [
       "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/4parh4uc8p5gj5t9vpsd4n3j34/240?angle=0"
     )!,
     cta: "See family favorites",
-    href: "/collections/family-flagship-resorts",
+    href: "/collections/family-friendly",
   },
   {
     title: "European icons and hideaways",
@@ -81,7 +81,7 @@ export const collectionCards: CollectionCard[] = [
       "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/416ej5192t3u12ehio6ks1me4m/240?angle=0"
     )!,
     cta: "Browse European stays",
-    href: "/collections/european-icon-hotels",
+    href: "/collections/european-luxury",
   },
 ];
 
@@ -96,7 +96,7 @@ export const journalPosts: JournalPost[] = [
       "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/2eel4s41k15j9anvu6kp927m2e/240?angle=0"
     )!,
     readTime: "4 min read",
-    collectionHref: "/collections/adults-only-resorts",
+    collectionHref: "/collections/adults-only",
     cta: "Read the couples guide",
     featuredPropertySlugs: ["sun-palace", "le-blanc-spa-resort-cancun", "le-blanc-spa-resort-los-cabos"],
     sections: [
@@ -127,7 +127,7 @@ export const journalPosts: JournalPost[] = [
       "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/oe0r882lrt1u506d70ulkn7s35/240?angle=0"
     )!,
     readTime: "5 min read",
-    collectionHref: "/collections/family-flagship-resorts",
+    collectionHref: "/collections/family-friendly",
     cta: "Read the family guide",
     featuredPropertySlugs: [
       "moon-palace-the-grand-cancun",
@@ -162,7 +162,7 @@ export const journalPosts: JournalPost[] = [
       "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/8clg2ggog92c3fe5139cap356q/240?angle=0"
     )!,
     readTime: "4 min read",
-    collectionHref: "/collections/european-icon-hotels",
+    collectionHref: "/collections/european-luxury",
     cta: "Read the Europe guide",
     featuredPropertySlugs: ["baglioni-hotel-luna", "baglioni-hotel-regina", "casa-baglioni"],
     sections: [
@@ -193,7 +193,7 @@ export const journalPosts: JournalPost[] = [
       "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/4parh4uc8p5gj5t9vpsd4n3j34/240?angle=0"
     )!,
     readTime: "6 min read",
-    collectionHref: "/collections/family-flagship-resorts",
+    collectionHref: "/collections/family-friendly",
     cta: "Read the Cancun family guide",
     featuredPropertySlugs: ["moon-palace-the-grand-cancun", "moon-palace-cancun", "beach-palace"],
     sections: [
@@ -224,7 +224,7 @@ export const journalPosts: JournalPost[] = [
       "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/lslu08vvvl1qdfuqoa06ptdn59/240?angle=0"
     )!,
     readTime: "5 min read",
-    collectionHref: "/collections/le-blanc-spa-resorts",
+    collectionHref: "/collections/adults-only",
     cta: "Compare Le Blanc resorts",
     featuredPropertySlugs: ["le-blanc-spa-resort-cancun", "le-blanc-spa-resort-los-cabos"],
     sections: [
@@ -253,7 +253,7 @@ export const journalPosts: JournalPost[] = [
       "Find the Palace and Moon Palace resorts that work best for wedding groups, room blocks, guest activities, and a smoother destination wedding week.",
     image: catalogImage("beach-wedding-white-sand.jpg"),
     readTime: "6 min read",
-    collectionHref: "/collections/palace-resorts",
+    collectionHref: "/collections/family-friendly",
     cta: "Read the wedding guide",
     featuredPropertySlugs: ["moon-palace-the-grand-cancun", "moon-palace-cancun", "playacar-palace"],
     sections: [
@@ -284,7 +284,7 @@ export const journalPosts: JournalPost[] = [
       "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/4parh4uc8p5gj5t9vpsd4n3j34/240?angle=0"
     )!,
     readTime: "7 min read",
-    collectionHref: "/collections/family-flagship-resorts",
+    collectionHref: "/collections/family-friendly",
     cta: "Read The Grand guide",
     featuredPropertySlugs: ["moon-palace-the-grand-cancun"],
     sections: [
@@ -313,7 +313,7 @@ export const journalPosts: JournalPost[] = [
       "A couples-focused guide to Cancun adults-only resorts with beach views, spa time, elevated dining, and a quieter all-inclusive experience.",
     image: catalogImage("poolside-cabana-daybed.jpg"),
     readTime: "5 min read",
-    collectionHref: "/collections/adults-only-resorts",
+    collectionHref: "/collections/adults-only",
     cta: "Read the honeymoon guide",
     featuredPropertySlugs: ["sun-palace", "le-blanc-spa-resort-cancun"],
     sections: [
@@ -342,7 +342,7 @@ export const journalPosts: JournalPost[] = [
       "How to choose a Mexico all-inclusive resort with enough independence, activities, food choices, and space for older kids and teens.",
     image: catalogImage("kids-resort-waterpark.jpg"),
     readTime: "5 min read",
-    collectionHref: "/collections/family-flagship-resorts",
+    collectionHref: "/collections/family-friendly",
     cta: "Read the teen resort guide",
     featuredPropertySlugs: ["moon-palace-the-grand-cancun", "moon-palace-cancun", "moon-palace-jamaica"],
     sections: [
@@ -373,7 +373,7 @@ export const journalPosts: JournalPost[] = [
       "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/grr1mp7f6h1q569etitj2r0f3m/240?angle=0"
     )!,
     readTime: "6 min read",
-    collectionHref: "/collections/palace-resorts",
+    collectionHref: "/collections/family-friendly",
     cta: "Read the destination comparison",
     featuredPropertySlugs: ["beach-palace", "moon-palace-cancun", "playacar-palace"],
     sections: [
@@ -404,7 +404,7 @@ export const journalPosts: JournalPost[] = [
       "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/oe0r882lrt1u506d70ulkn7s35/240?angle=0"
     )!,
     readTime: "4 min read",
-    collectionHref: "/collections/palace-resorts",
+    collectionHref: "/collections/family-friendly",
     cta: "Read the transfer guide",
     featuredPropertySlugs: ["moon-palace-cancun", "moon-palace-the-grand-cancun", "sun-palace"],
     sections: [
@@ -491,7 +491,7 @@ export const journalPosts: JournalPost[] = [
       "A guide to choosing a Mexico spa resort for couples, including treatment style, atmosphere, dining, rooms, and adults-only options.",
     image: catalogImage("spa-hydrotherapy-pool.jpg"),
     readTime: "5 min read",
-    collectionHref: "/collections/adults-only-resorts",
+    collectionHref: "/collections/adults-only",
     cta: "Read the spa guide",
     featuredPropertySlugs: ["le-blanc-spa-resort-cancun", "le-blanc-spa-resort-los-cabos", "sun-palace"],
     sections: [
@@ -522,7 +522,7 @@ export const journalPosts: JournalPost[] = [
       "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/c52nfg6ckt4lr1r36pdi96fd7u/240?angle=0"
     )!,
     readTime: "5 min read",
-    collectionHref: "/collections/family-flagship-resorts",
+    collectionHref: "/collections/family-friendly",
     cta: "Read the water park guide",
     featuredPropertySlugs: ["moon-palace-the-grand-cancun", "moon-palace-jamaica", "moon-palace-the-grand-punta-cana"],
     sections: [
@@ -551,7 +551,7 @@ export const journalPosts: JournalPost[] = [
       "Why Cozumel Palace is a natural fit for divers, snorkelers, and travelers who want reef access with all-inclusive comfort.",
     image: catalogImage("turquoise-water-aerial.jpg"),
     readTime: "5 min read",
-    collectionHref: "/collections/palace-resorts",
+    collectionHref: "/collections/family-friendly",
     cta: "Read the Cozumel guide",
     featuredPropertySlugs: ["cozumel-palace"],
     sections: [
@@ -582,7 +582,7 @@ export const journalPosts: JournalPost[] = [
       "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/grr1mp7f6h1q569etitj2r0f3m/240?angle=0"
     )!,
     readTime: "4 min read",
-    collectionHref: "/collections/palace-resorts",
+    collectionHref: "/collections/family-friendly",
     cta: "Read the Playacar guide",
     featuredPropertySlugs: ["playacar-palace"],
     sections: [
@@ -613,7 +613,7 @@ export const journalPosts: JournalPost[] = [
       "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/3lverrm7gl48r759qtvus92n1e/240?angle=0"
     )!,
     readTime: "4 min read",
-    collectionHref: "/collections/palace-resorts",
+    collectionHref: "/collections/family-friendly",
     cta: "Read the Beach Palace guide",
     featuredPropertySlugs: ["beach-palace"],
     sections: [
@@ -644,7 +644,7 @@ export const journalPosts: JournalPost[] = [
       "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/c52nfg6ckt4lr1r36pdi96fd7u/240?angle=0"
     )!,
     readTime: "5 min read",
-    collectionHref: "/collections/family-flagship-resorts",
+    collectionHref: "/collections/family-friendly",
     cta: "Read the Jamaica guide",
     featuredPropertySlugs: ["moon-palace-jamaica"],
     sections: [
@@ -706,7 +706,7 @@ export const journalPosts: JournalPost[] = [
       "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/416ej5192t3u12ehio6ks1me4m/240?angle=0"
     )!,
     readTime: "7 min read",
-    collectionHref: "/collections/european-icon-hotels",
+    collectionHref: "/collections/european-luxury",
     cta: "Read the Italy itinerary",
     featuredPropertySlugs: ["baglioni-hotel-luna", "baglioni-hotel-regina", "casa-baglioni", "palazzo-firenze"],
     sections: [
@@ -796,7 +796,7 @@ export const portfolioSections: PortfolioSection[] = [
     description:
       "These resorts are strong for travelers who want a familiar luxury beach experience with a polished all-inclusive format, convenient locations, and broad appeal.",
     accent: "accent-coral",
-    href: "/collections/palace-resorts",
+    href: "/collections/family-friendly",
     properties: [
       {
         slug: "beach-palace",
@@ -948,7 +948,7 @@ export const portfolioSections: PortfolioSection[] = [
     description:
       "Le Blanc suits travelers prioritizing elevated dining, spa-led relaxation, and a more sophisticated all-inclusive atmosphere.",
     accent: "accent-sage",
-    href: "/collections/le-blanc-spa-resorts",
+    href: "/collections/adults-only",
     properties: [
       {
         slug: "le-blanc-spa-resort-cancun",
