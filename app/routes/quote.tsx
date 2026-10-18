@@ -39,7 +39,7 @@ export default function QuotePage() {
   return (
     <main className="page-shell" style={{ maxWidth: 1000, margin: "0 auto", padding: "3rem 1.25rem 5rem" }}>
       <p className="eyebrow">Personalized Vacation Quotes</p>
-      <h1>Find your next getaway, without the guesswork.</h1>
+      <h1>Your dream vacation, without the planning stress.</h1>
       <p className="lede" style={{ maxWidth: 680 }}>
         Tell us what you have in mind. We'll research resort availability and, if you prefer,
         airfare options too. No obligation to book.
@@ -65,7 +65,7 @@ export default function QuotePage() {
               </div>
             </fieldset>
             <label style={{ display: "grid", gap: 6 }}>Destination or preferred resort
-              <input name="destinationInterest" value={destination} onChange={e => setDestination(e.target.value)} required placeholder="Cancun, Moon Palace, or open to ideas" style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} />
+              <input name="destinationInterest" value={destination.trim() || "Open to ideas"} onChange={e => setDestination(e.target.value)} placeholder="Cancun, Moon Palace, or open to ideas" style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} />
             </label>
             {includeFlights && <label style={{ display: "grid", gap: 6 }}>Departure airport or city
               <input value={airport} onChange={e => setAirport(e.target.value)} required placeholder="Des Moines (DSM)" style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} />
@@ -87,7 +87,7 @@ export default function QuotePage() {
             <p style={{ fontSize: 14, margin: 0 }}>This is a request for an advisor-prepared quote, not a live-price search or booking. Rates, availability, and airfare are subject to confirmation. Your details are used to respond to your inquiry.</p>
             {invalidDates && <p role="alert">Check-out must be after check-in.</p>}
             {fetcher.data?.success === false && <p role="alert">{fetcher.data.message ?? "Please try again."}</p>}
-            <button className="button button-primary" type="submit" disabled={sending || invalidDates}>{sending ? "Sending request..." : "Request my vacation quote"}</button>
+            <button className="button button-primary" type="submit" disabled={sending || invalidDates}>{sending ? "Sending request..." : "Get My Free Vacation Quote"}</button>
           </fetcher.Form>
         )}
       </div>
