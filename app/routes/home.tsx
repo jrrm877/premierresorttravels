@@ -326,9 +326,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             <span>made personal.</span>
           </h1>
           <p>Thoughtful recommendations. Exclusive perks. Unforgettable vacations chosen around you.</p>
-          <button className="button button-primary luxe-hero-cta" type="button" onClick={openTripPopup}>
-            Start Planning
-          </button>
+          <a className="button button-primary luxe-hero-cta" href="/quote">
+            Get a Vacation Quote
+          </a>
         </div>
       </section>
 
