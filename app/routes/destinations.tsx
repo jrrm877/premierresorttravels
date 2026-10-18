@@ -2,14 +2,14 @@ import { useMemo, useState, type CSSProperties } from "react";
 import { findPropertyBySlug } from "../lib/property-data";
 import type { Route } from "./+types/destinations";
 
-const imageFor = (slug: string, fallback: string) => findPropertyBySlug(slug)?.image ?? fallback;
+const imageFor = (slug: string) => findPropertyBySlug(slug)?.image;
 const catalogImage = (name: string) => `/images/catalog/${name}`;
 
 const destinationCards = [
   {
     name: "Cancun, Mexico",
     count: "Explore our Cancun collection",
-    image: imageFor("moon-palace-the-grand-cancun", catalogImage("family-resort-pool.jpg")),
+    image: imageFor("moon-palace-the-grand-cancun"),
     resorts: ["Moon Palace", "Beach Palace", "Sun Palace", "Le Blanc Cancun"],
     href: "/collections/palace-resorts",
   },
@@ -17,21 +17,21 @@ const destinationCards = [
     name: "Riviera Maya",
     subtitle: "Playa del Carmen",
     count: "Explore this resort",
-    image: imageFor("playacar-palace", catalogImage("wide-beachfront-resort.jpg")),
+    image: imageFor("playacar-palace"),
     resorts: ["Playacar Palace"],
     href: "/properties/playacar-palace",
   },
   {
     name: "Cozumel, Mexico",
     count: "Explore this resort",
-    image: imageFor("cozumel-palace", catalogImage("turquoise-water-aerial.jpg")),
+    image: imageFor("cozumel-palace"),
     resorts: ["Cozumel Palace"],
     href: "/properties/cozumel-palace",
   },
   {
     name: "Jamaica",
     count: "Explore this resort",
-    image: imageFor("moon-palace-jamaica", catalogImage("family-pool-swim.jpg")),
+    image: imageFor("moon-palace-jamaica"),
     resorts: ["Moon Palace Jamaica"],
     href: "/properties/moon-palace-jamaica",
   },
@@ -39,28 +39,28 @@ const destinationCards = [
     name: "Punta Cana",
     subtitle: "Dominican Republic",
     count: "Explore this resort",
-    image: imageFor("moon-palace-the-grand-punta-cana", catalogImage("resort-pool-aerial.jpg")),
+    image: imageFor("moon-palace-the-grand-punta-cana"),
     resorts: ["Moon Palace The Grand Punta Cana"],
     href: "/properties/moon-palace-the-grand-punta-cana",
   },
   {
     name: "Los Cabos, Mexico",
     count: "Explore this resort",
-    image: imageFor("le-blanc-spa-resort-los-cabos", catalogImage("los-cabos-coastline.jpg")),
+    image: imageFor("le-blanc-spa-resort-los-cabos"),
     resorts: ["Le Blanc Spa Resort Los Cabos"],
     href: "/properties/le-blanc-spa-resort-los-cabos",
   },
   {
     name: "Italy",
     count: "Explore Baglioni properties",
-    image: imageFor("baglioni-hotel-luna", catalogImage("grand-hotel-lobby.jpg")),
+    image: imageFor("baglioni-hotel-luna"),
     resorts: ["Venice", "Rome", "Milan", "Puglia", "Sardinia"],
     href: "/collections/european-luxury",
   },
   {
     name: "Maldives",
     count: "Explore Baglioni properties",
-    image: imageFor("baglioni-resort-maldives", catalogImage("turquoise-water-aerial.jpg")),
+    image: imageFor("baglioni-resort-maldives"),
     resorts: ["Baglioni Resort Maldives"],
     href: "/properties/baglioni-resort-maldives",
   },
@@ -70,28 +70,28 @@ const brandCards = [
   {
     name: "Moon Palace",
     label: "Family Luxury",
-    image: imageFor("moon-palace-the-grand-cancun", catalogImage("family-resort-pool.jpg")),
+    image: imageFor("moon-palace-the-grand-cancun"),
     copy: "Big-resort energy with broad dining, activities, and unforgettable memories.",
     href: "/collections/moon-palace",
   },
   {
     name: "Le Blanc",
     label: "Adults Only Luxury",
-    image: imageFor("le-blanc-spa-resort-cancun", catalogImage("spa-hydrotherapy-pool.jpg")),
+    image: imageFor("le-blanc-spa-resort-cancun"),
     copy: "Elevated adults-only resorts with service, spa, and fine dining.",
     href: "/collections/le-blanc-spa-resorts",
   },
   {
     name: "Palace Resorts",
     label: "Classic All-Inclusive",
-    image: imageFor("beach-palace", catalogImage("white-sand-beach.jpg")),
+    image: imageFor("beach-palace"),
     copy: "Timeless resorts in iconic beach destinations with everything you need.",
     href: "/collections/palace-resorts",
   },
   {
     name: "Baglioni",
     label: "European & Island Escapes",
-    image: imageFor("baglioni-hotel-luna", catalogImage("ornate-hotel-dining-room.jpg")),
+    image: imageFor("baglioni-hotel-luna"),
     copy: "Luxury hotels in captivating cities, coastlines, and islands.",
     href: "/collections/baglioni-city-hotels",
   },
@@ -107,12 +107,12 @@ const resortMatches = [
 ];
 
 const memoryImages = [
-  imageFor("sun-palace", catalogImage("poolside-cabana-daybed.jpg")),
+  imageFor("sun-palace"),
   catalogImage("wide-beachfront-resort.jpg"),
   "/images/about-north-america-cozumel-south-dive.jpeg",
   catalogImage("private-terrace-dining.jpg"),
   catalogImage("family-resort-pool.jpg"),
-  imageFor("moon-palace-jamaica", catalogImage("resort-evening-waterfront.jpg")),
+  imageFor("moon-palace-jamaica"),
 ];
 
 const bookingBenefits = [
@@ -291,7 +291,7 @@ export default function DestinationsPage() {
         <div className="destination-tile-grid">
           {visibleDestinations.map((destination) => (
             <a key={destination.name} className="destination-tile-card" href={destination.href}>
-              <img src={destination.image} alt="" loading="lazy" decoding="async" />
+              {destination.image ? <img src={destination.image} alt="" loading="lazy" decoding="async" /> : null}
               <div>
                 <h3>{destination.name}</h3>
                 {destination.subtitle ? <p className="destination-subtitle">{destination.subtitle}</p> : null}
@@ -313,7 +313,7 @@ export default function DestinationsPage() {
         <div className="destination-brand-grid">
           {brandCards.map((brand) => (
             <a key={brand.name} className="destination-brand-card" href={brand.href}>
-              <img src={brand.image} alt="" loading="lazy" decoding="async" />
+              {brand.image ? <img src={brand.image} alt="" loading="lazy" decoding="async" /> : null}
               <div>
                 <h3>{brand.name}</h3>
                 <strong>{brand.label}</strong>
@@ -362,7 +362,7 @@ export default function DestinationsPage() {
           <div className="map-legend" aria-label="Mapped destinations">
             {mapDestinations.map((destination) => (
               <a key={destination.name} href={destination.href} className="map-legend-item">
-                <img src={destination.image} alt="" loading="lazy" decoding="async" />
+                {destination.image ? <img src={destination.image} alt="" loading="lazy" decoding="async" /> : null}
                 <span>{destination.name}</span>
               </a>
             ))}
@@ -380,7 +380,7 @@ export default function DestinationsPage() {
         </div>
         <div className="destinations-memory-row">
           {memoryImages.map((image, index) => (
-            <img key={`${image}-${index}`} src={image} alt="" loading="lazy" decoding="async" />
+            image ? <img key={`${image}-${index}`} src={image} alt="" loading="lazy" decoding="async" /> : null
           ))}
         </div>
       </section>
