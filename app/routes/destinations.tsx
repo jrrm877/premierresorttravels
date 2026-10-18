@@ -8,7 +8,7 @@ const catalogImage = (name: string) => `/images/catalog/${name}`;
 const destinationCards = [
   {
     name: "Cancun, Mexico",
-    count: "6 resorts",
+    count: "Explore our Cancun collection",
     image: imageFor("moon-palace-the-grand-cancun", catalogImage("family-resort-pool.jpg")),
     resorts: ["Moon Palace", "Beach Palace", "Sun Palace", "Le Blanc Cancun"],
     href: "/collections/palace-resorts",
@@ -16,21 +16,21 @@ const destinationCards = [
   {
     name: "Riviera Maya",
     subtitle: "Playa del Carmen",
-    count: "1 resort",
+    count: "Explore this resort",
     image: imageFor("playacar-palace", catalogImage("wide-beachfront-resort.jpg")),
     resorts: ["Playacar Palace"],
     href: "/properties/playacar-palace",
   },
   {
     name: "Cozumel, Mexico",
-    count: "1 resort",
+    count: "Explore this resort",
     image: imageFor("cozumel-palace", catalogImage("turquoise-water-aerial.jpg")),
     resorts: ["Cozumel Palace"],
     href: "/properties/cozumel-palace",
   },
   {
     name: "Jamaica",
-    count: "1 resort",
+    count: "Explore this resort",
     image: imageFor("moon-palace-jamaica", catalogImage("family-pool-swim.jpg")),
     resorts: ["Moon Palace Jamaica"],
     href: "/properties/moon-palace-jamaica",
@@ -38,28 +38,28 @@ const destinationCards = [
   {
     name: "Punta Cana",
     subtitle: "Dominican Republic",
-    count: "1 resort",
+    count: "Explore this resort",
     image: imageFor("moon-palace-the-grand-punta-cana", catalogImage("resort-pool-aerial.jpg")),
     resorts: ["Moon Palace The Grand Punta Cana"],
     href: "/properties/moon-palace-the-grand-punta-cana",
   },
   {
     name: "Los Cabos, Mexico",
-    count: "1 resort",
+    count: "Explore this resort",
     image: imageFor("le-blanc-spa-resort-los-cabos", catalogImage("los-cabos-coastline.jpg")),
     resorts: ["Le Blanc Spa Resort Los Cabos"],
     href: "/properties/le-blanc-spa-resort-los-cabos",
   },
   {
     name: "Italy",
-    count: "Baglioni Collection",
+    count: "Explore Baglioni properties",
     image: imageFor("baglioni-hotel-luna", catalogImage("grand-hotel-lobby.jpg")),
     resorts: ["Venice", "Rome", "Milan", "Puglia", "Sardinia"],
     href: "/collections/european-luxury",
   },
   {
     name: "Maldives",
-    count: "Baglioni Collection",
+    count: "Explore Baglioni properties",
     image: imageFor("baglioni-resort-maldives", catalogImage("turquoise-water-aerial.jpg")),
     resorts: ["Baglioni Resort Maldives"],
     href: "/properties/baglioni-resort-maldives",
@@ -101,9 +101,9 @@ const resortMatches = [
   ["Traveling with Kids", "Moon Palace The Grand Cancun", "/properties/moon-palace-the-grand-cancun"],
   ["Adults Only Escape", "Le Blanc Cancun", "/properties/le-blanc-spa-resort-cancun"],
   ["Best for Diving", "Cozumel Palace", "/properties/cozumel-palace"],
-  ["Closest to Airport", "Beach Palace", "/properties/beach-palace"],
+  ["Cancun Beachfront Stay", "Beach Palace", "/properties/beach-palace"],
   ["Playa del Carmen Access", "Playacar Palace", "/properties/playacar-palace"],
-  ["Newest in Punta Cana", "Moon Palace The Grand Punta Cana", "/properties/moon-palace-the-grand-punta-cana"],
+  ["Punta Cana Escape", "Moon Palace The Grand Punta Cana", "/properties/moon-palace-the-grand-punta-cana"],
 ];
 
 const memoryImages = [
