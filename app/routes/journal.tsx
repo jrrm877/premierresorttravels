@@ -33,7 +33,7 @@ export function meta({ data }: Route.MetaArgs) {
 export default function JournalPage({ loaderData }: Route.ComponentProps) {
   const { post, featuredProperties } = loaderData;
   const inquiryNote = `I read "${post.title}" and would like help comparing resorts and planning a trip.`;
-  const inquiryHref = `/?popup=start&note=${encodeURIComponent(inquiryNote)}`;
+  const inquiryHref = `/quote?origin=journal&note=${encodeURIComponent(inquiryNote)}`;
 
   return (
     <main className="page-shell">
@@ -119,7 +119,7 @@ export default function JournalPage({ loaderData }: Route.ComponentProps) {
                 <a className="button button-secondary" href={`/properties/${property.slug}`}>
                   View property
                 </a>
-                <a className="text-link" href={`/?popup=start&note=${encodeURIComponent(`Interested in ${property.name} after reading ${post.title}`)}`}>
+                <a className="text-link" href={`/quote?origin=journal&resort=${encodeURIComponent(property.name)}&note=${encodeURIComponent(`Interested in ${property.name} after reading ${post.title}`)}`}>
                   Request options
                 </a>
               </div>
