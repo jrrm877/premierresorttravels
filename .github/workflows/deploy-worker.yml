@@ -51,7 +51,31 @@ jobs:
         run: npm run typecheck
       - name: Build Worker and client
         run: npm run build
+      - name: Capture currently active Worker version for rollback
+        id: previous
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          npx wrangler deployments list --name luxury-travel --json > /tmp/worker-deployments-before.json
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const raw = JSON.parse(fs.readFileSync('/tmp/worker-deployments-before.json', 'utf8'));
+          const deployments = Array.isArray(raw) ? raw : raw.deployments;
+          if (!Array.isArray(deployments) || !deployments.length) throw new Error('Cannot identify current deployment');
+          const latest = [...deployments].sort((a,b) => Date.parse(b.created_on ?? b.createdAt ?? 0)-Date.parse(a.created_on ?? a.createdAt ?? 0))[0];
+          const versions = latest.versions;
+          if (!Array.isArray(versions) || versions.length !== 1) throw new Error('Expected exactly one active version; refusing unsafe rollback target');
+          const version = versions[0];
+          const id = version.version_id ?? version.id;
+          if (!/^[a-f0-9]{8}-[a-f0-9-]{27,}$/i.test(id ?? '')) throw new Error('Missing valid rollback version ID');
+          if (Number(version.percentage ?? 100) !== 100) throw new Error('Active deployment is not at 100%; refusing automatic rollback');
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, 'version_id='+id+'\n');
+          console.log('Saved pre-deployment Worker version for emergency rollback');
+          NODE
       - name: Deploy to existing luxury-travel Worker
+        id: deploy
         run: npm run deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -74,3 +98,14 @@ jobs:
               exit 1
             fi
           done
+      - name: Automatically restore previous Worker if live health checks fail
+        if: ${{ failure() && steps.previous.outputs.version_id != '' && steps.deploy.outcome == 'success' }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PREVIOUS_VERSION: ${{ steps.previous.outputs.version_id }}
+        run: |
+          set -euo pipefail
+          echo "::warning::Production health check failed; restoring previous Worker version"
+          npx wrangler rollback "$PREVIOUS_VERSION" --name luxury-travel --message "Automated rollback after failed production health checks"
+          echo "::error::Production release failed health checks and automatic rollback was requested. Verify Cloudflare production health."
