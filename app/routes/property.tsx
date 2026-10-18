@@ -45,7 +45,7 @@ export function meta({ data }: Route.MetaArgs) {
   }
 
   return [
-    { title: `${data.property.name} | Premier Resort Travel` },
+    { title: `${data.property.name} | Resort Guide & Personalized Quotes | Premier Resort Travel` },
     { tagName: "link", rel: "canonical", href: `https://premierresorttravels.com/properties/${encodeURIComponent(data.property.slug)}` },
     {
       name: "description",
@@ -58,6 +58,21 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
   const { property, related, source, travelerStories } = loaderData;
   const collectionHref = findCollectionHrefForProperty(property.slug);
   const quoteHref = `/quote?resort=${encodeURIComponent(property.name)}&origin=property`;
+  const comparisonGuides: Record<string, { href: string; title: string }[]> = {
+    "moon-palace-the-grand-cancun": [
+      { href: "/journal/moon-palace-the-grand-cancun-family-guide", title: "Moon Palace The Grand Cancun family guide" },
+      { href: "/journal/best-all-inclusive-resorts-in-cancun-for-families", title: "Compare Cancun family resorts" },
+    ],
+    "le-blanc-spa-resort-cancun": [
+      { href: "/journal/le-blanc-cancun-vs-le-blanc-los-cabos", title: "Le Blanc Cancun vs. Los Cabos" },
+      { href: "/journal/best-adults-only-resorts-in-cancun-for-honeymoons", title: "Adults-only Cancun honeymoon guide" },
+    ],
+    "le-blanc-spa-resort-los-cabos": [
+      { href: "/journal/le-blanc-cancun-vs-le-blanc-los-cabos", title: "Le Blanc Cancun vs. Los Cabos" },
+    ],
+  };
+  const comparisonLinks = comparisonGuides[property.slug] ?? [];
+
 
   return (
     <main className="page-shell">
@@ -124,6 +139,31 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
           </article>
         </div>
       </section>
+
+      {comparisonLinks.length > 0 ? (
+        <section className="property-details" aria-label="Resort comparison guides">
+          <div className="section-heading section-heading-stack">
+            <div>
+              <p className="eyebrow">Compare Before You Book</p>
+              <h2>Find the right fit for your vacation</h2>
+            </div>
+          </div>
+          <div className="property-detail-grid">
+            {comparisonLinks.map((guide) => (
+              <article className="planning-card" key={guide.href}>
+                <h3>{guide.title}</h3>
+                <p>Explore this guide before choosing your resort.</p>
+                <a className="text-link" href={guide.href}>Read the guide</a>
+              </article>
+            ))}
+            <article className="planning-card">
+              <h3>Ready to compare prices for your trip?</h3>
+              <p>Request personalized options with your resort already selected. Rates and availability are confirmed when quoted.</p>
+              <a className="button button-primary" href={quoteHref}>Request a Quote</a>
+            </article>
+          </div>
+        </section>
+      ) : null}
 
       <section className="related-properties">
         {travelerStories.length ? (
