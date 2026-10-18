@@ -1,3 +1,4 @@
+import { requireAdvisorAccess } from "../lib/advisor-access";
 import type { Route } from "./+types/advisor.inquiries";
 
 type InquiryRecord = {
@@ -41,7 +42,8 @@ function leadAttribution(inquiry: InquiryRecord) {
   return { origin: origin === "Resort detail page" ? "Resort detail page" : origin === "General quote page" ? "General quote page" : "Unattributed", resort: origin === "Resort detail page" ? resort : null };
 }
 
-export async function loader({ context }: Route.LoaderArgs) {
+export async function loader({ request, context }: Route.LoaderArgs) {
+  requireAdvisorAccess(request, context.cloudflare.env);
   const { DB } = context.cloudflare.env;
 
   const [{ results: inquiries }, { results: stats }] = await Promise.all([
