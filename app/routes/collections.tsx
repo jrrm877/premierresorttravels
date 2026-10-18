@@ -88,28 +88,14 @@ export default function CollectionsIndexPage({ loaderData }: Route.ComponentProp
         </div>
       </section>
 
-      <section className="collections-finder" aria-labelledby="collections-filter-heading">
-        <div className="section-heading section-heading-stack">
-          <div>
-            <p className="eyebrow">Hotel Collections</p>
-            <h2 id="collections-filter-heading">Five collection families. A clearer place to start.</h2>
-          </div>
-          <p className="section-copy">
-            Instead of overwhelming travelers with every possible trip style, this page now keeps
-            the collection layer centered on the brand families Premier Resort Travel works with most.
-          </p>
-        </div>
-      </section>
-
       <section className="collections-style-section" aria-labelledby="collections-grid-heading">
         <div className="section-heading section-heading-stack">
           <div>
             <p className="eyebrow">Curated Collections</p>
-            <h2 id="collections-grid-heading">Browse the hotel families we recommend first.</h2>
+            <h2 id="collections-grid-heading">Find your perfect resort collection.</h2>
           </div>
           <p className="section-copy">
-            Every card opens a dedicated collection page with resort matches, FAQs, related
-            collections, and a simple inquiry path.
+            Explore five carefully selected hotel and resort collections. Choose a brand to discover destinations, properties, and personalized travel options.
           </p>
         </div>
 
@@ -150,7 +136,7 @@ export default function CollectionsIndexPage({ loaderData }: Route.ComponentProp
           <h2>Not sure which collection is right for you?</h2>
           <p>Tell us how you travel and we will narrow the right resort style, destination, and stay.</p>
         </div>
-        <a className="button button-primary" href="/?popup=start">
+        <a className="button button-primary" href="/quote?origin=collections">
           Start Planning
         </a>
       </section>
