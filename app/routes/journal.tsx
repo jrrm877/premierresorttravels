@@ -32,10 +32,13 @@ export function meta({ data }: Route.MetaArgs) {
 
 export default function JournalPage({ loaderData }: Route.ComponentProps) {
   const { post, featuredProperties } = loaderData;
+  const isLeBlancComparison = post.slug === "le-blanc-cancun-vs-le-blanc-los-cabos";
   const showMoonPalaceComparison = post.slug === "best-all-inclusive-resorts-in-cancun-for-families";
   const inquiryNote = `I read "${post.title}" and would like help comparing resorts and planning a trip.`;
   const journalDestination = post.slug.includes("cancun") ? "Cancun" : post.slug.includes("los-cabos") ? "Los Cabos" : post.slug.includes("jamaica") ? "Jamaica" : post.slug.includes("cozumel") ? "Cozumel" : post.slug.includes("italy") ? "Italy" : post.slug.includes("maldives") ? "Maldives" : "";
-  const inquiryHref = `/quote?origin=journal&destination=${encodeURIComponent(journalDestination)}&note=${encodeURIComponent(inquiryNote)}`;
+  const inquiryHref = isLeBlancComparison
+    ? `/quote?origin=journal&destination=${encodeURIComponent("Cancun or Los Cabos")}&note=${encodeURIComponent("I am comparing Le Blanc Spa Resort Cancun and Le Blanc Spa Resort Los Cabos. Please help me compare total pricing for my dates, room preferences, and travel party.")}`
+    : `/quote?origin=journal&destination=${encodeURIComponent(journalDestination)}&note=${encodeURIComponent(inquiryNote)}`;
 
   return (
     <main className="page-shell">
@@ -60,7 +63,7 @@ export default function JournalPage({ loaderData }: Route.ComponentProps) {
             <a className="button button-primary" href="#featured-properties">
               See matching stays
             </a>
-            <a className="button button-primary" href={inquiryHref}>Request personalized resort options</a>
+            <a className="button button-primary" href={inquiryHref}>{isLeBlancComparison ? "Compare Le Blanc prices for my dates" : "Request personalized resort options"}</a>
             <a className="button button-secondary" href={post.collectionHref}>
               Explore this collection
             </a>
@@ -86,6 +89,16 @@ export default function JournalPage({ loaderData }: Route.ComponentProps) {
         </div>
       </section>
 
+      {isLeBlancComparison ? (
+        <section className="property-details" aria-label="Compare Le Blanc resorts for your trip">
+          <article className="planning-card">
+            <p className="eyebrow">Personalized Resort Comparison</p>
+            <h2>Which Le Blanc resort fits your dates and budget?</h2>
+            <p>Share your travel dates, number of guests, and preferred room type. We can help compare available options and total trip pricing without relying on generic advertised rates.</p>
+            <a className="button button-primary" href={inquiryHref}>Request my Le Blanc comparison</a>
+          </article>
+        </section>
+      ) : null}
       {showMoonPalaceComparison ? (
         <section className="property-details" aria-label="Moon Palace resort comparison">
           <article className="planning-card">

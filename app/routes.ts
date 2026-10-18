@@ -13,6 +13,7 @@ export default [
   route("destinations", "routes/destinations.tsx"),
   route("collections", "routes/collections.tsx"),
   route("collections/:slug", "routes/collection.tsx"),
+  route("guides/le-blanc-cancun-vs-los-cabos", "routes/le-blanc-guide-redirect.ts"),
   route("journal", "routes/journal-index.tsx"),
   route("journal/:slug", "routes/journal.tsx"),
   route("properties/:slug", "routes/property.tsx"),
