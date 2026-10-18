@@ -15,16 +15,17 @@ export function loader({ request }: Route.LoaderArgs) {
   const params = new URL(request.url).searchParams;
   const style = params.get("style") ?? "";
   const resort = params.get("resort")?.trim().slice(0, 150) ?? "";
+  const destination = params.get("origin") === "journal" ? (params.get("destination")?.trim().slice(0, 150) ?? "") : "";
   const origin = params.get("origin") === "property" && resort ? "Resort detail page" : params.get("origin") === "journal" ? "Travel journal" : "General quote page";
   const initialNote = params.get("origin") === "journal" ? (params.get("note")?.trim().slice(0, 500) ?? "") : "";
-  return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "", resort, origin, initialNote };
+  return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "", resort, destination, origin, initialNote };
 }
 
 type InquiryResponse = { success?: boolean; message?: string };
 export default function QuotePage({ loaderData }: Route.ComponentProps) {
   const fetcher = useFetcher<InquiryResponse>();
   const [includeFlights, setIncludeFlights] = useState(false);
-  const [destination, setDestination] = useState(loaderData.resort);
+  const [destination, setDestination] = useState(loaderData.resort || loaderData.destination);
   const [tripStyle, setTripStyle] = useState(loaderData.style || "Not sure yet");
   const [datesKnown, setDatesKnown] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
