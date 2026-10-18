@@ -43,7 +43,7 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
 
   if (!collection) {
     return (
-      <main className="page-shell">
+      <main className="page-shell collection-page-shell">
         <section className="collection-hero-copy">
           <p className="eyebrow">Collection Not Found</p>
           <h1>We could not find that collection.</h1>
@@ -150,11 +150,11 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
         </div>
       </section>
 
-      <section className="portfolio-section accent-gold" id="collection-resorts">
+      <section className="portfolio-section accent-gold collection-resorts-section" id="collection-resorts">
         <div className="section-heading section-heading-stack">
           <div>
             <p className="eyebrow">Resort Matches</p>
-            <h2>Explore the resorts and their photos</h2>
+            <h2>Explore {collection.title} resorts</h2>
           </div>
           <p className="section-copy">
             Tap a resort photo to explore its details, or start planning and we will help identify the
@@ -234,11 +234,11 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
         </section>
       ) : null}
 
-      <section className="property-details">
+      <section className="property-details collection-overview">
         <div className="section-heading section-heading-stack">
           <div>
             <p className="eyebrow">Overview</p>
-            <h2>Why this collection helps narrow the right resort faster</h2>
+            <h2>Find your best-fit resort</h2>
           </div>
           <p className="section-copy">
             Instead of browsing by map alone, this collection starts with how the trip should feel
