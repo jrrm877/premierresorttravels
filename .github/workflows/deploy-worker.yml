@@ -1,9 +1,13 @@
 name: Deploy Premier Resort Travels Worker
 
-# Production deployment is intentionally manual. Pull requests must be reviewed
-# and merged before this workflow can deploy the main branch.
+# Automatically prepare a production release after the main-branch Worker
+# runtime smoke test succeeds. GitHub's production environment MUST have
+# required reviewers configured to enforce human approval before deployment.
 on:
-  workflow_dispatch:
+  workflow_run:
+    workflows: ["Smoke test Cloudflare Worker runtime"]
+    types: [completed]
+    branches: [main]
 
 permissions:
   contents: read
@@ -14,16 +18,28 @@ concurrency:
 
 jobs:
   deploy:
-    name: Build and deploy production Worker
+    name: Approve, deploy, and verify production Worker
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_repository.full_name == github.repository }}
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    environment: production
+    timeout-minutes: 25
+    environment:
+      name: production
+      url: https://premierresorttravels.com
     steps:
-      - name: Check out repository
+      - name: Check out tested commit
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-          ref: main
+          ref: ${{ github.event.workflow_run.head_sha }}
           persist-credentials: false
+      - name: Verify approved commit is current main
+        env:
+          GH_REPO: ${{ github.repository }}
+          TESTED_SHA: ${{ github.event.workflow_run.head_sha }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          current_sha="$(gh api "repos/$GH_REPO/git/ref/heads/main" --jq '.object.sha')"
+          test "$current_sha" = "$TESTED_SHA" || { echo "Main has moved since runtime testing. Skipping stale release."; exit 1; }
       - name: Set up Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
@@ -40,3 +56,21 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Verify production routes
+        run: |
+          set -euo pipefail
+          for path in / /robots.txt /sitemap.xml /collections/palace-resorts; do
+            echo "Checking $path"
+            success=0
+            for attempt in $(seq 1 8); do
+              status="$(curl --silent --show-error --location --max-time 15 --output /tmp/production-health-response --write-out '%{http_code}' "https://premierresorttravels.com$path" || true)"
+              if [ "$status" = "200" ]; then success=1; break; fi
+              echo "Attempt $attempt: HTTP $status"
+              sleep 5
+            done
+            if [ "$success" != "1" ]; then
+              echo "::error::Production health check failed for $path"
+              head -c 600 /tmp/production-health-response || true
+              exit 1
+            fi
+          done
