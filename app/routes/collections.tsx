@@ -88,6 +88,29 @@ export default function CollectionsIndexPage({ loaderData }: Route.ComponentProp
         </div>
       </section>
 
+      <section className="collections-style-section" aria-labelledby="vacation-style-heading">
+        <div className="section-heading section-heading-stack">
+          <p className="eyebrow">Start With Your Vacation Style</p>
+          <h2 id="vacation-style-heading">What kind of getaway are you dreaming of?</h2>
+          <p className="section-copy">You don't need to know a resort name. Choose the experience you want and we'll help match you with the right stay.</p>
+        </div>
+        <div className="resort-collections-grid">
+          {[
+            { title: "Family Vacations", description: "Pools, activities and space for everyone.", href: "/collections/family-friendly" },
+            { title: "Adults-Only Escapes", description: "Relaxed retreats, couples' time and elevated dining.", href: "/collections/adults-only" },
+            { title: "Honeymoons & Romance", description: "Celebrate together with a stay designed for two.", href: "/quote?style=Romance&origin=collections" },
+            { title: "Destination Weddings", description: "Explore resort celebrations with advisor guidance.", href: "/quote?origin=collections&destination=Destination%20wedding" },
+            { title: "Luxury All-Inclusive", description: "Discover premium resort experiences and inclusions.", href: "/collections" },
+          ].map((style) => (
+            <a className="planning-card" key={style.title} href={style.href} style={{ display: "flex", flexDirection: "column", gap: "0.7rem", minHeight: 170 }}>
+              <h3 style={{ margin: 0 }}>{style.title}</h3>
+              <p style={{ margin: 0, flex: 1 }}>{style.description}</p>
+              <span className="text-link">Explore options →</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
       <section className="collections-style-section" aria-labelledby="collections-grid-heading">
         <div className="section-heading section-heading-stack">
           <div>
