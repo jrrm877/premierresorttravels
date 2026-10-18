@@ -127,6 +127,57 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
         </div>
       ) : null}
 
+
+      {property.slug === "le-blanc-spa-resort-cancun" && (
+        <section className="property-details leblanc-tour" aria-labelledby="leblanc-tour-heading">
+          <div className="section-heading section-heading-stack">
+            <p className="eyebrow">Your Resort Walkthrough</p>
+            <h2 id="leblanc-tour-heading">Experience Le Blanc Cancun before you book</h2>
+            <p>Explore the moments that matter most to your vacation. We'll help confirm room categories, inclusions and current amenities when you request a quote.</p>
+          </div>
+          <nav className="leblanc-tour-nav" aria-label="Resort tour sections">
+            <a href="#tour-arrival">Arrival</a>
+            <a href="#tour-room">Your room</a>
+            <a href="#tour-experiences">Your days</a>
+            <a href="#tour-fit">Your fit</a>
+          </nav>
+          <div className="leblanc-tour-feature" id="tour-arrival">
+            <img src={property.image_url || ""} alt={property.name + " resort view"} loading="lazy" />
+            <div>
+              <p className="eyebrow">01 · Arrive</p>
+              <h3>Imagine your first afternoon</h3>
+              <p>Start with the setting: an adults-only Cancun retreat designed around a more relaxed, polished getaway. Take in the resort view and decide whether this is the atmosphere you want.</p>
+              <button type="button" className="button button-secondary" onClick={() => setPhotoOpen(true)}>Enlarge Resort Photo</button>
+            </div>
+          </div>
+          <div className="leblanc-tour-grid">
+            <article id="tour-room">
+              <p className="eyebrow">02 · Unpack</p>
+              <h3>Find the room that feels right</h3>
+              <p>Think about your preferred view, room layout and sleeping arrangements. Categories and views differ, so ask us to compare options available for your dates.</p>
+              <a className="text-link" href={quoteHref}>Ask about room options →</a>
+            </article>
+            <article id="tour-experiences">
+              <p className="eyebrow">03 · Explore</p>
+              <h3>Make the days your own</h3>
+              <p>Would you spend more time by the pool, enjoying dining experiences or relaxing at the spa? We can confirm the latest dining, wellness and activity details.</p>
+              <a className="text-link" href={quoteHref}>Explore amenities with an advisor →</a>
+            </article>
+            <article id="tour-fit">
+              <p className="eyebrow">04 · Decide</p>
+              <h3>Is Le Blanc Cancun your match?</h3>
+              <p><strong>Best suited to:</strong> adults who want a couples-focused, quieter luxury vacation.</p>
+              <p><strong>Consider another resort:</strong> if you're traveling with children or want a family-activity-centered stay.</p>
+              <a className="text-link" href="/journal/le-blanc-cancun-vs-le-blanc-los-cabos">Compare Le Blanc resorts →</a>
+            </article>
+          </div>
+          <div className="leblanc-tour-cta">
+            <div><h3>Ready to picture your stay?</h3><p>Share your dates and priorities for a personalized resort recommendation.</p></div>
+            <a className="button button-primary" href={quoteHref}>Get My Le Blanc Quote</a>
+          </div>
+        </section>
+      )}
+
       {source === "fallback" ? (
         <section className="property-details">
           <div className="planning-card">
