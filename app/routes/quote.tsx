@@ -17,7 +17,7 @@ export function loader({ request }: Route.LoaderArgs) {
   const resort = params.get("resort")?.trim().slice(0, 150) ?? "";
   const destination = params.get("origin") === "journal" ? (params.get("destination")?.trim().slice(0, 150) ?? "") : "";
   const origin = params.get("origin") === "property" && resort ? "Resort detail page" : params.get("origin") === "journal" ? "Travel journal" : "General quote page";
-  const initialNote = params.get("origin") === "journal" ? (params.get("note")?.trim().slice(0, 500) ?? "") : "";
+  const initialNote = params.get("note")?.trim().slice(0, 500) ?? "";
   return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "", resort, destination, origin, initialNote };
 }
 
