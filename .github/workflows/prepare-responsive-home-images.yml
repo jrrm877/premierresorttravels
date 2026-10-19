@@ -35,4 +35,9 @@ jobs:
           fi
           git commit -m "perf: generate responsive WebP travel-style images"
           git push --force-with-lease origin "$BRANCH"
-          gh pr create --base main --head "$BRANCH" --title "perf: add responsive homepage WebP images" --body "Generated 480px and 960px WebP variants from existing homepage travel-style photos. Source images remain unchanged. Merge together with responsive image markup once verified."
+          if [ -n "$(gh pr list --head "$BRANCH" --state open --json number --jq '.[].number')" ]; then
+            echo "Pull request already exists for $BRANCH"
+            exit 0
+          fi
+          gh pr create --base main --head "$BRANCH" --title "perf: add responsive homepage WebP images" --body "Generated 480px and 960px WebP variants from existing homepage travel-style photos. Source images remain unchanged. Merge together with responsive image markup once verified." \
+            || echo "::warning::Could not create a PR automatically (enable 'Allow GitHub Actions to create and approve pull requests' in repo settings). Branch $BRANCH was pushed; open the PR manually."
