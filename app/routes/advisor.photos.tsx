@@ -124,6 +124,6 @@ export default function AdvisorPhotos({ loaderData }: Route.ComponentProps) {
     <p role="status">{files.length ? `${files.length} photos ready · ${done} uploaded` : done ? `${done} photos uploaded to private storage` : "No photos selected"}</p>
     <button className="button button-primary" type="button" onClick={() => void upload()} disabled={busy || !files.length || !resort}>{busy ? `Uploading ${done} of ${files.length}…` : `Upload ${files.length} photos`}</button>
     {errors.length > 0 && <div role="alert"><h2>Items needing attention</h2><ul>{errors.slice(0, 20).map((e, i) => <li key={i}>{e}</li>)}</ul></div>}
-    <p><a href="/advisor/properties">Return to advisor properties</a></p>
+    <p><a href="/advisor/photo-library">Manage and publish photos</a> · <a href="/advisor/properties">Return to advisor properties</a></p>
   </section></main>;
 }
