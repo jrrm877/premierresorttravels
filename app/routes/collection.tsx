@@ -241,6 +241,55 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
         </section>
       ) : null}
 
+      {isWeddingCollection ? (
+        <section className="property-details" aria-labelledby="wedding-comparison-heading">
+          <div className="section-heading section-heading-stack">
+            <div>
+              <p className="eyebrow">Compare Wedding Resort Styles</p>
+              <h2 id="wedding-comparison-heading">Which destination wedding setting fits your guests?</h2>
+            </div>
+            <p className="section-copy">The best all-inclusive wedding resort depends on who is attending, not just the ceremony photos. Start with these different experiences, then confirm actual venue capacity, event policies, package terms, and room-block availability with the resort.</p>
+          </div>
+          <div className="planning-grid">
+            <article className="planning-card">
+              <h3>Family-friendly celebrations in Cancun</h3>
+              <p>Moon Palace Cancun and Moon Palace The Grand Cancun are worth comparing when your guest list includes children or multiple generations. Ask about room locations, group transportation, and access between resort areas.</p>
+              <a className="text-link" href="/properties/moon-palace-cancun">Explore Moon Palace Cancun →</a>
+            </article>
+            <article className="planning-card">
+              <h3>Adults-only weddings</h3>
+              <p>Le Blanc Spa Resort Cancun and Le Blanc Spa Resort Los Cabos offer different destination settings for adult guest lists. Confirm current age restrictions, event spaces, and guest accommodation requirements before deciding.</p>
+              <a className="text-link" href="/journal/le-blanc-cancun-vs-le-blanc-los-cabos">Compare Le Blanc destinations →</a>
+            </article>
+            <article className="planning-card">
+              <h3>Beach town or island atmosphere</h3>
+              <p>Playacar Palace offers a Playa del Carmen setting, while Moon Palace Jamaica provides a different Caribbean destination. Compare guest flight options and local transportation alongside ceremony preferences.</p>
+              <a className="text-link" href="/properties/playacar-palace">Explore Playacar Palace →</a>
+            </article>
+          </div>
+          <div className="section-heading section-heading-stack">
+            <div>
+              <p className="eyebrow">Before You Request a Quote</p>
+              <h2>Five details that help narrow your wedding resort shortlist</h2>
+            </div>
+          </div>
+          <div className="planning-grid">
+            <article className="planning-card"><h3>Preferred travel dates</h3><p>Share your ideal wedding date and whether you have flexibility for your guests' travel schedules.</p></article>
+            <article className="planning-card"><h3>Estimated guest count</h3><p>Include adults and children separately so age policies and accommodation options can be considered.</p></article>
+            <article className="planning-card"><h3>Guest accommodation budget</h3><p>Estimate a comfortable per-room or per-person range. Wedding event charges and guest travel costs may be separate.</p></article>
+            <article className="planning-card"><h3>Ceremony and reception preferences</h3><p>Consider beach, terrace, or indoor options, and whether you want a welcome event or farewell gathering.</p></article>
+            <article className="planning-card"><h3>Departure cities and accessibility</h3><p>Travel connections, transfers, mobility needs, and room arrangements can matter as much as the venue itself.</p></article>
+          </div>
+          <div className="leblanc-tour-cta">
+            <div>
+              <h3>Get a wedding resort shortlist built around your guests</h3>
+              <p>Share your dates, approximate guest count, and priorities. We'll help compare options and confirm current resort terms before you commit.</p>
+            </div>
+            <a className="button button-primary" href={quoteHref}>Request My Wedding Resort Options</a>
+          </div>
+        </section>
+      ) : null}
+
       <section className="property-details">
         <div className="section-heading section-heading-stack">
           <div>
