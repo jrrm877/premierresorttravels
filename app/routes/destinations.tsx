@@ -93,13 +93,16 @@ const brandCards = [
     label: "European & Island Escapes",
     image: imageFor("baglioni-hotel-luna"),
     copy: "Luxury hotels in captivating cities, coastlines, and islands.",
-    href: "/collections/baglioni-city-hotels",
+    href: "/collections/baglioni",
   },
 ];
 
 const resortMatches = [
   ["Traveling with Kids", "Moon Palace The Grand Cancun", "/properties/moon-palace-the-grand-cancun"],
+  ["Cancun Family Resort", "Moon Palace Cancun", "/properties/moon-palace-cancun"],
   ["Adults Only Escape", "Le Blanc Cancun", "/properties/le-blanc-spa-resort-cancun"],
+  ["Los Cabos Adults Only", "Le Blanc Los Cabos", "/properties/le-blanc-spa-resort-los-cabos"],
+  ["Jamaica Family Escape", "Moon Palace Jamaica", "/properties/moon-palace-jamaica"],
   ["Best for Diving", "Cozumel Palace", "/properties/cozumel-palace"],
   ["Cancun Beachfront Stay", "Beach Palace", "/properties/beach-palace"],
   ["Playa del Carmen Access", "Playacar Palace", "/properties/playacar-palace"],
@@ -184,6 +187,7 @@ const mapDestinations = [
 export function meta(_: Route.MetaArgs) {
   return [
     { title: "Destinations | Premier Resort Travel" },
+    { tagName: "link", rel: "canonical", href: "https://premierresorttravels.com/destinations" },
     {
       name: "description",
       content:

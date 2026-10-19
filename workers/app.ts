@@ -17,6 +17,14 @@ const requestHandler = createRequestHandler(
 
 export default {
   async fetch(request, env, ctx) {
+    const url = new URL(request.url);
+    const isProductionHost = url.hostname === "premierresorttravels.com" || url.hostname === "www.premierresorttravels.com";
+    if (isProductionHost && (url.protocol !== "https:" || url.hostname !== "premierresorttravels.com")) {
+      url.protocol = "https:";
+      url.hostname = "premierresorttravels.com";
+      return Response.redirect(url.toString(), 301);
+    }
+
     return requestHandler(request, {
       cloudflare: { env, ctx },
     });

@@ -25,7 +25,7 @@ const footerLinkGroups = [
     icon: "hotel",
     links: [
       ["Palace Resorts", "/collections/palace-resorts"],
-      ["Le Blanc", "/collections/le-blanc"],
+      ["Le Blanc", "/collections/le-blanc-spa-resorts"],
       ["Moon Palace", "/collections/moon-palace"],
       ["Baglioni Hotels", "/collections/baglioni"],
     ],
@@ -254,10 +254,7 @@ export default function App() {
               <p>Creating unforgettable vacations for couples, families, and groups, one journey at a time.</p>
               <nav aria-label="Footer legal links">
                 <span>© 2026 Premier Resort Travel, LLC. All rights reserved.</span>
-                <a href="/destinations">Sitemap</a>
-                <a href="/journal">Privacy Policy</a>
-                <a href="/journal">Terms of Use</a>
-                <a href="/journal">Accessibility</a>
+                <a href="/sitemap.xml">Sitemap</a>
                 <a href="/quote">Contact</a>
               </nav>
             </div>

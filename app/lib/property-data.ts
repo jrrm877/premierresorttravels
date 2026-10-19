@@ -693,7 +693,7 @@ export const journalPosts: JournalPost[] = [
       "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/u1b14u1cj57qrb4trvcjtuiq4p/240?angle=0"
     )!,
     readTime: "6 min read",
-    collectionHref: "/collections/baglioni-resorts",
+    collectionHref: "/collections/baglioni",
     cta: "Read the Maldives guide",
     featuredPropertySlugs: ["baglioni-resort-maldives"],
     sections: [
@@ -1010,7 +1010,7 @@ export const portfolioSections: PortfolioSection[] = [
     description:
       "These properties work well for travelers building European itineraries around romance, architecture, museums, fashion, and heritage-rich neighborhoods.",
     accent: "accent-plum",
-    href: "/collections/baglioni-city-hotels",
+    href: "/collections/baglioni",
     properties: [
       {
         slug: "baglioni-hotel-regina",
@@ -1101,7 +1101,7 @@ export const portfolioSections: PortfolioSection[] = [
     description:
       "For travelers leaning toward slower luxury, these stays balance beautiful settings with a more boutique, destination-driven point of view.",
     accent: "accent-blue",
-    href: "/collections/baglioni-resorts",
+    href: "/collections/baglioni",
     properties: [
       {
         slug: "baglioni-resort-maldives",

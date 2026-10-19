@@ -9,6 +9,7 @@ export function loader(_: Route.LoaderArgs) {
 export function meta(_: Route.MetaArgs) {
   return [
     { title: "Luxury Resort Collections | Premier Resort Travel" },
+    { tagName: "link", rel: "canonical", href: "https://premierresorttravels.com/collections" },
     {
       name: "description",
       content:

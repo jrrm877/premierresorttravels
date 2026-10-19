@@ -507,6 +507,7 @@ function AboutLineIcon({ name }: { name: string }) {
 export function meta(_: Route.MetaArgs) {
   return [
     { title: "About Us | Premier Resort Travel" },
+    { tagName: "link", rel: "canonical", href: "https://premierresorttravels.com/about" },
     {
       name: "description",
       content:
@@ -527,7 +528,7 @@ export default function AboutPage() {
     }
 
     const query = params.toString();
-    return `/${query ? `?${query}` : ""}#plan-trip`;
+    return `/quote${query ? `?origin=about&${query}` : "?origin=about"}`;
   }, [email]);
 
   useEffect(() => {
@@ -553,7 +554,7 @@ export default function AboutPage() {
             <span className="about-postcard-popout-zone" aria-hidden="true" />
             <a
               className="about-postcard-hotspot about-postcard-hotspot-plan"
-              href="/#plan-trip"
+              href="/quote?origin=about"
               aria-label="Plan your trip"
             />
             <a
@@ -641,7 +642,7 @@ export default function AboutPage() {
             <a
               key={activity.title}
               className="about-activity-card"
-              href={`/?note=${encodeURIComponent(activity.note)}#plan-trip`}
+              href={`/quote?origin=about-activity&note=${encodeURIComponent(activity.note)}`}
               aria-label={`Plan a trip with ${activity.title}`}
             >
               <img src={activity.image} alt="" loading="lazy" decoding="async" />
