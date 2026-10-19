@@ -1,43 +1,52 @@
-import { Form, useActionData } from "react-router";
 import { advisorSessionCookie, hasAdvisorSession, validAdvisorCredentials } from "../lib/advisor-access";
 import type { Route } from "./+types/advisor.login";
 
+const noStore = { "Cache-Control": "no-store" };
+function redirectTo(location: string, cookie?: string) {
+  const headers = new Headers(noStore);
+  headers.set("Location", location);
+  if (cookie) headers.set("Set-Cookie", cookie);
+  return new Response(null, { status: 303, headers });
+}
+
 export async function loader({ request, context }: Route.LoaderArgs) {
   if (await hasAdvisorSession(request, context.cloudflare.env)) {
-    throw new Response(null, { status: 302, headers: { Location: "/advisor/inquiries", "Cache-Control": "no-store" } });
+    throw redirectTo("/advisor/inquiries");
   }
-  return Response.json({}, { headers: { "Cache-Control": "no-store" } });
+  const error = new URL(request.url).searchParams.get("error");
+  return Response.json({ error: error === "credentials" ? "Incorrect username or password. Check the credentials saved in Cloudflare." : error === "request" ? "Your sign-in request could not be verified. Please reload and try again." : null }, { headers: noStore });
 }
 
 export async function action({ request, context }: Route.ActionArgs) {
+  const expectedOrigin = new URL(request.url).origin;
   const origin = request.headers.get("Origin");
-  if (origin !== new URL(request.url).origin) {
-    return Response.json({ error: "Please reload this page and try again." }, { status: 403, headers: { "Cache-Control": "no-store" } });
-  }
+  const referer = request.headers.get("Referer");
+  const sameOrigin = origin === expectedOrigin || (!origin && !!referer && new URL(referer).origin === expectedOrigin);
+  if (!sameOrigin) return redirectTo("/advisor/login?error=request");
   const data = await request.formData();
   const username = String(data.get("username") ?? "");
   const password = String(data.get("password") ?? "");
   if (!validAdvisorCredentials(username, password, context.cloudflare.env)) {
-    return Response.json({ error: "Incorrect username or password. Please try again." }, { status: 401, headers: { "Cache-Control": "no-store" } });
+    return redirectTo("/advisor/login?error=credentials");
   }
-  return new Response(null, { status: 303, headers: { Location: "/advisor/inquiries", "Set-Cookie": await advisorSessionCookie(context.cloudflare.env), "Cache-Control": "no-store" } });
+  return redirectTo("/advisor/inquiries", await advisorSessionCookie(context.cloudflare.env));
 }
 
 export function meta() {
   return [{ title: "Advisor Sign In | Premier Resort Travel" }, { name: "robots", content: "noindex, nofollow" }];
 }
 
-export default function AdvisorLogin() {
-  const data = useActionData() as { error?: string } | undefined;
+export default function AdvisorLogin({ loaderData }: Route.ComponentProps) {
+  const loginError = (loaderData as { error?: string | null } | undefined)?.error;
   return <main className="page-shell"><section className="property-details" style={{ maxWidth: 520, margin: "3rem auto" }}>
     <p className="eyebrow">Private advisor access</p>
     <h1>Advisor sign in</h1>
-    <p>Sign in to review traveler inquiries. Your account uses the private credentials configured in Cloudflare.</p>
-    <Form method="post" replace style={{ display: "grid", gap: "1rem", marginTop: "1.5rem" }}>
+    <p>Sign in to review traveler inquiries using your private Cloudflare credentials.</p>
+    <form method="post" action="/advisor/login" style={{ display: "grid", gap: "1rem", marginTop: "1.5rem" }}>
       <label style={{ display: "grid", gap: ".35rem" }}>Username<input name="username" type="text" autoComplete="username" required /></label>
       <label style={{ display: "grid", gap: ".35rem" }}>Password<input name="password" type="password" autoComplete="current-password" required /></label>
-      {data?.error ? <p role="alert">{data.error}</p> : null}
+      {loginError ? <p role="alert" style={{ color: "#a12d20" }}>{loginError}</p> : null}
       <button className="button button-primary" type="submit">Sign in securely</button>
-    </Form>
+    </form>
   </section></main>;
 }
