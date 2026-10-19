@@ -40,7 +40,7 @@ export async function hasAdvisorSession(request: Request, env: object) {
   const values = configured(env);
   if (!values) return false;
   const cookie = request.headers.get("Cookie")?.split(";").map(s => s.trim()).find(s => s.startsWith(COOKIE_NAME + "="));
-  const match = cookie?.slice(COOKIE_NAME.length + 1).match(/^(\\d{10})\\.([0-9a-f]{64})$/);
+  const match = cookie?.slice(COOKIE_NAME.length + 1).match(/^(\d{10})\.([0-9a-f]{64})$/);
   if (!match) return false;
   const expiry = Number(match[1]);
   if (expiry <= Math.floor(Date.now() / 1000) || expiry > Math.floor(Date.now() / 1000) + MAX_AGE) return false;
