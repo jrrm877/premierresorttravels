@@ -596,6 +596,7 @@ const collectionSlugAliases: Record<string, string> = {
   "adults-only-resorts": "adults-only",
   "family-flagship-resorts": "family-friendly",
   "european-icon-hotels": "european-luxury",
+  "le-blanc": "le-blanc-spa-resorts",
   "baglioni-city-hotels": "baglioni",
   "baglioni-hotels": "baglioni",
   "baglioni-resorts": "baglioni",

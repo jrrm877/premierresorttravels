@@ -13,6 +13,10 @@
 | `/traveler-stories` | 200 | Keep and add canonical | The index and its published story detail pages are valid public content. Story detail pages are now included in the sitemap. |
 | `/?popup=start&note=…` | 200 duplicate homepage URL | 301 to `/quote?origin=legacy-popup&note=…` | The quote flow is the genuine replacement. Internal links now point directly to `/quote`, while note/name/email attribution remains prefilled. |
 | `/collections/baglioni-resorts` and other collection aliases | 200 with canonical tag | 301 to canonical collection slug | Removes duplicate crawlable collection pages and avoids relying on canonical consolidation for internally generated aliases. |
+| `/collections/le-blanc` | Historical redirect, later 404 | 301 to `/collections/le-blanc-spa-resorts` | The maintained Le Blanc collection is the direct replacement. Query parameters are preserved. |
+| `/trip-types/wedding` | Historical redirect, later 404 | 301 to `/collections/destination-weddings` | The maintained destination-wedding collection is the direct replacement. Query parameters are preserved. |
+| `/resort-collections/palace-resorts/moon-palace-cancun` | 404 | 301 to `/properties/moon-palace-cancun` | The maintained Moon Palace Cancun resort page is the direct replacement. Query parameters are preserved. |
+| `/resources/travel-tips` | 404 | Remains 404 | No maintained page or documented one-to-one replacement exists. A broad redirect to the journal would be speculative. |
 | HTTP and `www` URLs | 200 duplicates | 301 to HTTPS non-`www` | Establishes one protocol and hostname while preserving path and query parameters. |
 
 Unknown destination slugs, unknown property facts URLs, and unrelated missing content continue to return 404.

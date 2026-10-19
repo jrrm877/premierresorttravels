@@ -132,9 +132,12 @@ await assertRedirect("/destinations/cancun?source=seo-test", "/destinations?sour
 await assertRedirect("/properties/moon-palace-jamaica/facts?source=seo-test", "/properties/moon-palace-jamaica?source=seo-test");
 await assertRedirect("/guides/le-blanc-cancun-vs-los-cabos?source=seo-test", "/journal/le-blanc-cancun-vs-le-blanc-los-cabos?source=seo-test");
 await assertRedirect("/collections/baglioni-resorts?source=seo-test", "/collections/baglioni?source=seo-test");
+await assertRedirect("/collections/le-blanc?source=seo-test", "/collections/le-blanc-spa-resorts?source=seo-test");
+await assertRedirect("/trip-types/wedding?source=seo-test", "/collections/destination-weddings?source=seo-test");
+await assertRedirect("/resort-collections/palace-resorts/moon-palace-cancun?source=seo-test", "/properties/moon-palace-cancun?source=seo-test");
 await assertRedirect("/?popup=start&note=Family%20trip", "/quote?origin=legacy-popup&note=Family+trip");
 
-for (const path of ["/destinations/not-a-real-place", "/properties/not-a-resort/facts", "/terms-and-conditions"]) {
+for (const path of ["/destinations/not-a-real-place", "/properties/not-a-resort/facts", "/resources/travel-tips", "/terms-and-conditions"]) {
   const response = await request(path);
   if (response.status !== 404) fail(`${path} should remain a real 404, received ${response.status}`);
 }
