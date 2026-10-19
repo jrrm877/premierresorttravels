@@ -1,5 +1,5 @@
 /** Fail closed until both credentials are configured as Worker secrets. */
-export function requireAdvisorAccess(request: Request, env: Record<string, unknown>) {
+export function requireAdvisorAccess(request: Request, env: object) {
   const deny = () => new Response("Advisor access requires authentication.", {
     status: 401,
     headers: {
@@ -7,7 +7,8 @@ export function requireAdvisorAccess(request: Request, env: Record<string, unkno
       "Cache-Control": "no-store",
     },
   });
-  if (!env.ADVISOR_USERNAME || !env.ADVISOR_PASSWORD) throw deny();
+  const credentials = env as { ADVISOR_USERNAME?: string; ADVISOR_PASSWORD?: string };
+  if (!credentials.ADVISOR_USERNAME || !credentials.ADVISOR_PASSWORD) throw deny();
   const authorization = request.headers.get("Authorization") ?? "";
   if (!authorization.startsWith("Basic ")) throw deny();
   let decoded: string;
@@ -27,5 +28,5 @@ export function requireAdvisorAccess(request: Request, env: Record<string, unkno
     for (let i = 0; i < Math.max(bytesA.length, bytesB.length); i++) diff |= (bytesA[i] ?? 0) ^ (bytesB[i] ?? 0);
     return diff === 0;
   };
-  if (!equal(username, env.ADVISOR_USERNAME) || !equal(password, env.ADVISOR_PASSWORD)) throw deny();
+  if (!equal(username, credentials.ADVISOR_USERNAME) || !equal(password, credentials.ADVISOR_PASSWORD)) throw deny();
 }
