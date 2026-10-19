@@ -113,7 +113,7 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
           </div>
           <div className="hero-actions">
             <a className="button button-primary" href={quoteHref}>
-              Get My Free Vacation Quote
+              Get My Personalized Resort Quote
             </a>
             <a className="button button-secondary" href={collectionHref}>
               Back to collection
@@ -179,7 +179,7 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
           </div>
           <div className="leblanc-tour-cta">
             <div><h3>Ready to picture your stay?</h3><p>Share your dates and priorities for a personalized resort recommendation.</p></div>
-            <a className="button button-primary" href={quoteHref}>Get My Free Vacation Quote</a>
+            <a className="button button-primary" href={quoteHref}>Get My Personalized Resort Quote</a>
           </div>
         </section>
       )}
@@ -230,7 +230,7 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
           </div>
           <div className="leblanc-tour-cta">
             <div><h3>Let's find your family's best fit</h3><p>Get resort options matched to your dates, travelers and priorities.</p></div>
-            <a className="button button-primary" href={quoteHref}>Get My Free Vacation Quote</a>
+            <a className="button button-primary" href={quoteHref}>Get My Personalized Resort Quote</a>
           </div>
         </section>
       )}
@@ -260,7 +260,7 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
             <h3>Ready to explore your options?</h3>
             <p>Tell us a little about your trip. We'll help you find the right fit with no obligation to book.</p>
           </div>
-          <a className="button button-primary" href={quoteHref}>Get My Free Vacation Quote</a>
+          <a className="button button-primary" href={quoteHref}>Get My Personalized Resort Quote</a>
         </div>
       </section>
 
@@ -278,7 +278,7 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
               <p>Explore additional property photography from the resort itself, then return here for personalized advice on rooms, inclusions and dates.</p>
               <div className="hero-actions">
                 <a className="button button-secondary" href={officialGalleryHref} target="_blank" rel="noopener noreferrer">View Official Photo Gallery ↗</a>
-                <a className="button button-primary" href={quoteHref}>Get My Free Vacation Quote</a>
+                <a className="button button-primary" href={quoteHref}>Get My Personalized Resort Quote</a>
               </div>
             </div>
           </div>
@@ -337,7 +337,7 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
             <article className="planning-card">
               <h3>Ready to compare prices for your trip?</h3>
               <p>Request personalized options with your resort already selected. Rates and availability are confirmed when quoted.</p>
-              <a className="button button-primary" href={quoteHref}>Request a Quote</a>
+              <a className="button button-primary" href={quoteHref}>Compare My Resort Options</a>
             </article>
           </div>
         </section>
@@ -412,6 +412,10 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
           ))}
         </div>
       </section>
+      <aside className="resort-quote-sticky" aria-label="Request a personalized resort quote">
+        <span className="resort-quote-sticky-copy">Interested in {property.name}? <strong>Compare options for your dates.</strong></span>
+        <a className="button button-primary resort-quote-sticky-button" href={quoteHref}>Get My Resort Quote <span aria-hidden="true">→</span></a>
+      </aside>
     </main>
   );
 }
