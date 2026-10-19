@@ -46,7 +46,7 @@ export function meta() {
 }
 
 export default function AdvisorNotifications({ loaderData, actionData }: Route.ComponentProps) {
-  const settings = loaderData.configuration;
+  const settings = (loaderData as { configuration: { ready: boolean; apiKey: boolean; from: boolean; to: boolean } }).configuration;
   const result = actionData as { error?: string | null; result?: { attempted: string[]; delivered: string[]; failed: string[] } } | undefined;
   return <main className="page-shell"><section className="property-details" style={{ maxWidth: 720, margin: "3rem auto" }}>
     <p className="eyebrow">Private advisor tools</p>
