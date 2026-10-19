@@ -223,7 +223,10 @@ export default function Home() {
               href={`/quote?style=${encodeURIComponent(style.style)}`}
               aria-label={`Request a quote for ${style.title}`}
             >
-              <img src={style.image} alt="" loading="lazy" decoding="async" />
+              <picture>
+              <source type="image/webp" srcSet={`${style.image.replace(/\.jpg$/, "")}-480.webp 480w, ${style.image.replace(/\.jpg$/, "")}-960.webp 960w`} sizes="(max-width: 700px) 92vw, (max-width: 1100px) 46vw, 32vw" />
+              <img src={style.image} alt="" loading="lazy" decoding="async" sizes="(max-width: 700px) 92vw, (max-width: 1100px) 46vw, 32vw" />
+            </picture>
               <span className="luxe-style-card-content"><strong>{style.title}</strong><span>Plan this getaway →</span></span>
             </a>
           ))}
