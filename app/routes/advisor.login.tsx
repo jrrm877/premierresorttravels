@@ -37,6 +37,7 @@ export function meta() {
 }
 
 export default function AdvisorLogin({ loaderData }: Route.ComponentProps) {
+  const loginError = (loaderData as { error?: string | null } | undefined)?.error;
   return <main className="page-shell"><section className="property-details" style={{ maxWidth: 520, margin: "3rem auto" }}>
     <p className="eyebrow">Private advisor access</p>
     <h1>Advisor sign in</h1>
@@ -44,7 +45,7 @@ export default function AdvisorLogin({ loaderData }: Route.ComponentProps) {
     <form method="post" action="/advisor/login" style={{ display: "grid", gap: "1rem", marginTop: "1.5rem" }}>
       <label style={{ display: "grid", gap: ".35rem" }}>Username<input name="username" type="text" autoComplete="username" required /></label>
       <label style={{ display: "grid", gap: ".35rem" }}>Password<input name="password" type="password" autoComplete="current-password" required /></label>
-      {loaderData.error ? <p role="alert" style={{ color: "#a12d20" }}>{loaderData.error}</p> : null}
+      {loginError ? <p role="alert" style={{ color: "#a12d20" }}>{loginError}</p> : null}
       <button className="button button-primary" type="submit">Sign in securely</button>
     </form>
   </section></main>;
