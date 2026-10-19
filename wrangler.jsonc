@@ -9,6 +9,7 @@
   "assets": {
     "directory": "./dist/client"
   },
+  "r2_buckets": [{ "binding": "RESORT_PHOTOS", "bucket_name": "premier-resort-photos" }],
   "d1_databases": [
     {
       "binding": "DB",
