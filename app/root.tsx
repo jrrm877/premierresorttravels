@@ -5,6 +5,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
 } from "react-router";
 
 import "./styles.css";
@@ -112,12 +113,14 @@ export function links() {
 }
 
 export default function App() {
+  const { pathname } = useLocation();
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
+        {pathname === "/" && <link rel="preload" as="image" href="https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/2eel4s41k15j9anvu6kp927m2e/800?angle=0" fetchPriority="high" />}
         <Links />
       </head>
       <body>
