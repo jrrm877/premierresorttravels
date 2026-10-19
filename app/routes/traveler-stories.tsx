@@ -28,6 +28,7 @@ export function loader() {
 export function meta(_: Route.MetaArgs) {
   return [
     { title: "Traveler Stories | Premier Resort Travel" },
+    { tagName: "link", rel: "canonical", href: "https://premierresorttravels.com/traveler-stories" },
     {
       name: "description",
       content:
@@ -56,7 +57,7 @@ export default function TravelerStoriesIndex({ loaderData }: Route.ComponentProp
             honeymoons, and Europe escapes planned with a more personal point of view.
           </p>
           <div className="hero-actions">
-            <a className="button button-primary" href="/?popup=start">
+            <a className="button button-primary" href="/quote?origin=traveler-stories">
               Plan a similar trip
             </a>
             <a className="button button-secondary" href="#story-reviews">
@@ -170,7 +171,7 @@ export default function TravelerStoriesIndex({ loaderData }: Route.ComponentProp
       <section className="traveler-stories-cta" aria-label="Plan a similar trip">
         <p className="eyebrow">Your Story Next</p>
         <h2>Tell us what kind of vacation you want to remember.</h2>
-        <a className="button button-primary" href="/?popup=start">
+        <a className="button button-primary" href="/quote?origin=traveler-stories">
           Start Planning
         </a>
       </section>

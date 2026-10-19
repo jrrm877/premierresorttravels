@@ -14,6 +14,7 @@ export default [
   route("about", "routes/about.tsx"),
   route("quote", "routes/quote.tsx"),
   route("destinations", "routes/destinations.tsx"),
+  route("destinations/:slug", "routes/legacy-destination-redirect.ts"),
   route("collections", "routes/collections.tsx"),
   route("collections/:slug", "routes/collection.tsx"),
   route("resort-collections/:slug", "routes/legacy-collection-redirect.ts"),
@@ -21,6 +22,7 @@ export default [
   route("journal", "routes/journal-index.tsx"),
   route("journal/:slug", "routes/journal.tsx"),
   route("properties/:slug", "routes/property.tsx"),
+  route("properties/:slug/facts", "routes/legacy-property-facts-redirect.ts"),
   route("traveler-stories", "routes/traveler-stories.tsx"),
   route("traveler-stories/:slug", "routes/traveler-story.tsx"),
 ];

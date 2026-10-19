@@ -8,17 +8,24 @@ const homepageHeroImage =
 
 export function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
+  const hasLegacyInquiryQuery = url.searchParams.get("popup") === "start" || ["note", "fullName", "email"].some(key => url.searchParams.has(key));
+  if (hasLegacyInquiryQuery) {
+    const destination = new URL("/quote", url.origin);
+    destination.searchParams.set("origin", "legacy-popup");
+    for (const key of ["note", "fullName", "email"]) {
+      const value = url.searchParams.get(key)?.trim();
+      if (value) destination.searchParams.set(key, value);
+    }
+    return Response.redirect(destination.toString(), 301);
+  }
 
-  return {
-    initialInquiryNote: url.searchParams.get("note")?.trim() ?? "",
-    initialInquiryName: url.searchParams.get("fullName")?.trim() ?? "",
-    initialInquiryEmail: url.searchParams.get("email")?.trim() ?? "",
-  };
+  return null;
 }
 
 export function meta(_: Route.MetaArgs) {
   return [
     { title: "Premier Resort Travel | Luxury Resorts, Family Escapes & Adults-Only Getaways" },
+    { tagName: "link", rel: "canonical", href: "https://premierresorttravels.com/" },
     {
       name: "description",
       content:

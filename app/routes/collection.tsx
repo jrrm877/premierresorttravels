@@ -6,11 +6,18 @@ import {
 import { resortsForCollection } from "../data/resorts";
 import type { Route } from "./+types/collection";
 
-export async function loader({ params }: Route.LoaderArgs) {
+export async function loader({ params, request }: Route.LoaderArgs) {
   const collection = findCollectionBySlug(params.slug);
 
   if (!collection) {
     throw new Response("Not Found", { status: 404 });
+  }
+
+  if (params.slug !== collection.slug) {
+    const source = new URL(request.url);
+    const destination = new URL(`/collections/${collection.slug}`, source.origin);
+    destination.search = source.search;
+    return Response.redirect(destination.toString(), 301);
   }
 
   const resorts = resortsForCollection(collection.resortIds);

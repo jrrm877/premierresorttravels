@@ -131,6 +131,7 @@ const trustItems = [
 export function meta() {
   return [
     { title: "Travel Resources | Premier Resort Travel" },
+    { tagName: "link", rel: "canonical", href: "https://premierresorttravels.com/journal" },
     {
       name: "description",
       content:
@@ -325,7 +326,7 @@ export default function JournalIndexPage() {
         </div>
         <div className="resources-tool-grid">
           {tools.map((tool) => (
-            <a key={tool.title} className={`resources-tool-card ${tool.tone}`} href="/?popup=start">
+            <a key={tool.title} className={`resources-tool-card ${tool.tone}`} href={`/quote?origin=resources&note=${encodeURIComponent(`Interested in: ${tool.title}`)}`}>
               <div className="resources-tool-icon">
                 <ResourceLineIcon name={tool.icon} />
               </div>

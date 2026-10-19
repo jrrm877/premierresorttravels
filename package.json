@@ -7,6 +7,7 @@
     "build": "react-router build",
     "preview": "vite preview",
     "deploy": "wrangler deploy",
+    "test:seo": "node scripts/seo-regression.mjs",
     "typecheck": "react-router typegen && tsc --noEmit",
     "download:palace": "tsx scripts/download-palace-media.ts",
     "organize:palace": "tsx scripts/organize-palace-media.ts",

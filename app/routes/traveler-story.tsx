@@ -28,6 +28,7 @@ export function meta({ data }: Route.MetaArgs) {
 
   return [
     { title: `${data.story.title} | Traveler Stories | Premier Resort Travel` },
+    { tagName: "link", rel: "canonical", href: `https://premierresorttravels.com/traveler-stories/${data.story.slug}` },
     { name: "description", content: description },
     { property: "og:title", content: `${data.story.title} | Premier Resort Travel` },
     { property: "og:description", content: description },
@@ -111,7 +112,7 @@ export default function TravelerStoryPage({ loaderData }: Route.ComponentProps) 
             <span>{story.tripType}</span>
             <span>{story.travelDate}</span>
           </div>
-          <a className="button button-primary" href={`/?popup=start&note=${encodeURIComponent(`I liked ${story.travelerName}'s story at ${story.resort}.`)}`}>
+          <a className="button button-primary" href={`/quote?origin=traveler-story&resort=${encodeURIComponent(story.resort)}&note=${encodeURIComponent(`I liked ${story.travelerName}'s story at ${story.resort}.`)}`}>
             Plan a Similar Trip
           </a>
         </div>

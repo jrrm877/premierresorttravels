@@ -15,10 +15,23 @@ export function loader({ request }: Route.LoaderArgs) {
   const params = new URL(request.url).searchParams;
   const style = params.get("style") ?? "";
   const resort = params.get("resort")?.trim().slice(0, 150) ?? "";
+  const email = params.get("email")?.trim().slice(0, 254) ?? "";
+  const fullName = params.get("fullName")?.trim().slice(0, 150) ?? "";
   const destination = params.get("origin") === "journal" ? (params.get("destination")?.trim().slice(0, 150) ?? "") : "";
-  const origin = params.get("origin") === "property" && resort ? "Resort detail page" : params.get("origin") === "journal" ? "Travel journal" : "General quote page";
+  const originKey = params.get("origin") ?? "";
+  const originLabels: Record<string, string> = {
+    property: "Resort detail page",
+    journal: "Travel journal",
+    "traveler-stories": "Traveler stories index",
+    "traveler-story": "Traveler story",
+    about: "About page",
+    "about-activity": "About activity",
+    resources: "Travel resources",
+    "legacy-popup": "Legacy homepage planner link",
+  };
+  const origin = originLabels[originKey] ?? "General quote page";
   const initialNote = params.get("note")?.trim().slice(0, 500) ?? "";
-  return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "", resort, destination, origin, initialNote };
+  return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "", resort, destination, email, fullName, origin, initialNote };
 }
 
 type InquiryResponse = { success?: boolean; message?: string };
@@ -126,8 +139,8 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
                 <textarea value={preferences} onChange={e => setPreferences(e.target.value)} rows={3} placeholder="Room preferences, children's ages, flexible dates, accessibility needs..." style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} />
               </label>
             </>}
-            <label style={{ display: "grid", gap: 6 }}>Full name <input name="fullName" required autoComplete="name" style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} /></label>
-            <label style={{ display: "grid", gap: 6 }}>Email address <input name="email" type="email" required autoComplete="email" style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} /></label>
+            <label style={{ display: "grid", gap: 6 }}>Full name <input name="fullName" required autoComplete="name" defaultValue={loaderData.fullName} style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} /></label>
+            <label style={{ display: "grid", gap: 6 }}>Email address <input name="email" type="email" required autoComplete="email" defaultValue={loaderData.email} style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} /></label>
             <p style={{ fontSize: 14, margin: 0 }}>This is a request for an advisor-prepared quote, not a live-price search or booking. Rates, availability, and airfare are subject to confirmation. Your details are used to respond to your inquiry.</p>
             {invalidDates && <p role="alert">Check-out must be after check-in.</p>}
             {fetcher.data?.success === false && <p role="alert">{fetcher.data.message ?? "Please try again."}</p>}
