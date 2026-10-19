@@ -1,5 +1,5 @@
 /** Fail closed until both credentials are configured as Worker secrets. */
-export function requireAdvisorAccess(request: Request, env: { ADVISOR_USERNAME?: string; ADVISOR_PASSWORD?: string }) {
+export function requireAdvisorAccess(request: Request, env: Record<string, unknown>) {
   const deny = () => new Response("Advisor access requires authentication.", {
     status: 401,
     headers: {
