@@ -28,7 +28,7 @@ export function meta() {
 }
 
 export default function AdvisorLogin() {
-  const data = useActionData<typeof action>();
+  const data = useActionData() as { error?: string } | undefined;
   return <main className="page-shell"><section className="property-details" style={{ maxWidth: 520, margin: "3rem auto" }}>
     <p className="eyebrow">Private advisor access</p>
     <h1>Advisor sign in</h1>
