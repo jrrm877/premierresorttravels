@@ -8823,3 +8823,16 @@ button.portfolio-tab {
   .collection-page-shell { width: calc(100% - 1.25rem); }
   .collection-page-shell .collection-photo-grid { grid-template-columns: 1fr; }
 }
+
+
+/* Keep resort walkthrough anchors visible below the sticky site header. */
+#tour-arrival,
+#tour-room,
+#tour-experiences,
+#tour-fit,
+#moon-tour-arrival,
+#moon-tour-room,
+#moon-tour-fun,
+#moon-tour-fit {
+  scroll-margin-top: clamp(7rem, 12vw, 10rem);
+}
