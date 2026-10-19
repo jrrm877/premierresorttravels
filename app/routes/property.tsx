@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { ResortGallery } from "../components/ResortGallery";
+import { listResortPhotos } from "../lib/resort-photos";
 import { fallbackProperties, fetchDestinationsFromDb, fetchPropertyBySlug } from "../lib/catalog";
 import { findCollectionHrefForProperty } from "../lib/property-data";
 import { storiesForProperty } from "../lib/traveler-stories";
@@ -20,7 +22,8 @@ export async function loader({ params, context }: Route.LoaderArgs) {
       )
       .slice(0, 3);
 
-    return { property, related, source: "database", travelerStories: storiesForProperty(property, 3) };
+    const photos = context.cloudflare.env.RESORT_PHOTOS ? await listResortPhotos(context.cloudflare.env.RESORT_PHOTOS, property.slug, true).catch(() => []) : [];
+    return { property, related, photos, source: "database", travelerStories: storiesForProperty(property, 3) };
   } catch {
     const property = fallbackProperties().find((candidate) => candidate.slug === params.slug);
 
@@ -36,7 +39,8 @@ export async function loader({ params, context }: Route.LoaderArgs) {
       )
       .slice(0, 3);
 
-    return { property, related, source: "fallback", travelerStories: storiesForProperty(property, 3) };
+    const photos = context.cloudflare.env.RESORT_PHOTOS ? await listResortPhotos(context.cloudflare.env.RESORT_PHOTOS, property.slug, true).catch(() => []) : [];
+    return { property, related, photos, source: "fallback", travelerStories: storiesForProperty(property, 3) };
   }
 }
 
@@ -64,7 +68,7 @@ export function meta({ data }: Route.MetaArgs) {
 }
 
 export default function PropertyPage({ loaderData }: Route.ComponentProps) {
-  const { property, related, source, travelerStories } = loaderData;
+  const { property, related, photos, source, travelerStories } = loaderData;
   const [photoOpen, setPhotoOpen] = useState(false);
   const collectionHref = findCollectionHrefForProperty(property.slug);
   const quoteHref = `/quote?resort=${encodeURIComponent(property.name)}&origin=property`;
@@ -288,7 +292,8 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
         </div>
       </section>
 
-      {officialGalleryHref ? (
+      <ResortGallery photos={photos} resortName={property.name} quoteHref={quoteHref} />
+      {officialGalleryHref && photos.length === 0 ? (
         <section className="property-details resort-official-gallery" aria-labelledby="official-gallery-heading">
           <div className="section-heading section-heading-stack">
             <p className="eyebrow">Authentic Resort Photography</p>
