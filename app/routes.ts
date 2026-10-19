@@ -9,6 +9,7 @@ export default [
   route("advisor/login", "routes/advisor.login.tsx"),
   route("advisor/inquiries", "routes/advisor.inquiries.tsx"),
   route("advisor/notifications", "routes/advisor.notifications.tsx"),
+  route("advisor/photos", "routes/advisor.photos.tsx"),
   route("advisor/properties", "routes/advisor.properties.tsx"),
   route("about", "routes/about.tsx"),
   route("quote", "routes/quote.tsx"),
