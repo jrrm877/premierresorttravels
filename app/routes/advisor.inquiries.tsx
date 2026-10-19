@@ -43,7 +43,7 @@ function leadAttribution(inquiry: InquiryRecord) {
 }
 
 export async function loader({ request, context }: Route.LoaderArgs) {
-  requireAdvisorAccess(request, context.cloudflare.env);
+  await requireAdvisorAccess(request, context.cloudflare.env);
   const { DB } = context.cloudflare.env;
 
   const [{ results: inquiries }, { results: stats }] = await Promise.all([
