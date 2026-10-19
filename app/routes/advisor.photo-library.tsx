@@ -28,13 +28,13 @@ export async function action({ request, context }: Route.ActionArgs) {
   const existing = await bucket.get(key);
   if (!existing) return Response.json({ error: "Photo not found" }, { status: 404 });
   await bucket.put(key, existing.body, { httpMetadata: existing.httpMetadata, customMetadata: { ...existing.customMetadata, published: publish ? "true" : "false" } });
-  return Response.json({ ok: true });
+  return Response.json({ ok: true, published: publish });
 }
 export function meta() { return [{ title: "Advisor Photo Library | Premier Resort Travels" }, { name: "robots", content: "noindex,nofollow" }]; }
 function PhotoCard({ photo }: { photo: ResortPhoto }) {
   const fetcher = useFetcher();
   const pending = fetcher.state !== "idle";
-  const published = fetcher.data?.ok ? !photo.published : photo.published;
+  const published = typeof fetcher.data?.published === "boolean" ? fetcher.data.published : photo.published;
   return <article className="advisor-photo-card">
     {published ? <img src={photo.url} alt={photo.alt} loading="lazy" /> : <div className="advisor-photo-private">Private photo — publish to preview on site</div>}
     <div className="advisor-photo-card-body"><strong>{photo.category}</strong><p title={photo.alt}>{photo.alt}</p>
