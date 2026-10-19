@@ -4,8 +4,11 @@ export async function listResortPhotos(bucket: R2Bucket, slug: string, publicOnl
   const photos: ResortPhoto[] = [];
   let cursor: string | undefined;
   do {
-    const page = await bucket.list({ prefix: `resorts/${slug}/`, cursor, limit: 500, include: ["customMetadata"] });
-    for (const object of page.objects) {
+    const page = await bucket.list({ prefix: `resorts/${slug}/`, cursor, limit: 500 });
+    for (const listed of page.objects) {
+      // R2 list does not expose custom metadata in the installed Worker types.
+      const object = await bucket.head(listed.key);
+      if (!object) continue;
       const published = object.customMetadata?.published === "true";
       if (publicOnly && !published) continue;
       const category = object.customMetadata?.category || object.key.split("/")[2] || "other";
