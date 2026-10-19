@@ -26,6 +26,7 @@ export function meta(_: Route.MetaArgs) {
   return [
     { title: "Premier Resort Travel | Luxury Resorts, Family Escapes & Adults-Only Getaways" },
     { tagName: "link", rel: "canonical", href: "https://premierresorttravels.com/" },
+    { tagName: "link", rel: "preload", as: "image", href: homepageHeroImage, fetchPriority: "high" },
     {
       name: "description",
       content:
