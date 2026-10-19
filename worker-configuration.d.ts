@@ -1,6 +1,7 @@
 declare global {
   interface Env {
     DB: D1Database;
+    RESORT_PHOTOS: R2Bucket;
     INQUIRY_NOTIFY_FROM?: string;
     INQUIRY_NOTIFY_TO?: string;
     INQUIRY_WEBHOOK_BEARER_TOKEN?: string;
