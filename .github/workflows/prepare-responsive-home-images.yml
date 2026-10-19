@@ -24,7 +24,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          BRANCH="perf/homepage-webp-assets"
+          BRANCH="perf/homepage-webp-assets-${{ github.run_id }}"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -B "$BRANCH"
@@ -34,5 +34,5 @@ jobs:
             exit 0
           fi
           git commit -m "perf: generate responsive WebP travel-style images"
-          git push --force-with-lease origin "$BRANCH"
+          git push origin "$BRANCH"
           gh pr create --base main --head "$BRANCH" --title "perf: add responsive homepage WebP images" --body "Generated 480px and 960px WebP variants from existing homepage travel-style photos. Source images remain unchanged. Merge together with responsive image markup once verified."
