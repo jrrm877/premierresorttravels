@@ -42,16 +42,24 @@ export async function loader({ params, context }: Route.LoaderArgs) {
 
 export function meta({ data }: Route.MetaArgs) {
   if (!data) {
-    return [{ title: "Property Not Found | Premier Resort Travel" }];
+    return [{ title: "Resort Not Found | Premier Resort Travels" }, { name: "robots", content: "noindex" }];
   }
 
+  const property = data.property;
+  const canonical = `https://premierresorttravels.com/properties/${encodeURIComponent(property.slug)}`;
+  const title = `${property.name} | Resort Guide & Quotes | Premier Resort Travels`;
+  const description = `Explore ${property.name} in ${property.location}. Discover what makes this resort special, compare your options, and request a personalized vacation quote.`;
+  const image = property.image_url || "";
   return [
-    { title: `${data.property.name} | Resort Guide & Personalized Quotes | Premier Resort Travel` },
-    { tagName: "link", rel: "canonical", href: `https://premierresorttravels.com/properties/${encodeURIComponent(data.property.slug)}` },
-    {
-      name: "description",
-      content: `${data.property.name} in ${data.property.location}. ${data.property.description}`,
-    },
+    { title },
+    { name: "description", content: description },
+    { name: "robots", content: "index,follow" },
+    { tagName: "link", rel: "canonical", href: canonical },
+    { property: "og:type", content: "website" },
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
+    { property: "og:url", content: canonical },
+    ...(image ? [{ property: "og:image", content: image }, { name: "twitter:card", content: "summary_large_image" }] : []),
   ];
 }
 
@@ -84,11 +92,27 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
     "le-blanc-spa-resort-cancun": "https://cancun.leblancsparesorts.com/gallery",
   };
   const officialGalleryHref = officialGallery[property.slug];
+  const pageUrl = `https://premierresorttravels.com/properties/${encodeURIComponent(property.slug)}`;
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: `${property.name} Resort Guide | Premier Resort Travels`,
+    url: pageUrl,
+    description: property.description,
+    about: {
+      "@type": "LodgingBusiness",
+      name: property.name,
+      description: property.description,
+      image: property.image_url || undefined,
+    },
+    publisher: { "@type": "Organization", name: "Premier Resort Travels", url: "https://premierresorttravels.com" },
+  };
+
 
 
 
   return (
-    <main className="page-shell">
+    <main className="page-shell">\n      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
       <section className="property-hero">
         <div className="property-hero-image">
           <button type="button" className="resort-photo-trigger" onClick={() => setPhotoOpen(true)} aria-label={`Enlarge photo of ${property.name}`}>
