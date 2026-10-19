@@ -1,0 +1,36 @@
+name: Prepare optimized brand logos
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Pillow
+        run: python -m pip install 'Pillow>=11,<13'
+      - name: Generate transparent WebP logo variants
+        run: python scripts/optimize-brand-logos.py
+      - name: Push review branch with optimized assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH="perf/optimized-brand-assets-${{ github.run_id }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$BRANCH"
+          git add public/images/brand/premier-resort-travel-horizontal-logo-{320,640}.webp
+          git add public/images/logo-palace-resorts-clean-{240,480}.webp
+          if git diff --cached --quiet; then
+            echo "No optimized assets changed"
+            exit 0
+          fi
+          git commit -m "perf: add transparent responsive brand logo assets"
+          git push origin "$BRANCH"
+          echo "Assets pushed to $BRANCH; open a PR through GitHub (Actions token cannot create PRs)"
