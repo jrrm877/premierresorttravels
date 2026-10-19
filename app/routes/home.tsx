@@ -179,7 +179,7 @@ const partnerLogos = [
   },
   {
     name: "Palace Resorts",
-    image: "/images/logo-palace-resorts-clean.png",
+    image: "/images/logo-palace-resorts-clean-240.webp",
     className: "partner-logo-palace-resorts",
   },
   {

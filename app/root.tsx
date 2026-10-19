@@ -130,7 +130,7 @@ export default function App() {
               <NavLink className="site-brand" to="/">
                 <img
                   className="site-brand-logo"
-                  src="/images/brand/premier-resort-travel-horizontal-logo.png"
+                  src="/images/brand/premier-resort-travel-horizontal-logo-320.webp" srcSet="/images/brand/premier-resort-travel-horizontal-logo-320.webp 320w, /images/brand/premier-resort-travel-horizontal-logo-640.webp 640w" sizes="(max-width: 700px) 180px, 320px"
                   alt="Premier Resort Travel"
                 />
                 <span className="site-brand-copy">
@@ -161,7 +161,7 @@ export default function App() {
                 <section className="site-footer-brand-block" aria-label="Premier Resort Travel">
                   <img
                     className="site-footer-logo"
-                    src="/images/brand/premier-resort-travel-horizontal-logo.png"
+                    src="/images/brand/premier-resort-travel-horizontal-logo-320.webp" srcSet="/images/brand/premier-resort-travel-horizontal-logo-320.webp 320w, /images/brand/premier-resort-travel-horizontal-logo-640.webp 640w" sizes="(max-width: 700px) 180px, 320px"
                     alt="Premier Resort Travel"
                     loading="lazy"
                     decoding="async"
