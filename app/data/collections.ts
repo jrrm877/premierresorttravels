@@ -608,7 +608,9 @@ export function findCollectionBySlug(slug: string) {
 }
 
 export function findCollectionById(id: string) {
-  return allResortCollections.find((collection) => collection.id === id);
+  const collection = allResortCollections.find((item) => item.id === id);
+
+  return collection ? findCollectionBySlug(collection.slug) : undefined;
 }
 
 export function getRelatedCollections(collection: ResortCollection) {

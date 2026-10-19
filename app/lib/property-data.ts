@@ -1176,7 +1176,15 @@ export function findCollectionHrefForProperty(slug: string) {
     collection.properties.some((property) => property.slug === slug)
   );
 
-  return matchingFeaturedCollection ? `/collections/${matchingFeaturedCollection.slug}` : "/#portfolio-tabs";
+  if (!matchingFeaturedCollection) return "/#portfolio-tabs";
+
+  const canonicalCollectionSlug = {
+    "adults-only-resorts": "adults-only",
+    "baglioni-city-hotels": "baglioni",
+    "baglioni-resorts": "baglioni",
+  }[matchingFeaturedCollection.slug] ?? matchingFeaturedCollection.slug;
+
+  return `/collections/${canonicalCollectionSlug}`;
 }
 
 export type FeaturedCollection = {
