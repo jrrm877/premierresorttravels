@@ -14,6 +14,7 @@ export function meta(_: Route.MetaArgs) {
 export function loader({ request }: Route.LoaderArgs) {
   const params = new URL(request.url).searchParams;
   const style = params.get("style") ?? "";
+  const wedding = params.get("mode") === "wedding";
   const resort = params.get("resort")?.trim().slice(0, 150) ?? "";
   const email = params.get("email")?.trim().slice(0, 254) ?? "";
   const fullName = params.get("fullName")?.trim().slice(0, 150) ?? "";
@@ -31,7 +32,7 @@ export function loader({ request }: Route.LoaderArgs) {
   };
   const origin = originLabels[originKey] ?? "General quote page";
   const initialNote = params.get("note")?.trim().slice(0, 500) ?? "";
-  return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "", resort, destination, email, fullName, origin, initialNote };
+  return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "", resort, destination, email, fullName, origin, initialNote, wedding };
 }
 
 type InquiryResponse = { success?: boolean; message?: string };
@@ -64,6 +65,8 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
     ...(budget.trim() ? ["Approximate total trip budget (USD): " + budget.trim()] : []),
     ...(preferences.trim() ? ["Traveler preferences: " + preferences.trim()] : []),
   ].join("\n");
+
+  if (loaderData.wedding) return <WeddingInquiry initialNote={loaderData.initialNote} initialDestination={loaderData.destination || loaderData.resort} />;
 
   return (
     <main className="page-shell" style={{ maxWidth: 1000, margin: "0 auto", padding: "3rem 1.25rem 5rem" }}>
