@@ -33,6 +33,7 @@ export function meta({ data }: Route.MetaArgs) {
 export default function JournalPage({ loaderData }: Route.ComponentProps) {
   const { post, featuredProperties } = loaderData;
   const isLeBlancComparison = post.slug === "le-blanc-cancun-vs-le-blanc-los-cabos";
+  const isCouplesGuide = post.slug === "best-adults-only-all-inclusive-resorts-for-couples";
   const showMoonPalaceComparison = post.slug === "best-all-inclusive-resorts-in-cancun-for-families";
   const inquiryNote = `I read "${post.title}" and would like help comparing resorts and planning a trip.`;
   const journalDestination = post.slug.includes("cancun") ? "Cancun" : post.slug.includes("los-cabos") ? "Los Cabos" : post.slug.includes("jamaica") ? "Jamaica" : post.slug.includes("cozumel") ? "Cozumel" : post.slug.includes("italy") ? "Italy" : post.slug.includes("maldives") ? "Maldives" : "";
@@ -97,6 +98,34 @@ export default function JournalPage({ loaderData }: Route.ComponentProps) {
             <p>Share your travel dates, number of guests, and preferred room type. We can help compare available options and total trip pricing without relying on generic advertised rates.</p>
             <a className="button button-primary" href={inquiryHref}>Request my Le Blanc comparison</a>
           </article>
+        </section>
+      ) : null}
+      {isCouplesGuide ? (
+        <section className="property-details" aria-labelledby="couples-resort-comparison">
+          <div className="section-heading section-heading-stack">
+            <div><p className="eyebrow">Compare Adults-Only Resorts</p><h2 id="couples-resort-comparison">Which resort matches the way you want to travel?</h2></div>
+            <p className="section-copy">Start with the experience you want, then confirm the specific room category, available amenities, and total price for your dates.</p>
+          </div>
+          <div className="planning-grid">
+            <article className="planning-card"><h3>Le Blanc Spa Resort Cancun</h3><p>Consider this resort for an elegant Caribbean beachfront atmosphere and a couples-focused escape. Ask about room views, dining preferences, and spa options.</p><a className="text-link" href="/properties/le-blanc-spa-resort-cancun">Explore Le Blanc Cancun →</a></article>
+            <article className="planning-card"><h3>Le Blanc Spa Resort Los Cabos</h3><p>Consider this setting for dramatic coastal scenery and a quieter, design-forward retreat. Ocean conditions vary; do not assume swimming from the beach is possible.</p><a className="text-link" href="/properties/le-blanc-spa-resort-los-cabos">Explore Le Blanc Los Cabos →</a></article>
+            <article className="planning-card"><h3>Sun Palace Cancun</h3><p>Worth comparing for couples who prefer a Cancun beachfront vacation. Check current room categories, atmosphere, and package inclusions rather than assuming every adults-only stay is the same.</p><a className="text-link" href="/properties/sun-palace">Explore Sun Palace →</a></article>
+          </div>
+          <div className="hero-actions"><a className="button button-primary" href={inquiryHref}>Compare Adults-Only Resort Quotes</a><a className="button button-secondary" href="/journal/le-blanc-cancun-vs-le-blanc-los-cabos">Compare Cancun vs Los Cabos</a></div>
+        </section>
+      ) : null}
+      {isLeBlancComparison ? (
+        <section className="property-details" aria-labelledby="leblanc-details-heading">
+          <div className="section-heading section-heading-stack">
+            <div><p className="eyebrow">Side-by-Side Planning Guide</p><h2 id="leblanc-details-heading">Le Blanc Cancun vs. Los Cabos: what to compare before booking</h2></div>
+          </div>
+          <div className="planning-grid">
+            <article className="planning-card"><h3>Beach and destination</h3><p>Cancun offers a Caribbean setting; Los Cabos has a Pacific-side desert-meets-sea landscape. Beach access and safe swimming conditions differ by location and conditions, so confirm your priorities before choosing.</p></article>
+            <article className="planning-card"><h3>Rooms and total cost</h3><p>Compare the exact view, bedding configuration, cancellation terms, transfers, and total price for your dates. A similar room name does not guarantee the same experience or inclusions.</p></article>
+            <article className="planning-card"><h3>Dining and wellness</h3><p>Ask which restaurants, treatments, reservations, and experiences are included with the offer you are considering. Current offerings and availability can change.</p></article>
+            <article className="planning-card"><h3>Who should choose which?</h3><p>Prioritize Cancun if Caribbean beach scenery is central to your trip; compare Los Cabos if dramatic coastal landscapes and a slower resort-centered getaway appeal more.</p></article>
+          </div>
+          <div className="hero-actions"><a className="button button-primary" href={inquiryHref}>Compare Prices for My Dates</a><a className="button button-secondary" href="/journal/best-adults-only-all-inclusive-resorts-for-couples">Explore More Couples Resorts</a></div>
         </section>
       ) : null}
       {showMoonPalaceComparison ? (
