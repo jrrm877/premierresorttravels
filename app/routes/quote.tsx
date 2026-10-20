@@ -230,7 +230,7 @@ function InquiryThankYou({ wedding }: { wedding: boolean }) {
     <section className="inquiry-thank-you" role="status" aria-live="polite">
       <div className="inquiry-thank-you-photo">
         <img
-          src="/images/jazmin-cullen-resort.webp"
+          src="/images/ChatGPT%20Image%20Oct%2020%2C%202026%2C%2005_46_11%20PM.jpg"
           alt="Jazmin and Cullen smiling together overlooking the ocean at sunset"
           width={1024}
           height={768}
