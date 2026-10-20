@@ -172,49 +172,49 @@ function WeddingInquiry({ initialNote, initialDestination }: { initialNote: stri
     "Confirm event fees separately from guest travel and room costs."
   ].join("\n");
   return (
-    <main className="page-shell" style={{ maxWidth: 1000, margin: "0 auto", padding: "3rem 1.25rem 5rem" }}>
-      <p className="eyebrow">Let's Talk Destination Weddings</p>
+    <main className="page-shell wedding-inquiry-page">
+      <div className="wedding-inquiry-intro"><p className="eyebrow">Your Destination Wedding Begins Here</p>
       <h1>Dreaming of saying “I do” somewhere beautiful?</h1>
-      <p className="lede">You don't need to have everything figured out. Tell us a little about what you're imagining, and we'll help you explore resorts that fit your celebration and guests.</p>
-      <div style={{ maxWidth: 720, marginTop: 28, padding: 24, border: "1px solid #d5dcd9", borderRadius: 16 }}>
+      <p className="lede">You don't need to have everything figured out. Tell us a little about what you're imagining, and we'll help you explore resorts that fit your celebration and guests.</p><p className="wedding-inquiry-reassurance">A few quick questions · No commitment · Personal guidance</p></div>
+      <div className="wedding-inquiry-card">
         {fetcher.data?.success ? (
           <div role="status"><h2>Wedding inquiry received.</h2><p>Thank you for sharing your plans! We'll follow up by email to help you explore your options. No booking has been made.</p><a className="button button-secondary" href="/collections/destination-weddings">Explore wedding resorts</a></div>
         ) : (
-          <fetcher.Form method="post" action="/api/inquiry" style={{ display: "grid", gap: 18 }}>
+          <fetcher.Form method="post" action="/api/inquiry" className="wedding-inquiry-form">
             <input type="hidden" name="source" value="vacation-quote" />
             <input type="hidden" name="tripStyle" value="Destination Wedding" />
             <input type="hidden" name="travelWindow" value={date.trim() || "Flexible / not sure"} />
             <input type="hidden" name="notes" value={notes} />
-            <label style={{ display: "grid", gap: 6 }}>Where are you dreaming of getting married?
-              <select name="destinationInterest" value={destination} onChange={e => setDestination(e.target.value)} style={{ padding: 12 }}>
+            <div className="wedding-inquiry-form-heading"><span>THE LITTLE DETAILS</span><h2>Tell us what you imagine</h2><p>Not sure yet? That is completely fine.</p></div><label className="wedding-inquiry-field">Where are you dreaming of getting married?
+              <select name="destinationInterest" value={destination} onChange={e => setDestination(e.target.value)} className="wedding-inquiry-control">
                 {!["Open to ideas", "Cancun", "Riviera Maya", "Los Cabos", "Jamaica", "Somewhere else"].includes(destination) && <option value={destination}>{destination}</option>}
                 {["Open to ideas", "Cancun", "Riviera Maya", "Los Cabos", "Jamaica", "Somewhere else"].map(option => <option key={option} value={option}>{option}</option>)}
               </select>
             </label>
-            <label style={{ display: "grid", gap: 6 }}>When are you hoping to get married?
-              <input value={date} onChange={e => setDate(e.target.value)} placeholder="Month/year, a date, or still flexible" style={{ padding: 12 }} />
+            <label className="wedding-inquiry-field">When are you hoping to get married?
+              <input value={date} onChange={e => setDate(e.target.value)} placeholder="Month/year, a date, or still flexible" className="wedding-inquiry-control" />
             </label>
-            <label style={{ display: "grid", gap: 6 }}>About how many guests are you expecting?
-              <select value={guests} onChange={e => setGuests(e.target.value)} style={{ padding: 12 }}>
+            <label className="wedding-inquiry-field">About how many guests are you expecting?
+              <select value={guests} onChange={e => setGuests(e.target.value)} className="wedding-inquiry-control">
                 {["Not sure yet", "Under 20", "20–50", "51–100", "100+"].map(option => <option key={option} value={option}>{option}</option>)}
               </select>
             </label>
-            <fieldset style={{ border: 0, padding: 0 }}>
-              <legend style={{ fontWeight: 700, marginBottom: 10 }}>What matters most to you?</legend>
-              <div style={{ display: "grid", gap: 9 }}>
+            <fieldset className="wedding-inquiry-priorities">
+              <legend>What matters most to you?</legend>
+              <div className="wedding-inquiry-priority-grid">
                 {["A beautiful ceremony setting", "Making it affordable for guests", "A family-friendly resort", "Adults-only luxury", "Help figuring it all out"].map(option => (
-                  <label key={option} style={{ display: "flex", gap: 9, alignItems: "center" }}><input type="radio" checked={priority === option} onChange={() => setPriority(option)} />{option}</label>
+                  <label key={option} className="wedding-inquiry-choice"><input type="radio" checked={priority === option} onChange={() => setPriority(option)} />{option}</label>
                 ))}
               </div>
             </fieldset>
-            <label style={{ display: "grid", gap: 6 }}>Anything else you'd like us to know? (optional)
-              <textarea value={preferences} onChange={e => setPreferences(e.target.value)} rows={3} placeholder="Tell us about your dream wedding..." style={{ padding: 12 }} />
+            <label className="wedding-inquiry-field">Anything else you'd like us to know? (optional)
+              <textarea value={preferences} onChange={e => setPreferences(e.target.value)} rows={3} placeholder="Tell us about your dream wedding..." className="wedding-inquiry-control" />
             </label>
-            <label style={{ display: "grid", gap: 6 }}>Your name <input name="fullName" required autoComplete="name" style={{ padding: 12 }} /></label>
-            <label style={{ display: "grid", gap: 6 }}>Your email <input name="email" type="email" required autoComplete="email" style={{ padding: 12 }} /></label>
-            <p style={{ fontSize: 14 }}>This is just an inquiry, not a reservation. Resort wedding packages, guest travel, and event costs are confirmed separately when quoted.</p>
+            <label className="wedding-inquiry-field">Your name <input name="fullName" required autoComplete="name" className="wedding-inquiry-control" /></label>
+            <label className="wedding-inquiry-field">Your email <input name="email" type="email" required autoComplete="email" className="wedding-inquiry-control" /></label>
+            <p className="wedding-inquiry-disclaimer">This is just an inquiry, not a reservation. Resort wedding packages, guest travel, and event costs are confirmed separately when quoted.</p>
             {fetcher.data?.success === false && <p role="alert">{fetcher.data.message ?? "Please try again."}</p>}
-            <button className="button button-primary" type="submit" disabled={fetcher.state !== "idle"}>{fetcher.state !== "idle" ? "Sending..." : "Let's Talk About My Wedding"}</button>
+            <button className="button button-primary wedding-inquiry-submit" type="submit" disabled={fetcher.state !== "idle"}>{fetcher.state !== "idle" ? "Sending..." : "Let's Talk About My Wedding"}</button>
           </fetcher.Form>
         )}
       </div>
