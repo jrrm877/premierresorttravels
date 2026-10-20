@@ -81,9 +81,9 @@ export default function TravelerStoryPage({ loaderData }: Route.ComponentProps) 
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "/" },
-      { "@type": "ListItem", position: 2, name: "Traveler Stories", item: "/traveler-stories" },
-      { "@type": "ListItem", position: 3, name: story.title, item: `/traveler-stories/${story.slug}` },
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://premierresorttravels.com/" },
+      { "@type": "ListItem", position: 2, name: "Traveler Stories", item: "https://premierresorttravels.com/traveler-stories" },
+      { "@type": "ListItem", position: 3, name: story.title, item: `https://premierresorttravels.com/traveler-stories/${story.slug}` },
     ],
   };
 
