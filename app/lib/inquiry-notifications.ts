@@ -4,6 +4,7 @@ export type InquiryNotificationEnv = {
   INQUIRY_WEBHOOK_BEARER_TOKEN?: string;
   INQUIRY_WEBHOOK_SECRET?: string;
   INQUIRY_WEBHOOK_URL?: string;
+  INQUIRY_SHEETS_SECRET?: string;
   RESEND_API_KEY?: string;
   SITE_BASE_URL?: string;
 };
@@ -137,18 +138,43 @@ async function sendWebhookNotification(
     headers["x-inquiry-secret"] = env.INQUIRY_WEBHOOK_SECRET;
   }
 
+  // Apps Script Web Apps cannot read arbitrary request headers in doPost.
+  // Pass the shared secret in the JSON body only for the configured Sheets receiver.
+  const isAppsScript = /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(
+    env.INQUIRY_WEBHOOK_URL
+  );
+  if (isAppsScript && !env.INQUIRY_SHEETS_SECRET) {
+    throw new Error("Apps Script webhook requires INQUIRY_SHEETS_SECRET");
+  }
+
   const response = await fetch(env.INQUIRY_WEBHOOK_URL, {
     method: "POST",
     headers,
+    redirect: "follow",
     body: JSON.stringify({
       ...payload,
       submittedAt: new Date().toISOString(),
       siteBaseUrl: env.SITE_BASE_URL ?? "",
+      ...(isAppsScript ? { secret: env.INQUIRY_SHEETS_SECRET } : {}),
     }),
   });
 
   if (!response.ok) {
-    throw new Error(`Inquiry webhook failed: ${response.status} ${await response.text()}`);
+    throw new Error(`Inquiry webhook failed: ${response.status}`);
+  }
+
+  // A 200 HTML login/error page is not proof of delivery to Google Sheets.
+  if (isAppsScript) {
+    const text = await response.text();
+    let result: { success?: boolean; error?: string };
+    try {
+      result = JSON.parse(text);
+    } catch {
+      throw new Error("Apps Script returned a non-JSON response");
+    }
+    if (result.success !== true) {
+      throw new Error(`Apps Script rejected inquiry: ${result.error ?? "unknown"}`);
+    }
   }
 
   return true;
