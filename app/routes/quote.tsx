@@ -87,11 +87,7 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
       </section>
       <div style={{ maxWidth: 720, marginTop: 32, padding: 24, border: "1px solid #d5dcd9", borderRadius: 16 }}>
         {fetcher.data?.success ? (
-          <div role="status">
-            <h2>Request received.</h2>
-            <p>Thank you! Your vacation request has been received. We'll review your trip details and follow up using the email you provided. No booking has been made. Prices and availability are confirmed when quoted.</p>
-            <a className="button button-secondary" href="/collections">Explore resorts</a>
-          </div>
+          <PersonalConfirmation />
         ) : (
           <fetcher.Form method="post" action="/api/inquiry" style={{ display: "grid", gap: 18 }}>
             <input type="hidden" name="source" value="vacation-quote" />
@@ -156,6 +152,24 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
 }
 
 
+function PersonalConfirmation({ wedding = false }: { wedding?: boolean }) {
+  return (
+    <div role="status" className="personal-quote-confirmation" style={{ textAlign: "center", display: "grid", justifyItems: "center", gap: 14 }}>
+      <span aria-hidden="true" style={{ fontSize: 32, color: "#24745a" }}>✓</span>
+      <h2 style={{ margin: 0 }}>{wedding ? "Your wedding inquiry is in!" : "Your vacation inquiry is in!"}</h2>
+      <p style={{ margin: 0 }}>Thank you for choosing Premier Resort Travels. We received your request and can't wait to help!</p>
+      <h3 style={{ margin: "12px 0 0" }}>Real People. Real Vacations. Real Adventures.</h3>
+      <p style={{ margin: 0 }}>That's us, Jazmin and Cullen! We love making travel memories just as much as we love helping others create theirs.</p>
+      <p style={{ margin: 0 }}>We're real people, not an automated booking system. We personally review inquiries and respond during regular daytime business hours, Monday through Friday (Central Time).</p>
+      <p style={{ margin: 0 }}>If you reached out in the evening, over the weekend, or on a holiday, we'll get back to you as soon as we can during our next business day.</p>
+      <p style={{ margin: 0 }}>Thanks for your patience. We can't wait to help you plan something wonderful!</p>
+      <p style={{ margin: 0, fontStyle: "italic" }}>— Jazmin &amp; Cullen</p>
+      <p style={{ fontSize: 14, margin: 0 }}>This is an inquiry, not a reservation. No booking has been made. Pricing and availability are confirmed when quoted.</p>
+      <a className="button button-secondary" href={wedding ? "/collections/destination-weddings" : "/collections"}>{wedding ? "Explore wedding resorts" : "Explore resorts"}</a>
+    </div>
+  );
+}
+
 function WeddingInquiry({ initialNote, initialDestination }: { initialNote: string; initialDestination: string }) {
   const fetcher = useFetcher<InquiryResponse>();
   const [destination, setDestination] = useState(initialDestination || "Open to ideas");
@@ -185,7 +199,7 @@ function WeddingInquiry({ initialNote, initialDestination }: { initialNote: stri
       </div>
       <div className="wedding-inquiry-card">
         {fetcher.data?.success ? (
-          <div role="status"><h2>Wedding inquiry received.</h2><p>Thank you for sharing your plans! We'll follow up by email to help you explore your options. No booking has been made.</p><a className="button button-secondary" href="/collections/destination-weddings">Explore wedding resorts</a></div>
+          <PersonalConfirmation wedding />
         ) : (
           <fetcher.Form method="post" action="/api/inquiry" className="wedding-inquiry-form">
             <input type="hidden" name="source" value="vacation-quote" />
