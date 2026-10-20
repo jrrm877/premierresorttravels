@@ -173,9 +173,16 @@ function WeddingInquiry({ initialNote, initialDestination }: { initialNote: stri
   ].join("\n");
   return (
     <main className="page-shell wedding-inquiry-page">
-      <div className="wedding-inquiry-intro"><p className="eyebrow">Your Destination Wedding Begins Here</p>
-      <h1>Dreaming of saying “I do” somewhere beautiful?</h1>
-      <p className="lede">You don't need to have everything figured out. Tell us a little about what you're imagining, and we'll help you explore resorts that fit your celebration and guests.</p><p className="wedding-inquiry-reassurance">A few quick questions · No commitment · Personal guidance</p></div>
+      <div className="wedding-inquiry-intro">
+        <p className="eyebrow">Destination Weddings</p>
+        <h1>Your Dream Wedding <em>in Paradise</em></h1>
+        <p className="lede">Whether you have a clear vision or are just starting to explore, we're here to help you find the perfect resort for your celebration.</p>
+        <div className="wedding-inquiry-benefits">
+          <div><span aria-hidden="true">♡</span><p><strong>Curated Resort Options</strong>Beautiful resorts matched to your style and guest list.</p></div>
+          <div><span aria-hidden="true">✧</span><p><strong>Personal Guidance</strong>Compare destinations, accommodations, and group needs.</p></div>
+          <div><span aria-hidden="true">✦</span><p><strong>Easy First Steps</strong>Share your vision now. We'll explore the details together.</p></div>
+        </div>
+      </div>
       <div className="wedding-inquiry-card">
         {fetcher.data?.success ? (
           <div role="status"><h2>Wedding inquiry received.</h2><p>Thank you for sharing your plans! We'll follow up by email to help you explore your options. No booking has been made.</p><a className="button button-secondary" href="/collections/destination-weddings">Explore wedding resorts</a></div>
@@ -185,7 +192,7 @@ function WeddingInquiry({ initialNote, initialDestination }: { initialNote: stri
             <input type="hidden" name="tripStyle" value="Destination Wedding" />
             <input type="hidden" name="travelWindow" value={date.trim() || "Flexible / not sure"} />
             <input type="hidden" name="notes" value={notes} />
-            <div className="wedding-inquiry-form-heading"><span>THE LITTLE DETAILS</span><h2>Tell us what you imagine</h2><p>Not sure yet? That is completely fine.</p></div><label className="wedding-inquiry-field">Where are you dreaming of getting married?
+            <div className="wedding-inquiry-form-heading"><span>DESTINATION WEDDING INQUIRY</span><h2>Let’s Start Planning</h2><p>Share a few details about your dream wedding. No obligation to book.</p></div><label className="wedding-inquiry-field">Where are you dreaming of getting married?
               <select name="destinationInterest" value={destination} onChange={e => setDestination(e.target.value)} className="wedding-inquiry-control">
                 {!["Open to ideas", "Cancun", "Riviera Maya", "Los Cabos", "Jamaica", "Somewhere else"].includes(destination) && <option value={destination}>{destination}</option>}
                 {["Open to ideas", "Cancun", "Riviera Maya", "Los Cabos", "Jamaica", "Somewhere else"].map(option => <option key={option} value={option}>{option}</option>)}
