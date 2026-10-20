@@ -52,7 +52,7 @@ export async function action({ request, context }: Route.ActionArgs) {
       .bind(storedName, email, destinationInterest, tripStyle, travelWindow, notes)
       .run();
 
-    await deliverInquiryNotifications(context.cloudflare.env, {
+    const delivery = await deliverInquiryNotifications(context.cloudflare.env, {
       inquiryId: result.meta.last_row_id ?? "",
       source,
       fullName: storedName,
@@ -62,6 +62,25 @@ export async function action({ request, context }: Route.ActionArgs) {
       travelWindow,
       notes,
     });
+
+    // A saved inquiry is not proof that advisor notifications or Sheets sync succeeded.
+    // Keep diagnostic output free of customer names, email addresses, and notes.
+    const missingChannels = ["resend", "webhook"].filter(
+      (channel) => !delivery.delivered.includes(channel)
+    );
+    if (missingChannels.length > 0) {
+      console.error("Inquiry saved but downstream delivery incomplete", {
+        inquiryId: result.meta.last_row_id,
+        missingChannels,
+        attempted: delivery.attempted,
+        failed: delivery.failed,
+      });
+    } else {
+      console.info("Inquiry saved and configured advisor delivery succeeded", {
+        inquiryId: result.meta.last_row_id,
+        delivered: delivery.delivered,
+      });
+    }
 
     return Response.json({
       success: true,
