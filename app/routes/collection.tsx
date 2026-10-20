@@ -67,7 +67,7 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
   const collectionUrl = `https://premierresorttravels.com/collections/${collection.slug}`;
   const isWeddingCollection = collection.slug === "destination-weddings";
   const isPalaceCollection = collection.slug === "palace-resorts";
-  const quoteHref = `/quote?origin=collection&note=${encodeURIComponent(isWeddingCollection ? "I am planning a destination wedding. Please help compare all-inclusive resort options, guest room blocks, wedding events, and estimated group costs." : `Interested in ${collection.title} resorts. Please help me compare options.`)}`;
+  const quoteHref = `/quote?origin=collection${isWeddingCollection ? "&mode=wedding" : ""}&note=${encodeURIComponent(isWeddingCollection ? "I am planning a destination wedding. Please help compare all-inclusive resort options, guest room blocks, wedding events, and estimated group costs." : `Interested in ${collection.title} resorts. Please help me compare options.`)}`;
 
   const collectionSchema = {
     "@context": "https://schema.org",

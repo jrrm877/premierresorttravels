@@ -14,6 +14,7 @@ export function meta(_: Route.MetaArgs) {
 export function loader({ request }: Route.LoaderArgs) {
   const params = new URL(request.url).searchParams;
   const style = params.get("style") ?? "";
+  const wedding = params.get("mode") === "wedding";
   const resort = params.get("resort")?.trim().slice(0, 150) ?? "";
   const email = params.get("email")?.trim().slice(0, 254) ?? "";
   const fullName = params.get("fullName")?.trim().slice(0, 150) ?? "";
@@ -31,7 +32,7 @@ export function loader({ request }: Route.LoaderArgs) {
   };
   const origin = originLabels[originKey] ?? "General quote page";
   const initialNote = params.get("note")?.trim().slice(0, 500) ?? "";
-  return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "", resort, destination, email, fullName, origin, initialNote };
+  return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "", resort, destination, email, fullName, origin, initialNote, wedding };
 }
 
 type InquiryResponse = { success?: boolean; message?: string };
@@ -64,6 +65,8 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
     ...(budget.trim() ? ["Approximate total trip budget (USD): " + budget.trim()] : []),
     ...(preferences.trim() ? ["Traveler preferences: " + preferences.trim()] : []),
   ].join("\n");
+
+  if (loaderData.wedding) return <WeddingInquiry initialNote={loaderData.initialNote} initialDestination={loaderData.destination || loaderData.resort} />;
 
   return (
     <main className="page-shell" style={{ maxWidth: 1000, margin: "0 auto", padding: "3rem 1.25rem 5rem" }}>
@@ -145,6 +148,87 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
             {invalidDates && <p role="alert">Check-out must be after check-in.</p>}
             {fetcher.data?.success === false && <p role="alert">{fetcher.data.message ?? "Please try again."}</p>}
             <button className="button button-primary" type="submit" disabled={sending || invalidDates}>{sending ? "Sending request..." : "Get My Free Vacation Quote"}</button>
+          </fetcher.Form>
+        )}
+      </div>
+    </main>
+  );
+}
+
+
+function WeddingInquiry({ initialNote, initialDestination }: { initialNote: string; initialDestination: string }) {
+  const fetcher = useFetcher<InquiryResponse>();
+  const [destination, setDestination] = useState(initialDestination);
+  const [date, setDate] = useState("");
+  const [flexible, setFlexible] = useState(true);
+  const [guests, setGuests] = useState("");
+  const [children, setChildren] = useState("Not sure yet");
+  const [setting, setSetting] = useState("Help me compare");
+  const [budget, setBudget] = useState("");
+  const [events, setEvents] = useState("");
+  const [airports, setAirports] = useState("");
+  const [preferences, setPreferences] = useState(initialNote);
+  const notes = [
+    "Inquiry type: Destination wedding",
+    "Wedding date: " + (flexible ? "Flexible / not selected" : date || "Not selected"),
+    "Estimated guests: " + (guests || "Not sure"),
+    "Children attending: " + children,
+    "Resort setting: " + setting,
+    "Guest accommodation budget: " + (budget || "Not specified"),
+    "Ceremony and events: " + (events || "Not specified"),
+    "Guest departure cities: " + (airports || "Not specified"),
+    "Other preferences: " + (preferences || "None"),
+    "Wedding event fees and guest travel costs should be quoted separately."
+  ].join("\n");
+  return (
+    <main className="page-shell" style={{ maxWidth: 1000, margin: "0 auto", padding: "3rem 1.25rem 5rem" }}>
+      <p className="eyebrow">Destination Wedding Planning</p>
+      <h1>Let's find the right resort for your wedding.</h1>
+      <p className="lede">Tell us about your celebration and guest list. We'll help narrow resort options and clarify wedding event costs separately from guest rooms and travel.</p>
+      <div style={{ maxWidth: 720, marginTop: 28, padding: 24, border: "1px solid #d5dcd9", borderRadius: 16 }}>
+        {fetcher.data?.success ? (
+          <div role="status"><h2>Wedding inquiry received.</h2><p>Thank you! We'll review your celebration details and follow up by email. This is not a wedding booking or reservation.</p><a href="/collections/destination-weddings" className="button button-secondary">Explore wedding resorts</a></div>
+        ) : (
+          <fetcher.Form method="post" action="/api/inquiry" style={{ display: "grid", gap: 18 }}>
+            <input type="hidden" name="source" value="vacation-quote" />
+            <input type="hidden" name="tripStyle" value="Destination Wedding" />
+            <input type="hidden" name="travelWindow" value={flexible ? "Wedding date flexible" : date || "Wedding date not selected"} />
+            <input type="hidden" name="notes" value={notes} />
+            <label style={{ display: "grid", gap: 6 }}>Preferred destination or wedding resort
+              <input name="destinationInterest" value={destination} onChange={e => setDestination(e.target.value)} placeholder="Cancun, Riviera Maya, Jamaica, or open to ideas" style={{ padding: 12 }} />
+            </label>
+            <label style={{ display: "flex", gap: 10, alignItems: "center" }}><input type="checkbox" checked={flexible} onChange={e => setFlexible(e.target.checked)} /> Our wedding date is flexible or undecided</label>
+            {!flexible && <label style={{ display: "grid", gap: 6 }}>Preferred wedding date <input type="date" value={date} onChange={e => setDate(e.target.value)} style={{ padding: 12 }} /></label>}
+            <label style={{ display: "grid", gap: 6 }}>Approximate number of wedding guests
+              <input inputMode="numeric" type="number" min="1" max="1000" value={guests} onChange={e => setGuests(e.target.value)} placeholder="For example, 40" style={{ padding: 12 }} />
+            </label>
+            <label style={{ display: "grid", gap: 6 }}>Will children attend?
+              <select value={children} onChange={e => setChildren(e.target.value)} style={{ padding: 12 }}>
+                <option>Not sure yet</option><option>Yes</option><option>No — adults only</option>
+              </select>
+            </label>
+            <label style={{ display: "grid", gap: 6 }}>Preferred resort atmosphere
+              <select value={setting} onChange={e => setSetting(e.target.value)} style={{ padding: 12 }}>
+                <option>Help me compare</option><option>Family friendly</option><option>Adults only</option><option>Intimate and quiet</option><option>Lively group celebration</option>
+              </select>
+            </label>
+            <label style={{ display: "grid", gap: 6 }}>Approximate guest room budget (optional)
+              <input value={budget} onChange={e => setBudget(e.target.value)} placeholder="Per room/night or per guest/stay — specify which" style={{ padding: 12 }} />
+            </label>
+            <label style={{ display: "grid", gap: 6 }}>Ceremony and reception ideas (optional)
+              <textarea value={events} onChange={e => setEvents(e.target.value)} rows={3} placeholder="Beach ceremony, terrace reception, welcome party, guest activities..." style={{ padding: 12 }} />
+            </label>
+            <label style={{ display: "grid", gap: 6 }}>Where will most guests travel from? (optional)
+              <input value={airports} onChange={e => setAirports(e.target.value)} placeholder="Cities or airports" style={{ padding: 12 }} />
+            </label>
+            <label style={{ display: "grid", gap: 6 }}>Anything else we should know? (optional)
+              <textarea value={preferences} onChange={e => setPreferences(e.target.value)} rows={3} style={{ padding: 12 }} />
+            </label>
+            <label style={{ display: "grid", gap: 6 }}>Full name <input name="fullName" autoComplete="name" required style={{ padding: 12 }} /></label>
+            <label style={{ display: "grid", gap: 6 }}>Email address <input name="email" type="email" autoComplete="email" required style={{ padding: 12 }} /></label>
+            <p style={{ fontSize: 14 }}>Wedding packages, event fees, room rates, and travel arrangements are subject to resort confirmation. This inquiry is not a reservation or payment.</p>
+            {fetcher.data?.success === false && <p role="alert">{fetcher.data.message ?? "Please try again."}</p>}
+            <button className="button button-primary" type="submit" disabled={fetcher.state !== "idle"}>{fetcher.state !== "idle" ? "Sending inquiry..." : "Request My Wedding Resort Options"}</button>
           </fetcher.Form>
         )}
       </div>
