@@ -68,6 +68,29 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
 
   if (loaderData.wedding) return <WeddingInquiry initialNote={loaderData.initialNote} initialDestination={loaderData.destination || loaderData.resort} />;
 
+  if (fetcher.data?.success) {
+    return (
+      <main className="page-shell postcard-success-page">
+        <div className="postcard-success-heading" role="status">
+          <p className="eyebrow">Premier Resort Travel · A personal thank-you</p>
+          <h1>Your request is on its way!</h1>
+          <p>We’ve received your inquiry. A little note from us is waiting below.</p>
+        </div>
+        <div className="postcard-confirmation">
+          <img
+            src="/images/premier-thank-you-postcard%20(1).webp"
+            alt="A personal thank-you postcard from Jazmin and Cullen. Your vacation inquiry has been received. They personally review inquiries during daytime business hours and will respond as soon as they can. No reservation has been made."
+            width={1024}
+            height={1536}
+            decoding="async"
+          />
+          <a className="postcard-confirmation-link" href="/collections">Explore resorts <span aria-hidden="true">→</span></a>
+        </div>
+      </main>
+    );
+  }
+
+
   return (
     <main className="page-shell" style={{ maxWidth: 1000, margin: "0 auto", padding: "3rem 1.25rem 5rem" }}>
       <p className="eyebrow">Personalized Vacation Quotes</p>
