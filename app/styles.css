@@ -8956,3 +8956,23 @@ textarea.wedding-inquiry-control{min-height:108px;resize:vertical}
 .inquiry-thank-you-copy .inquiry-thank-you-disclaimer{font-size:.78rem;color:#6b6258;margin:1.1rem 0}
 .inquiry-thank-you-copy .button{display:inline-flex;align-items:center;justify-content:center}
 @media(max-width:760px){.inquiry-thank-you{grid-template-columns:1fr}.inquiry-thank-you-photo{max-width:420px;margin:0 auto}.inquiry-thank-you-copy{text-align:left}}
+
+
+/* Personal stationery confirmation: readable editorial body, handwritten accents only */
+.inquiry-thank-you{display:block;max-width:850px;margin:0 auto;padding:clamp(.3rem,1vw,.8rem);color:#30251e}
+.inquiry-thank-you-letter{position:relative;max-width:760px;margin:auto;padding:clamp(1.5rem,5vw,3.7rem);background:linear-gradient(135deg,rgba(255,255,255,.74),transparent 35%),#fffaf0;border:1px solid #dfceb7;border-radius:4px;box-shadow:0 4px 9px rgba(57,39,20,.07),0 24px 60px rgba(57,39,20,.1)}
+.inquiry-thank-you-letter:before{content:"";position:absolute;inset:10px;border:1px solid rgba(169,128,75,.21);pointer-events:none}
+.inquiry-thank-you-letterhead{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-bottom:1rem;border-bottom:1px solid #dcc7a9;color:#926f47;font-size:.69rem;letter-spacing:.13em;text-transform:uppercase}
+.inquiry-thank-you-monogram{display:inline-flex;align-items:center;justify-content:center;border:1px solid #b68c55;border-radius:50%;height:46px;width:46px;font-family:Georgia,serif;font-size:1rem;letter-spacing:-.06em;color:#9a703e;flex-shrink:0}
+.inquiry-thank-you-letter .inquiry-thank-you-salutation{font-family:"Segoe Print","Bradley Hand","Comic Sans MS",cursive;font-size:1.3rem;color:#95663e;margin:1.8rem 0 .4rem}
+.inquiry-thank-you-letter h2{font-family:Georgia,serif;font-size:clamp(1.8rem,4vw,2.7rem);line-height:1.16;font-weight:500;color:#26394a;margin:0 0 1.5rem}
+.inquiry-thank-you-letter>p:not(.inquiry-thank-you-salutation){font-family:Georgia,serif;font-size:clamp(1rem,1.5vw,1.12rem);line-height:1.85;max-width:62ch;margin:0 0 1.1rem}
+.inquiry-thank-you-letter .inquiry-thank-you-signature{font-family:"Segoe Print","Bradley Hand","Comic Sans MS",cursive;font-size:1.12rem;line-height:1.8;color:#8a5c39;margin:1.5rem 0}
+.inquiry-thank-you-letter .inquiry-thank-you-signature strong{font-size:1.6rem;font-weight:500}
+.inquiry-thank-you-letter .inquiry-thank-you-photo{max-width:320px;margin:1.7rem 0}
+.inquiry-thank-you-letter .inquiry-thank-you-photo img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:center;border:7px solid #fff;box-shadow:0 5px 20px rgba(57,39,20,.17);border-radius:2px;transform:rotate(-1.5deg)}
+.inquiry-thank-you-letter .inquiry-thank-you-photo span{display:block;font-size:.78rem;line-height:1.5;color:#8c7156;margin:.7rem 0 0;text-align:center}
+.inquiry-thank-you-footer{border-top:1px solid #dcc7a9;padding-top:1.2rem;margin-top:1rem}
+.inquiry-thank-you-footer p{font-size:.78rem;line-height:1.6;color:#766a5e;margin:0 0 1rem}
+.inquiry-thank-you-footer .button{display:inline-flex}
+@media(max-width:600px){.inquiry-thank-you-letter{padding:1.7rem 1.25rem}.inquiry-thank-you-letter:before{inset:6px}.inquiry-thank-you-letterhead{font-size:.58rem}.inquiry-thank-you-letter .inquiry-thank-you-photo{margin:1.5rem auto}}

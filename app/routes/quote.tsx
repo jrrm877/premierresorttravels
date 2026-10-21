@@ -228,27 +228,35 @@ function WeddingInquiry({ initialNote, initialDestination }: { initialNote: stri
 function InquiryThankYou({ wedding }: { wedding: boolean }) {
   return (
     <section className="inquiry-thank-you" role="status" aria-live="polite">
-      <div className="inquiry-thank-you-photo">
-        <img
-          src="/images/ChatGPT%20Image%20Oct%2020%2C%202026%2C%2005_46_11%20PM.jpg"
-          alt="Jazmin and Cullen smiling together overlooking the ocean at sunset"
-          width={1024}
-          height={768}
-          loading="lazy"
-          decoding="async"
-        />
-        <p>Jazmin &amp; Cullen · Premier Resort Travel</p>
-      </div>
-      <div className="inquiry-thank-you-copy">
-        <p className="eyebrow">Thank you for reaching out</p>
-        <h2>{wedding ? "Your wedding plans are in good hands!" : "Your vacation plans are in good hands!"}</h2>
-        <p>{wedding ? "We’ve received your wedding inquiry and can’t wait to help you explore the possibilities." : "We’ve received your vacation inquiry and look forward to helping you plan something wonderful."}</p>
-        <h3>A little note from us</h3>
-        <p>We’re real people who personally review every request. We work regular daytime business hours, so if you reached out in the evening or over the weekend, we’ll be in touch as soon as we can during our next available business hours.</p>
-        <p>Thank you for your patience. We appreciate the opportunity to help!</p>
-        <p className="inquiry-thank-you-signature">Warmly,<br /><strong>Jazmin &amp; Cullen</strong></p>
-        <p className="inquiry-thank-you-disclaimer">Your inquiry has been received, but no reservation has been made. Prices and availability are confirmed when quoted.</p>
-        <a className="button button-secondary" href={wedding ? "/collections/destination-weddings" : "/collections"}>{wedding ? "Explore wedding resorts" : "Explore resorts"}</a>
+      <div className="inquiry-thank-you-letter">
+        <div className="inquiry-thank-you-letterhead">
+          <span className="inquiry-thank-you-monogram" aria-hidden="true">PRT</span>
+          <span>Premier Resort Travel <span aria-hidden="true">✦</span> A personal note</span>
+        </div>
+        <p className="inquiry-thank-you-salutation">Hello, future traveler!</p>
+        <h2>{wedding ? "Your dream wedding starts here." : "Your next getaway starts here."}</h2>
+        <p>{wedding
+          ? "Thank you for sharing your wedding plans with us. We’ve received your inquiry, and we’re excited to help you explore the possibilities."
+          : "Thank you for sharing your vacation plans with us. We’ve received your inquiry, and we’re excited to help you find your perfect escape."}</p>
+        <p>Just a little note from us: there are real people behind Premier Resort Travel. We personally read every request and take time to explore the options that fit you best.</p>
+        <p>We work regular daytime business hours, so if your message arrives in the evening or over the weekend, we’ll be in touch as soon as we can during our next available business hours.</p>
+        <p>We appreciate you trusting us with your plans. We can’t wait to help make something wonderful happen!</p>
+        <div className="inquiry-thank-you-signature">With warm wishes,<br /><strong>Jazmin &amp; Cullen</strong></div>
+        <div className="inquiry-thank-you-photo">
+          <img
+            src="/images/ChatGPT%20Image%20Oct%2020%2C%202026%2C%2005_46_11%20PM.jpg"
+            alt="Jazmin and Cullen smiling together overlooking the ocean at sunset"
+            width={1024}
+            height={768}
+            loading="lazy"
+            decoding="async"
+          />
+          <span>Real people. Personal planning. Wonderful memories.</span>
+        </div>
+        <div className="inquiry-thank-you-footer">
+          <p>Your request is an inquiry, not a reservation. Rates and availability will be confirmed when quoted.</p>
+          <a className="button button-secondary" href={wedding ? "/collections/destination-weddings" : "/collections"}>{wedding ? "Explore wedding resorts" : "Explore resorts"}</a>
+        </div>
       </div>
     </section>
   );
