@@ -99,6 +99,19 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
     URL.revokeObjectURL(url);
   }
 
+
+  const [groupByTraveler, setGroupByTraveler] = useState(true);
+  const groupedInquiries = useMemo(() => {
+    const groups = new Map<string, InquiryRecord[]>();
+    for (const inquiry of visibleInquiries) {
+      const key = inquiry.email.trim().toLowerCase();
+      groups.set(key, [...(groups.get(key) ?? []), inquiry]);
+    }
+    return [...groups.values()].sort((a, b) => new Date(b[0].created_at).getTime() - new Date(a[0].created_at).getTime());
+  }, [visibleInquiries]);
+  const displayedInquiries = groupByTraveler ? groupedInquiries.map((group) => group[0]) : visibleInquiries;
+  const groupedCounts = new Map(groupedInquiries.map((group) => [group[0].email.trim().toLowerCase(), group.length]));
+
   const sources = inquiries.map(leadAttribution);
   const resortCounts = new Map<string, number>();
   for (const source of sources) if (source.resort) resortCounts.set(source.resort, (resortCounts.get(source.resort) ?? 0) + 1);
@@ -177,9 +190,10 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
               <option value="quick">Quick notes</option>
             </select>
           </label>
+          <label className="advisor-group-toggle"><input type="checkbox" checked={groupByTraveler} onChange={(event) => setGroupByTraveler(event.target.checked)} /> Group by traveler</label>
           <button type="button" className="button button-secondary" onClick={downloadCsv} disabled={!visibleInquiries.length}>Export {visibleInquiries.length} inquiries (CSV)</button>
         </div>
-        <p className="results-summary" aria-live="polite">Showing {visibleInquiries.length} of {inquiries.length} saved inquiries. Stored securely in the website database.</p>
+        <p className="results-summary" aria-live="polite">Showing {groupByTraveler ? groupedInquiries.length + " travelers" : visibleInquiries.length + " inquiries"} across {visibleInquiries.length} matching submissions ({inquiries.length} total). Stored securely in the website database.</p>
         <div className="inquiry-list">
           {visibleInquiries.length === 0 ? (
             <article className="planning-card">
@@ -187,11 +201,12 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
               <p>Once travelers use the quote form, submissions will appear here.</p>
             </article>
           ) : (
-            visibleInquiries.map((inquiry) => (
+            displayedInquiries.map((inquiry) => (
               <article key={inquiry.id} className="inquiry-card">
                 <div className="inquiry-card-top">
                   <div>
                     <h3>{inquiry.full_name}</h3>
+                    {groupByTraveler && (groupedCounts.get(inquiry.email.trim().toLowerCase()) ?? 0) > 1 ? <p className="results-summary">{groupedCounts.get(inquiry.email.trim().toLowerCase())} submissions from this traveler</p> : null}
                     <p className="results-summary">{inquiry.email}</p>
                   </div>
                   <span className="tier-pill">{formatInquiryTime(inquiry.created_at)}</span>
@@ -209,6 +224,16 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
                 </div>
                 <button type="button" className="advisor-lead-details-toggle" aria-expanded={expandedIds.includes(inquiry.id)} onClick={() => setExpandedIds((ids) => ids.includes(inquiry.id) ? ids.filter((id) => id !== inquiry.id) : [...ids, inquiry.id])}>{expandedIds.includes(inquiry.id) ? "Hide submitted details" : "View submitted details"}</button>
                 {expandedIds.includes(inquiry.id) ? <pre className="advisor-lead-notes">{inquiry.notes || "No additional notes were provided."}</pre> : null}
+                {groupByTraveler && (groupedCounts.get(inquiry.email.trim().toLowerCase()) ?? 0) > 1 && expandedIds.includes(inquiry.id) ? (
+                  <div className="advisor-traveler-history">
+                    <strong>Earlier requests from this traveler</strong>
+                    <ul>{(groupedInquiries.find((group) => group[0].email.trim().toLowerCase() === inquiry.email.trim().toLowerCase()) ?? []).slice(1).map((older) => (
+                      <li key={older.id}><strong>#{older.id}</strong> · {formatInquiryTime(older.created_at)} · {older.destination_interest || "Destination undecided"} · {older.trip_style || "Style undecided"}
+                        <pre className="advisor-lead-notes">{older.notes || "No additional notes"}</pre>
+                      </li>
+                    ))}</ul>
+                  </div>
+                ) : null}
                 <div className="card-actions card-actions-inline">
                   <a className="button button-secondary" href={`mailto:${encodeURIComponent(inquiry.email)}`}>
                     Reply by email
