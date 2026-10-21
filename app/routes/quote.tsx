@@ -87,7 +87,10 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
       </section>
       <div style={{ maxWidth: 720, marginTop: 32, padding: 24, border: "1px solid #d5dcd9", borderRadius: 16 }}>
         {fetcher.data?.success ? (
-          <InquiryThankYou wedding={false} />
+          <div className="postcard-confirmation" role="status" aria-label="Vacation inquiry received. Thank you for reaching out. We personally review each request during regular daytime business hours and will reply as soon as possible during our next available business hours. No reservation has been made.">
+            <img src="/images/premier-thank-you-postcard.webp" alt="Thank you for reaching out to Premier Resort Travel. Your vacation inquiry was received. Jazmin and Cullen personally review requests during regular daytime business hours and will be in touch as soon as possible. No reservation has been made." width={1024} height={1536} decoding="async" />
+            <a className="postcard-confirmation-link" href="/collections">Explore resorts <span aria-hidden="true">→</span></a>
+          </div>
         ) : (
           <fetcher.Form method="post" action="/api/inquiry" style={{ display: "grid", gap: 18 }}>
             <input type="hidden" name="source" value="vacation-quote" />
