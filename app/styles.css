@@ -8962,3 +8962,15 @@ textarea.wedding-inquiry-control{min-height:108px;resize:vertical}
 .postcard-confirmation img{display:block;width:100%;height:auto;border-radius:8px;box-shadow:0 18px 48px rgba(44,31,20,.14)}
 .postcard-confirmation-link{display:inline-flex;align-items:center;gap:.5rem;margin-top:1rem;color:#233c55;font-weight:600;text-decoration:underline;text-underline-offset:4px}
 .postcard-confirmation-link:focus-visible{outline:3px solid #b68b51;outline-offset:4px}
+
+
+/* Post-submission postcard: give the artwork the entire stage. */
+.postcard-success-page{max-width:1100px;margin:0 auto;padding:clamp(1.5rem,4vw,3.5rem) 1rem 5rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(231,208,170,.25),transparent 70%)}
+.postcard-success-heading{max-width:780px;margin:0 auto clamp(1.3rem,3vw,2.25rem)}
+.postcard-success-heading .eyebrow{color:#987345;letter-spacing:.2em;font-size:.72rem}
+.postcard-success-heading h1{font-family:Georgia,serif;font-weight:400;font-size:clamp(2.1rem,4vw,3.35rem);line-height:1.12;margin:.65rem 0;color:#1c354a}
+.postcard-success-heading>p:last-child{font-size:1rem;color:#5e5b57;line-height:1.6;margin:.3rem 0 0}
+.postcard-success-page .postcard-confirmation{max-width:810px;margin:0 auto}
+.postcard-success-page .postcard-confirmation img{width:100%;height:auto;border-radius:3px;box-shadow:0 7px 16px rgba(48,36,23,.1),0 30px 70px rgba(48,36,23,.14)}
+.postcard-success-page .postcard-confirmation-link{margin-top:1.5rem;padding:.6rem .5rem}
+@media(max-width:600px){.postcard-success-page{padding:1.5rem .5rem 3rem}.postcard-success-heading{padding:0 .75rem}.postcard-success-heading h1{font-size:2rem}.postcard-success-page .postcard-confirmation{width:100%}}
