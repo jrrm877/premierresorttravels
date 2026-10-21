@@ -8956,3 +8956,9 @@ textarea.wedding-inquiry-control{min-height:108px;resize:vertical}
 .inquiry-thank-you-copy .inquiry-thank-you-disclaimer{font-size:.78rem;color:#6b6258;margin:1.1rem 0}
 .inquiry-thank-you-copy .button{display:inline-flex;align-items:center;justify-content:center}
 @media(max-width:760px){.inquiry-thank-you{grid-template-columns:1fr}.inquiry-thank-you-photo{max-width:420px;margin:0 auto}.inquiry-thank-you-copy{text-align:left}}
+
+/* Approved postcard confirmation artwork (vacation requests only) */
+.postcard-confirmation{max-width:700px;margin:0 auto;text-align:center}
+.postcard-confirmation img{display:block;width:100%;height:auto;border-radius:8px;box-shadow:0 18px 48px rgba(44,31,20,.14)}
+.postcard-confirmation-link{display:inline-flex;align-items:center;gap:.5rem;margin-top:1rem;color:#233c55;font-weight:600;text-decoration:underline;text-underline-offset:4px}
+.postcard-confirmation-link:focus-visible{outline:3px solid #b68b51;outline-offset:4px}
