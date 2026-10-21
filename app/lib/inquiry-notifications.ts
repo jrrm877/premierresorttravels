@@ -1,3 +1,5 @@
+import { allProperties } from "./property-data";
+import { publishedTravelerStories } from "./traveler-stories";
 export type InquiryNotificationEnv = {
   INQUIRY_NOTIFY_FROM?: string;
   INQUIRY_NOTIFY_TO?: string;
@@ -187,6 +189,37 @@ function escapeHtml(value: string) {
   })[char] ?? char);
 }
 
+
+function parseInquiryDetails(notes: string) {
+  const fields = new Map<string, string>();
+  for (const line of notes.split(/\r?\n/)) {
+    const index = line.indexOf(": ");
+    if (index > 0) fields.set(line.slice(0, index).trim(), line.slice(index + 2).trim());
+  }
+  return fields;
+}
+
+function getInquiryLinks(destination: string, tripStyle: string) {
+  const base = "https://premierresorttravels.com";
+  const value = destination.trim().toLowerCase();
+  const uncertain = !value || /^(not provided|not sure|unsure|help me decide|open to ideas|flexible|anywhere|undecided)$/i.test(value);
+  if (uncertain) {
+    const collection = /adult/i.test(tripStyle) ? "adults-only" : /family/i.test(tripStyle) ? "family-friendly" : /romance/i.test(tripStyle) ? "romantic-getaways" : null;
+    return [{ label: collection ? "Explore resorts that fit your style" : "Explore our resort collections", url: collection ? `${base}/collections/${collection}` : `${base}/collections` }];
+  }
+  const normalized = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  const needle = normalized(value);
+  const property = allProperties.find((p) => normalized(p.name) === needle || normalized(p.slug) === needle);
+  if (property) {
+    const stories = publishedTravelerStories().filter((story) => story.resortSlug === property.slug).slice(0, 2);
+    return [
+      { label: `Explore ${property.name}`, url: `${base}/properties/${property.slug}` },
+      ...stories.map((story) => ({ label: `Read a ${property.name} traveler experience`, url: `${base}/traveler-stories/${story.slug}` })),
+    ];
+  }
+  return [{ label: "Explore our resort collections", url: `${base}/collections` }];
+}
+
 async function sendCustomerAcknowledgment(
   env: InquiryNotificationEnv,
   payload: InquiryNotificationPayload
@@ -194,46 +227,54 @@ async function sendCustomerAcknowledgment(
   if (payload.source !== "vacation-quote" || !env.RESEND_API_KEY || !env.INQUIRY_NOTIFY_FROM) {
     return false;
   }
-
   const name = payload.fullName.trim().split(/\s+/)[0] || "there";
-  const destination = formatLabel(payload.destinationInterest);
-  const travelWindow = formatLabel(payload.travelWindow);
-  const tripStyle = formatLabel(payload.tripStyle);
+  const fields = parseInquiryDetails(payload.notes);
+  const destination = payload.destinationInterest.trim();
+  const rows: Array<[string, string]> = [
+    ["Destination or resort", destination || "Open to recommendations"],
+    ["Travel dates", payload.travelWindow.trim() || "Flexible"],
+    ["Vacation style", payload.tripStyle.trim() || "Help me decide"],
+    ["Package", fields.get("Package requested") ?? ""],
+    ["Adults", fields.get("Adults") ?? ""],
+    ["Children", fields.get("Children") ?? ""],
+    ["Departure airport", fields.get("Departure airport") ?? ""],
+    ["Budget", fields.get("Approximate total trip budget (USD)") ?? ""],
+    ["Special requests", fields.get("Traveler preferences") ?? ""],
+  ].filter(([, value]) => Boolean(value.trim()) && value !== "Not provided") as Array<[string, string]>;
+  const links = getInquiryLinks(destination, payload.tripStyle);
+  const intro = "Thank you for reaching out! We received your vacation inquiry and look forward to helping you plan something wonderful.";
+  const hours = "We're real people who personally review every request. We work regular daytime business hours, so if you contacted us in the evening or over the weekend, we'll reply as soon as we can during our next available business hours.";
+  const disclaimer = "This is an inquiry, not a reservation. Prices and availability are confirmed when quoted. There's no obligation to book.";
   const text = [
-    `Hi ${name},`,
-    "",
-    "Thank you for reaching out to Premier Resort Travel! We received your vacation quote request.",
-    "",
-    `Destination or resort: ${destination}`,
-    `Travel dates: ${travelWindow}`,
-    `Trip type: ${tripStyle}`,
-    "",
-    "We'll personally review your trip details and follow up with tailored resort options. Prices and availability are confirmed when quoted; this is not a booking confirmation.",
-    "There's no obligation to book.",
-    "",
-    "Have a question or need to update your request? Simply reply to this email.",
-    "",
-    "Premier Resort Travel",
+    `Hi ${name},`, "", intro, "", "Here is what you shared:",
+    ...rows.map(([label, value]) => `${label}: ${value}`), "",
+    destination && links.some((link) => link.label.startsWith("Explore ") && link.label !== "Explore our resort collections")
+      ? "While you wait, you can explore your resort and related experiences:"
+      : "Still exploring? Here are some ideas while we put together recommendations:",
+    ...links.map((link) => `${link.label}: ${link.url}`), "",
+    hours, "", disclaimer, "",
+    "Need to update any details? Simply reply to this email.", "",
+    "Warmly,", "Jazmin & Cullen", "Premier Resort Travel",
   ].join("\n");
-  const html = `<div style="background:#f8f1e8;padding:28px 12px;font-family:Georgia,serif;color:#2d1f16"><div style="max-width:600px;margin:auto;background:#fffdf9;border:1px solid #e8dccf;border-radius:16px;overflow:hidden"><div style="background:#f0e0c6;padding:24px"><p style="font-size:12px;letter-spacing:3px;color:#946c43">PREMIER RESORT TRAVEL</p><h1 style="margin:0;font-size:28px">Your getaway starts here.</h1></div><div style="padding:24px;line-height:1.7"><p>Hi ${escapeHtml(name)},</p><p>Thank you for reaching out! We've received your vacation quote request and look forward to helping you plan.</p><div style="background:#f8f3eb;padding:16px;border-radius:10px"><strong>Your request</strong><p>Destination or resort: ${escapeHtml(destination)}<br>Travel dates: ${escapeHtml(travelWindow)}<br>Trip type: ${escapeHtml(tripStyle)}</p></div><p>We'll personally review your details and follow up with tailored options. Prices and availability are confirmed when quoted; this is not a booking confirmation.</p><p>There's no obligation to book. Need to update your request? Simply reply to this email.</p><p>Warmly,<br><strong>Premier Resort Travel</strong></p></div></div></div>`;
+  const summaryHtml = rows.map(([label, value]) =>
+    `<tr><th align="left" style="padding:9px 10px;border-bottom:1px solid #e7dac8;vertical-align:top">${escapeHtml(label)}</th><td style="padding:9px 10px;border-bottom:1px solid #e7dac8">${escapeHtml(value)}</td></tr>`
+  ).join("");
+  const linksHtml = links.map(({ label, url }) =>
+    `<p style="margin:8px 0"><a style="color:#17415e;text-decoration:underline" href="${escapeHtml(url)}">${escapeHtml(label)} →</a></p>`
+  ).join("");
+  const html = `<div style="background:#f7f0e6;padding:24px 10px;font-family:Georgia,serif;color:#2d261e"><div style="max-width:620px;margin:auto;background:#fffdf8;border:1px solid #e1d2bd;border-radius:14px;overflow:hidden"><div style="padding:25px;background:#f1e2cc"><p style="font-size:12px;letter-spacing:2px;color:#946c43">PREMIER RESORT TRAVEL</p><h1 style="margin:0;font-size:29px;color:#1d3449">Your next getaway starts here.</h1></div><div style="padding:26px;line-height:1.65"><p>Hi ${escapeHtml(name)},</p><p>${escapeHtml(intro)}</p><div style="margin:20px 0 24px"><img src="https://premierresorttravels.com/images/jazmin-cullen-scuba-email.webp" width="560" alt="Jazmin and Cullen scuba diving together on one of their adventures" style="display:block;width:100%;max-width:560px;height:auto;border-radius:10px" /><p style="font-size:13px;color:#806b54;margin:8px 0 0;text-align:center;font-style:italic">From our adventures to yours — we can't wait to help you plan your next one!</p></div><h2 style="font-size:19px">Your vacation request</h2><table style="width:100%;border-collapse:collapse;font-size:14px;background:#faf5ee">${summaryHtml}</table><h2 style="font-size:19px;margin-top:26px">A little inspiration while you wait</h2>${linksHtml}<p style="margin-top:26px">${escapeHtml(hours)}</p><p>${escapeHtml(disclaimer)}</p><p>Need to update your plans? Simply reply to this email.</p><p style="font-style:italic">Warmly,<br><strong>Jazmin &amp; Cullen</strong><br>Premier Resort Travel</p></div></div></div>`;
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
+    headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       from: env.INQUIRY_NOTIFY_FROM,
       to: [payload.email],
       ...(env.INQUIRY_NOTIFY_TO ? { reply_to: env.INQUIRY_NOTIFY_TO } : {}),
-      subject: "We received your vacation quote request | Premier Resort Travel",
-      text,
-      html,
+      subject: "We received your vacation plans | Premier Resort Travel",
+      text, html,
     }),
   });
-  if (!response.ok) {
-    throw new Error(`Resend customer acknowledgment failed: ${response.status} ${await response.text()}`);
-  }
+  if (!response.ok) throw new Error(`Resend customer acknowledgment failed: ${response.status} ${await response.text()}`);
   return true;
 }
 
