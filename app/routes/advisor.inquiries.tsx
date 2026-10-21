@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { requireAdvisorAccess } from "../lib/advisor-access";
 import type { Route } from "./+types/advisor.inquiries";
 
@@ -72,6 +73,32 @@ export function meta(_: Route.MetaArgs) {
 
 export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
   const { inquiries, stats } = loaderData;
+  const [search, setSearch] = useState("");
+  const [sourceFilter, setSourceFilter] = useState("all");
+  const [expandedIds, setExpandedIds] = useState<number[]>([]);
+  const visibleInquiries = useMemo(() => inquiries.filter((inquiry) => {
+    const needle = search.trim().toLowerCase();
+    const searchable = [inquiry.full_name, inquiry.email, inquiry.destination_interest, inquiry.trip_style, inquiry.travel_window, inquiry.notes].join(" ").toLowerCase();
+    if (needle && !searchable.includes(needle)) return false;
+    if (sourceFilter === "quick") return isQuickNoteLead(inquiry);
+    if (sourceFilter === "resort") return leadAttribution(inquiry).origin === "Resort detail page";
+    if (sourceFilter === "general") return leadAttribution(inquiry).origin === "General quote page";
+    return true;
+  }), [inquiries, search, sourceFilter]);
+  function downloadCsv() {
+    const header = ["Inquiry ID","Received","Name","Email","Destination","Trip Style","Travel Window","Notes"];
+    const cell = (value: unknown) => '"' + String(value ?? "").replace(/"/g, '""').replace(/^[=+@\\-]/, "'  const { inquiries, stats } = loaderData;") + '"';
+    const rows = visibleInquiries.map((inquiry) => [inquiry.id, inquiry.created_at, inquiry.full_name, inquiry.email, inquiry.destination_interest, inquiry.trip_style, inquiry.travel_window, inquiry.notes]);
+    const csv = [header, ...rows].map((row) => row.map(cell).join(",")).join("\r\n");
+    const blob = new Blob(["\\uFEFF", csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "premier-resort-inquiries.csv";
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
   const sources = inquiries.map(leadAttribution);
   const resortCounts = new Map<string, number>();
   for (const source of sources) if (source.resort) resortCounts.set(source.resort, (resortCounts.get(source.resort) ?? 0) + 1);
@@ -138,14 +165,29 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
           </div>
         </div>
 
+        <div className="advisor-lead-controls">
+          <label>Search inquiries
+            <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Name, email, resort, notes…" />
+          </label>
+          <label>Source
+            <select value={sourceFilter} onChange={(event) => setSourceFilter(event.target.value)}>
+              <option value="all">All inquiries</option>
+              <option value="resort">Resort pages</option>
+              <option value="general">General quote form</option>
+              <option value="quick">Quick notes</option>
+            </select>
+          </label>
+          <button type="button" className="button button-secondary" onClick={downloadCsv} disabled={!visibleInquiries.length}>Export {visibleInquiries.length} inquiries (CSV)</button>
+        </div>
+        <p className="results-summary" aria-live="polite">Showing {visibleInquiries.length} of {inquiries.length} saved inquiries. Stored securely in the website database.</p>
         <div className="inquiry-list">
-          {inquiries.length === 0 ? (
+          {visibleInquiries.length === 0 ? (
             <article className="planning-card">
               <h3>No inquiries yet</h3>
               <p>Once travelers use the quote form, submissions will appear here.</p>
             </article>
           ) : (
-            inquiries.map((inquiry) => (
+            visibleInquiries.map((inquiry) => (
               <article key={inquiry.id} className="inquiry-card">
                 <div className="inquiry-card-top">
                   <div>
@@ -165,7 +207,8 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
                     <span className="tier-pill">{inquiry.travel_window}</span>
                   ) : null}
                 </div>
-                <p>{inquiry.notes || "No additional notes were provided."}</p>
+                <button type="button" className="advisor-lead-details-toggle" aria-expanded={expandedIds.includes(inquiry.id)} onClick={() => setExpandedIds((ids) => ids.includes(inquiry.id) ? ids.filter((id) => id !== inquiry.id) : [...ids, inquiry.id])}>{expandedIds.includes(inquiry.id) ? "Hide submitted details" : "View submitted details"}</button>
+                {expandedIds.includes(inquiry.id) ? <pre className="advisor-lead-notes">{inquiry.notes || "No additional notes were provided."}</pre> : null}
                 <div className="card-actions card-actions-inline">
                   <a className="button button-secondary" href={`mailto:${encodeURIComponent(inquiry.email)}`}>
                     Reply by email
