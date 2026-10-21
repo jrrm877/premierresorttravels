@@ -213,7 +213,7 @@ function getInquiryLinks(destination: string, tripStyle: string) {
   if (property) {
     const stories = publishedTravelerStories().filter((story) => story.resortSlug === property.slug).slice(0, 2);
     return [
-      { label: `Explore ${property.name}`, url: `${base}/resorts/${property.slug}` },
+      { label: `Explore ${property.name}`, url: `${base}/properties/${property.slug}` },
       ...stories.map((story) => ({ label: `Read a ${property.name} traveler experience`, url: `${base}/traveler-stories/${story.slug}` })),
     ];
   }
@@ -240,7 +240,7 @@ async function sendCustomerAcknowledgment(
     ["Departure airport", fields.get("Departure airport") ?? ""],
     ["Budget", fields.get("Approximate total trip budget (USD)") ?? ""],
     ["Special requests", fields.get("Traveler preferences") ?? ""],
-  ].filter(([, value]) => value.trim() && value !== "Not provided" && value !== "Flexible" || false) as Array<[string, string]>;
+  ].filter(([, value]) => Boolean(value.trim()) && value !== "Not provided") as Array<[string, string]>;
   const links = getInquiryLinks(destination, payload.tripStyle);
   const intro = "Thank you for reaching out! We received your vacation inquiry and look forward to helping you plan something wonderful.";
   const hours = "We're real people who personally review every request. We work regular daytime business hours, so if you contacted us in the evening or over the weekend, we'll reply as soon as we can during our next available business hours.";
