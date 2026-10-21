@@ -8982,3 +8982,9 @@ textarea.wedding-inquiry-control{min-height:108px;resize:vertical}
 .advisor-lead-controls input,.advisor-lead-controls select{width:100%;min-height:44px;border:1px solid #b7b7af;border-radius:8px;padding:.65rem;background:#fff;color:#192d40}
 .advisor-lead-details-toggle{background:transparent;border:0;color:#18435e;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:.5rem 0;font:inherit}
 .advisor-lead-notes{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;line-height:1.6;background:#f8f2e8;border-radius:8px;padding:1rem}
+
+.advisor-group-toggle{display:flex!important;align-items:center;gap:.55rem;min-width:auto!important;flex:0 0 auto!important;padding:.7rem .2rem}
+.advisor-group-toggle input{width:18px!important;height:18px!important;min-height:0!important;accent-color:#a57b43}
+.advisor-traveler-history{margin:1rem 0;padding:1rem;border:1px solid #e4d6c3;border-radius:12px;background:#fbf7f0}
+.advisor-traveler-history ul{padding-left:1.3rem}
+.advisor-traveler-history li{margin-top:.8rem;line-height:1.6}
