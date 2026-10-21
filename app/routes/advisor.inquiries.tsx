@@ -90,7 +90,7 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
     const cell = (value: unknown) => '"' + String(value ?? "").replace(/"/g, '""').replace(/^[=+@\\-]/, "'  const { inquiries, stats } = loaderData;") + '"';
     const rows = visibleInquiries.map((inquiry) => [inquiry.id, inquiry.created_at, inquiry.full_name, inquiry.email, inquiry.destination_interest, inquiry.trip_style, inquiry.travel_window, inquiry.notes]);
     const csv = [header, ...rows].map((row) => row.map(cell).join(",")).join("\r\n");
-    const blob = new Blob(["\\uFEFF", csv], { type: "text/csv;charset=utf-8" });
+    const blob = new Blob(["\uFEFF", csv], { type: "text/csv;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
