@@ -3,6 +3,17 @@
   "name": "luxury-travel",
   "main": "./workers/app.ts",
   "keep_vars": true,
+  "secrets": {
+    "required": [
+      "ADVISOR_USERNAME",
+      "ADVISOR_PASSWORD",
+      "INQUIRY_NOTIFY_FROM",
+      "INQUIRY_NOTIFY_TO",
+      "INQUIRY_SHEETS_SECRET",
+      "INQUIRY_WEBHOOK_URL",
+      "RESEND_API_KEY"
+    ]
+  },
   "compatibility_date": "2026-06-24",
   "alias": {
     "virtual:react-router/server-build": "./dist/server/index.js"
