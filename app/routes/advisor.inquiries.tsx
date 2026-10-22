@@ -87,7 +87,11 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
   }), [inquiries, search, sourceFilter]);
   function downloadCsv() {
     const header = ["Inquiry ID","Received","Name","Email","Destination","Trip Style","Travel Window","Notes"];
-    const cell = (value: unknown) => '"' + String(value ?? "").replace(/"/g, '""').replace(/^[=+@\\-]/, "'  const { inquiries, stats } = loaderData;") + '"';
+    const cell = (value: unknown) => {
+      const text = String(value ?? "");
+      const protectedText = /^[=+@\-\t\r]/.test(text) ? "'" + text : text;
+      return '"' + protectedText.replace(/"/g, '""') + '"';
+    };
     const rows = visibleInquiries.map((inquiry) => [inquiry.id, inquiry.created_at, inquiry.full_name, inquiry.email, inquiry.destination_interest, inquiry.trip_style, inquiry.travel_window, inquiry.notes]);
     const csv = [header, ...rows].map((row) => row.map(cell).join(",")).join("\r\n");
     const blob = new Blob(["\uFEFF", csv], { type: "text/csv;charset=utf-8" });
