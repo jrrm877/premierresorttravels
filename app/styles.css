@@ -9007,3 +9007,10 @@ textarea.wedding-inquiry-control{min-height:108px;resize:vertical}
 .advisor-visibility-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin:.9rem 0}
 .advisor-visibility-actions form{margin:0}
 .advisor-visibility-actions button{min-height:38px}
+
+.advisor-test-cleanup{padding:1rem;border:1px solid #e4d6c3;border-radius:12px;background:#fcf8f1}
+.advisor-test-cleanup summary{cursor:pointer;font-weight:700;color:#193b55}
+.advisor-test-cleanup p{line-height:1.6}
+.advisor-cleanup-form{display:grid;gap:.8rem;max-width:480px}
+.advisor-cleanup-form label{display:grid;gap:.4rem;font-weight:600}
+.advisor-cleanup-form input{padding:.65rem;border:1px solid #aa9e8d;border-radius:8px}
