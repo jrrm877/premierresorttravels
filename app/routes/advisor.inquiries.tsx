@@ -87,6 +87,32 @@ export async function action({ request, context }: Route.ActionArgs) {
       .bind(id,visibility).run();
     return Response.json({ success: true, visibility });
   }
+  if (form.get("cleanupAction") === "delete-jazmin-tests") {
+    if (form.get("confirmation") !== "DELETE JAZMIN TESTS") {
+      return Response.json({ error: "Confirmation phrase does not match" }, { status: 400 });
+    }
+    const { DB } = context.cloudflare.env;
+    const normalized = "jazmin morrison";
+    const matches = await DB.prepare(`SELECT id FROM travel_inquiries
+      WHERE lower(trim(full_name)) = ? ORDER BY id`).bind(normalized).all<{ id: number }>();
+    const ids = (matches.results ?? []).map((row) => row.id);
+    const expected = String(form.get("expectedIds") ?? "");
+    if (ids.join(",") !== expected || ids.length === 0) {
+      return Response.json({ error: "Matching records changed. Refresh and review before deleting." }, { status: 409 });
+    }
+    // All deletes use the same exact normalized name predicate, and dependent
+    // advisor data is removed in the same D1 batch.
+    await DB.batch([
+      DB.prepare(`DELETE FROM advisor_lead_updates WHERE inquiry_id IN
+        (SELECT id FROM travel_inquiries WHERE lower(trim(full_name)) = ?)`).bind(normalized),
+      DB.prepare(`DELETE FROM advisor_lead_health WHERE inquiry_id IN
+        (SELECT id FROM travel_inquiries WHERE lower(trim(full_name)) = ?)`).bind(normalized),
+      DB.prepare(`DELETE FROM advisor_lead_visibility WHERE inquiry_id IN
+        (SELECT id FROM travel_inquiries WHERE lower(trim(full_name)) = ?)`).bind(normalized),
+      DB.prepare("DELETE FROM travel_inquiries WHERE lower(trim(full_name)) = ?").bind(normalized),
+    ]);
+    return Response.json({ success: true, deleted: ids.length });
+  }
   const status = String(form.get("status") ?? "");
   const quick = form.get("quickStage") === "1";
   const health = String(form.get("leadHealth") ?? "Unqualified");
@@ -149,6 +175,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 
   return {
     inquiries: inquiries ?? [],
+    testInquiryIds: (inquiries ?? []).filter((inquiry) => inquiry.full_name.trim().toLowerCase() === "jazmin morrison").map((inquiry) => inquiry.id),
     updates: updates ?? [],
     healthRows: healthRows ?? [],
     visibilityRows: visibilityRows ?? [],
@@ -184,7 +211,9 @@ function VisibilityActions({ id, visibility }: { id: number; visibility: string 
   </div>;
 }
 export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
-  const { inquiries, stats, updates, healthRows, visibilityRows } = loaderData;
+  const { inquiries, stats, updates, healthRows, visibilityRows, testInquiryIds } = loaderData;
+  const [cleanupPhrase, setCleanupPhrase] = useState("");
+  const cleanupFetcher = useFetcher();
   const visibilityById = new Map(visibilityRows.map((row) => [row.inquiry_id, row.visibility]));
   const [visibilityFilter, setVisibilityFilter] = useState("active");
   const healthById = new Map(healthRows.map((row) => [row.inquiry_id, row.health]));
@@ -292,6 +321,23 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
         </article>
       </section>
 
+      <section className="property-details" aria-label="Test inquiry cleanup">
+        <details className="advisor-test-cleanup">
+          <summary>Clean up test inquiries ({testInquiryIds.length})</summary>
+          <p>Only inquiries whose submitted name exactly matches <strong>Jazmin Morrison</strong> (ignoring capitalization and surrounding spaces) are eligible. Other customer records will not be touched.</p>
+          <p><strong>Matching inquiry IDs:</strong> {testInquiryIds.length ? testInquiryIds.join(", ") : "None"}</p>
+          <p>Permanent deletion removes the matching inquiries and their advisor notes, stages, and follow-up details. This cannot be undone.</p>
+          {testInquiryIds.length > 0 ? <cleanupFetcher.Form method="post" className="advisor-cleanup-form">
+            <input type="hidden" name="cleanupAction" value="delete-jazmin-tests" />
+            <input type="hidden" name="expectedIds" value={testInquiryIds.join(",")} />
+            <label>Type DELETE JAZMIN TESTS to confirm
+              <input type="text" name="confirmation" value={cleanupPhrase} onChange={(event) => setCleanupPhrase(event.target.value)} autoComplete="off" />
+            </label>
+            <button type="submit" className="button button-secondary" disabled={cleanupPhrase !== "DELETE JAZMIN TESTS" || cleanupFetcher.state !== "idle"}>Permanently delete {testInquiryIds.length} test inquiries</button>
+          </cleanupFetcher.Form> : null}
+          {cleanupFetcher.data && <p role="status">{(cleanupFetcher.data as {success?:boolean;error?:string;deleted?:number}).success ? "Test records deleted. Refresh to update counts." : (cleanupFetcher.data as {error?:string}).error}</p>}
+        </details>
+      </section>
       <section className="related-properties">
         <div className="section-heading section-heading-stack">
           <div>
