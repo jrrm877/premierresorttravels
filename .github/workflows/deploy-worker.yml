@@ -51,6 +51,9 @@ jobs:
         run: npm run typecheck
       - name: Build Worker and client
         run: npm run build
+      - name: Confirm production variable preservation configuration
+        run: |
+          node -e 'const fs=require("fs");const config=JSON.parse(fs.readFileSync("wrangler.jsonc","utf8"));if(config.keep_vars!==true)throw Error("keep_vars must be enabled");for(const key of ["ADVISOR_USERNAME","ADVISOR_PASSWORD","INQUIRY_WEBHOOK_URL","INQUIRY_SHEETS_SECRET"]){if(!config.secrets?.required?.includes(key))throw Error("Missing required secret declaration: "+key)}'
       - name: Deploy to existing luxury-travel Worker
         run: npm run deploy
         env:
