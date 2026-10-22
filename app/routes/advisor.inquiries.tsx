@@ -97,7 +97,7 @@ export async function action({ request, context }: Route.ActionArgs) {
       WHERE lower(trim(full_name)) = ? ORDER BY id`).bind(normalized).all<{ id: number }>();
     const ids = (matches.results ?? []).map((row) => row.id);
     const expected = String(form.get("expectedIds") ?? "");
-    if (ids.join(",") !== expected || ids.length === 0) {
+    if (ids.length === 0 || ids.map(String).sort((a, b) => Number(a) - Number(b)).join(",") !== expected.split(",").sort((a, b) => Number(a) - Number(b)).join(",")) {
       return Response.json({ error: "Matching records changed. Refresh and review before deleting." }, { status: 409 });
     }
     // All deletes use the same exact normalized name predicate, and dependent
