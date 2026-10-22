@@ -8988,3 +8988,10 @@ textarea.wedding-inquiry-control{min-height:108px;resize:vertical}
 .advisor-traveler-history{margin:1rem 0;padding:1rem;border:1px solid #e4d6c3;border-radius:12px;background:#fbf7f0}
 .advisor-traveler-history ul{padding-left:1.3rem}
 .advisor-traveler-history li{margin-top:.8rem;line-height:1.6}
+
+.advisor-lead-editor{margin:1rem 0;padding:1rem;border:1px solid #e2d5c5;border-radius:12px}
+.advisor-lead-editor summary{cursor:pointer;color:#193b55;font-weight:700}
+.advisor-lead-editor-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.8rem;margin-top:1rem}
+.advisor-lead-editor-fields label{display:grid;gap:.3rem;font-weight:600}
+.advisor-lead-editor-fields input,.advisor-lead-editor-fields select,.advisor-lead-editor-fields textarea{width:100%;padding:.65rem;border:1px solid #bfb7aa;border-radius:8px;background:white;color:#19344a}
+.advisor-lead-editor-fields label:has(textarea){grid-column:1/-1}
