@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Form, useNavigation } from "react-router";
+import { Form, useFetcher, useNavigation } from "react-router";
 import { requireAdvisorAccess } from "../lib/advisor-access";
 import type { Route } from "./+types/advisor.inquiries";
 
@@ -44,7 +44,9 @@ function leadAttribution(inquiry: InquiryRecord) {
   return { origin: origin === "Resort detail page" ? "Resort detail page" : origin === "General quote page" ? "General quote page" : "Unattributed", resort: origin === "Resort detail page" ? resort : null };
 }
 
-const STATUSES = ["New", "Contacted", "Quote Sent", "Follow-Up Needed", "Booked", "Closed"] as const;
+const STATUSES = ["Lead", "Needs Reply", "Quote Sent", "Negotiations", "Booked Trip", "Past Client", "Closed / Not Booking"] as const;
+const LEGACY_STATUS: Record<string, string> = { New: "Lead", Contacted: "Needs Reply", "Follow-Up Needed": "Needs Reply", Booked: "Booked Trip", Closed: "Closed / Not Booking" };
+const LEAD_HEALTH = ["Unqualified", "Warm", "Hot", "Not Interested"] as const;
 type LeadUpdate = { inquiry_id: number; status: string; follow_up_date: string | null; quote_amount: number | null; advisor_notes: string | null };
 async function ensureLeadUpdates(DB: { prepare: (query: string) => { run: () => Promise<unknown> } }) {
   await DB.prepare(`CREATE TABLE IF NOT EXISTS advisor_lead_updates (
@@ -62,10 +64,13 @@ export async function action({ request, context }: Route.ActionArgs) {
   const form = await request.formData();
   const id = Number(form.get("inquiryId"));
   const status = String(form.get("status") ?? "");
+  const quick = form.get("quickStage") === "1";
+  const health = String(form.get("leadHealth") ?? "Unqualified");
   const followUp = String(form.get("followUp") ?? "").trim();
   const quoteRaw = String(form.get("quoteAmount") ?? "").trim();
   const notes = String(form.get("advisorNotes") ?? "").trim();
   if (!Number.isSafeInteger(id) || id < 1 || !STATUSES.includes(status as typeof STATUSES[number]) ||
+    (!quick && !LEAD_HEALTH.includes(health as typeof LEAD_HEALTH[number])) ||
     (followUp && !/^\d{4}-\d{2}-\d{2}$/.test(followUp)) || notes.length > 10000 ||
     (quoteRaw && (!Number.isFinite(Number(quoteRaw)) || Number(quoteRaw) < 0 || Number(quoteRaw) > 10000000))) {
     return Response.json({ error: "Invalid lead update" }, { status: 400 });
@@ -74,6 +79,17 @@ export async function action({ request, context }: Route.ActionArgs) {
   const exists = await DB.prepare("SELECT id FROM travel_inquiries WHERE id = ?").bind(id).first();
   if (!exists) return Response.json({ error: "Inquiry not found" }, { status: 404 });
   await ensureLeadUpdates(DB);
+  if (quick) {
+    await DB.prepare(`INSERT INTO advisor_lead_updates (inquiry_id,status,updated_at) VALUES (?,?,CURRENT_TIMESTAMP)
+      ON CONFLICT(inquiry_id) DO UPDATE SET status=excluded.status,updated_at=CURRENT_TIMESTAMP`)
+      .bind(id,status).run();
+    return Response.json({ success: true });
+  }
+  await DB.prepare(`CREATE TABLE IF NOT EXISTS advisor_lead_health (
+    inquiry_id INTEGER PRIMARY KEY, health TEXT NOT NULL DEFAULT 'Unqualified'
+  )`).run();
+  await DB.prepare(`INSERT INTO advisor_lead_health (inquiry_id,health) VALUES (?,?)
+    ON CONFLICT(inquiry_id) DO UPDATE SET health=excluded.health`).bind(id,health).run();
   await DB.prepare(`INSERT INTO advisor_lead_updates (inquiry_id,status,follow_up_date,quote_amount,advisor_notes,updated_at)
     VALUES (?,?,?,?,?,CURRENT_TIMESTAMP)
     ON CONFLICT(inquiry_id) DO UPDATE SET status=excluded.status,follow_up_date=excluded.follow_up_date,
@@ -86,7 +102,10 @@ export async function loader({ request, context }: Route.LoaderArgs) {
   const { DB } = context.cloudflare.env;
 
   await ensureLeadUpdates(DB);
-  const [{ results: inquiries }, { results: stats }, { results: updates }] = await Promise.all([
+  await DB.prepare(`CREATE TABLE IF NOT EXISTS advisor_lead_health (
+    inquiry_id INTEGER PRIMARY KEY, health TEXT NOT NULL DEFAULT 'Unqualified'
+  )`).run();
+  const [{ results: inquiries }, { results: stats }, { results: updates }, { results: healthRows }] = await Promise.all([
     DB.prepare(
       `SELECT id, full_name, email, destination_interest, trip_style, travel_window, notes, created_at
        FROM travel_inquiries
@@ -99,11 +118,13 @@ export async function loader({ request, context }: Route.LoaderArgs) {
        FROM travel_inquiries`
     ).all<{ total_inquiries: number; unique_travelers: number }>(),
     DB.prepare("SELECT inquiry_id,status,follow_up_date,quote_amount,advisor_notes FROM advisor_lead_updates").all<LeadUpdate>(),
+    DB.prepare("SELECT inquiry_id,health FROM advisor_lead_health").all<{inquiry_id:number;health:string}>(),
   ]);
 
   return {
     inquiries: inquiries ?? [],
     updates: updates ?? [],
+    healthRows: healthRows ?? [],
     stats: stats?.[0] ?? { total_inquiries: 0, unique_travelers: 0 },
   };
 }
@@ -112,8 +133,22 @@ export function meta(_: Route.MetaArgs) {
   return [{ title: "Advisor Inquiries | Premier Resort Travel" }];
 }
 
+function QuickStage({ id, current }: { id: number; current: string }) {
+  const fetcher = useFetcher();
+  const stage = fetcher.formData?.get("status")?.toString() ?? current;
+  return <div className="advisor-quick-stage" aria-label="Follow-up stage">
+    <span className="advisor-stage-label">Follow-up stage:</span>
+    {STATUSES.map((value) => <fetcher.Form method="post" key={value}>
+      <input type="hidden" name="inquiryId" value={id} />
+      <input type="hidden" name="status" value={value} />
+      <input type="hidden" name="quickStage" value="1" />
+      <button type="submit" aria-pressed={stage === value} className={stage === value ? "advisor-stage-button selected" : "advisor-stage-button"} disabled={fetcher.state !== "idle"}>{value}</button>
+    </fetcher.Form>)}
+  </div>;
+}
 export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
-  const { inquiries, stats, updates } = loaderData;
+  const { inquiries, stats, updates, healthRows } = loaderData;
+  const healthById = new Map(healthRows.map((row) => [row.inquiry_id, row.health]));
   const navigation = useNavigation();
   const updateById = new Map(updates.map((update) => [update.inquiry_id, update]));
   const [search, setSearch] = useState("");
@@ -281,12 +316,16 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
                     ))}</ul>
                   </div>
                 ) : null}
+                <QuickStage id={inquiry.id} current={LEGACY_STATUS[updateById.get(inquiry.id)?.status ?? ""] ?? updateById.get(inquiry.id)?.status ?? "Lead"} />
                 <details className="advisor-lead-editor">
                   <summary>Manage lead</summary>
                   <Form method="post" key={inquiry.id} className="advisor-lead-editor-fields">
                     <input type="hidden" name="inquiryId" value={inquiry.id} />
-                    <label>Status<select name="status" defaultValue={updateById.get(inquiry.id)?.status ?? "New"}>
+                    <label>Status<select name="status" defaultValue={LEGACY_STATUS[updateById.get(inquiry.id)?.status ?? ""] ?? updateById.get(inquiry.id)?.status ?? "Lead"}>
                       {STATUSES.map((status) => <option key={status} value={status}>{status}</option>)}
+                    </select></label>
+                    <label>Lead status<select name="leadHealth" defaultValue={healthById.get(inquiry.id) ?? "Unqualified"}>
+                      {LEAD_HEALTH.map((value) => <option key={value} value={value}>{value}</option>)}
                     </select></label>
                     <label>Follow-up date<input name="followUp" type="date" defaultValue={updateById.get(inquiry.id)?.follow_up_date ?? ""} /></label>
                     <label>Quote amount (USD)<input name="quoteAmount" type="number" min="0" max="10000000" step=".01" defaultValue={updateById.get(inquiry.id)?.quote_amount ?? ""} /></label>
