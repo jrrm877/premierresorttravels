@@ -58,11 +58,35 @@ async function ensureLeadUpdates(DB: { prepare: (query: string) => { run: () => 
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
   )`).run();
 }
+type LeadVisibility = { inquiry_id: number; visibility: string };
+async function ensureLeadVisibility(DB: { prepare: (query: string) => { run: () => Promise<unknown> } }) {
+  await DB.prepare(`CREATE TABLE IF NOT EXISTS advisor_lead_visibility (
+    inquiry_id INTEGER PRIMARY KEY,
+    visibility TEXT NOT NULL DEFAULT 'active',
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+  )`).run();
+}
 export async function action({ request, context }: Route.ActionArgs) {
   await requireAdvisorAccess(request, context.cloudflare.env);
   if (request.method !== "POST") return Response.json({ error: "Method not allowed" }, { status: 405 });
   const form = await request.formData();
   const id = Number(form.get("inquiryId"));
+  const visibilityAction = String(form.get("visibilityAction") ?? "");
+  if (visibilityAction) {
+    if (!Number.isSafeInteger(id) || id < 1 || !["archive", "trash", "restore"].includes(visibilityAction)) {
+      return Response.json({ error: "Invalid inquiry action" }, { status: 400 });
+    }
+    const { DB } = context.cloudflare.env;
+    const exists = await DB.prepare("SELECT id FROM travel_inquiries WHERE id = ?").bind(id).first();
+    if (!exists) return Response.json({ error: "Inquiry not found" }, { status: 404 });
+    await ensureLeadVisibility(DB);
+    const visibility = visibilityAction === "restore" ? "active" : visibilityAction === "archive" ? "archived" : "trash";
+    await DB.prepare(`INSERT INTO advisor_lead_visibility (inquiry_id,visibility,updated_at)
+      VALUES (?,?,CURRENT_TIMESTAMP)
+      ON CONFLICT(inquiry_id) DO UPDATE SET visibility=excluded.visibility,updated_at=CURRENT_TIMESTAMP`)
+      .bind(id,visibility).run();
+    return Response.json({ success: true, visibility });
+  }
   const status = String(form.get("status") ?? "");
   const quick = form.get("quickStage") === "1";
   const health = String(form.get("leadHealth") ?? "Unqualified");
@@ -102,10 +126,11 @@ export async function loader({ request, context }: Route.LoaderArgs) {
   const { DB } = context.cloudflare.env;
 
   await ensureLeadUpdates(DB);
+  await ensureLeadVisibility(DB);
   await DB.prepare(`CREATE TABLE IF NOT EXISTS advisor_lead_health (
     inquiry_id INTEGER PRIMARY KEY, health TEXT NOT NULL DEFAULT 'Unqualified'
   )`).run();
-  const [{ results: inquiries }, { results: stats }, { results: updates }, { results: healthRows }] = await Promise.all([
+  const [{ results: inquiries }, { results: stats }, { results: updates }, { results: healthRows }, { results: visibilityRows }] = await Promise.all([
     DB.prepare(
       `SELECT id, full_name, email, destination_interest, trip_style, travel_window, notes, created_at
        FROM travel_inquiries
@@ -119,12 +144,14 @@ export async function loader({ request, context }: Route.LoaderArgs) {
     ).all<{ total_inquiries: number; unique_travelers: number }>(),
     DB.prepare("SELECT inquiry_id,status,follow_up_date,quote_amount,advisor_notes FROM advisor_lead_updates").all<LeadUpdate>(),
     DB.prepare("SELECT inquiry_id,health FROM advisor_lead_health").all<{inquiry_id:number;health:string}>(),
+    DB.prepare("SELECT inquiry_id,visibility FROM advisor_lead_visibility").all<LeadVisibility>(),
   ]);
 
   return {
     inquiries: inquiries ?? [],
     updates: updates ?? [],
     healthRows: healthRows ?? [],
+    visibilityRows: visibilityRows ?? [],
     stats: stats?.[0] ?? { total_inquiries: 0, unique_travelers: 0 },
   };
 }
@@ -146,8 +173,20 @@ function QuickStage({ id, current }: { id: number; current: string }) {
     </fetcher.Form>)}
   </div>;
 }
+function VisibilityActions({ id, visibility }: { id: number; visibility: string }) {
+  const fetcher = useFetcher();
+  const pending = fetcher.state !== "idle";
+  return <div className="advisor-visibility-actions">
+    {visibility === "active" ? <>
+      <fetcher.Form method="post"><input type="hidden" name="inquiryId" value={id} /><input type="hidden" name="visibilityAction" value="archive" /><button type="submit" disabled={pending} className="advisor-stage-button">Archive</button></fetcher.Form>
+      <fetcher.Form method="post" onSubmit={(event) => { if (!window.confirm("Move this inquiry to Trash? You can restore it later.")) event.preventDefault(); }}><input type="hidden" name="inquiryId" value={id} /><input type="hidden" name="visibilityAction" value="trash" /><button type="submit" disabled={pending} className="advisor-stage-button">Move to Trash</button></fetcher.Form>
+    </> : <fetcher.Form method="post"><input type="hidden" name="inquiryId" value={id} /><input type="hidden" name="visibilityAction" value="restore" /><button type="submit" disabled={pending} className="advisor-stage-button">Restore to Active</button></fetcher.Form>}
+  </div>;
+}
 export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
-  const { inquiries, stats, updates, healthRows } = loaderData;
+  const { inquiries, stats, updates, healthRows, visibilityRows } = loaderData;
+  const visibilityById = new Map(visibilityRows.map((row) => [row.inquiry_id, row.visibility]));
+  const [visibilityFilter, setVisibilityFilter] = useState("active");
   const healthById = new Map(healthRows.map((row) => [row.inquiry_id, row.health]));
   const navigation = useNavigation();
   const updateById = new Map(updates.map((update) => [update.inquiry_id, update]));
@@ -155,6 +194,7 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
   const [sourceFilter, setSourceFilter] = useState("all");
   const [expandedIds, setExpandedIds] = useState<number[]>([]);
   const visibleInquiries = useMemo(() => inquiries.filter((inquiry) => {
+    if ((visibilityById.get(inquiry.id) ?? "active") !== visibilityFilter) return false;
     const needle = search.trim().toLowerCase();
     const searchable = [inquiry.full_name, inquiry.email, inquiry.destination_interest, inquiry.trip_style, inquiry.travel_window, inquiry.notes].join(" ").toLowerCase();
     if (needle && !searchable.includes(needle)) return false;
@@ -162,7 +202,7 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
     if (sourceFilter === "resort") return leadAttribution(inquiry).origin === "Resort detail page";
     if (sourceFilter === "general") return leadAttribution(inquiry).origin === "General quote page";
     return true;
-  }), [inquiries, search, sourceFilter]);
+  }), [inquiries, search, sourceFilter, visibilityFilter, visibilityRows]);
   function downloadCsv() {
     const header = ["Inquiry ID","Received","Name","Email","Destination","Trip Style","Travel Window","Notes"];
     const cell = (value: unknown) => {
@@ -272,6 +312,13 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
               <option value="quick">Quick notes</option>
             </select>
           </label>
+          <label>Inbox
+            <select value={visibilityFilter} onChange={(event) => setVisibilityFilter(event.target.value)}>
+              <option value="active">Active</option>
+              <option value="archived">Archived</option>
+              <option value="trash">Trash</option>
+            </select>
+          </label>
           <label className="advisor-group-toggle"><input type="checkbox" checked={groupByTraveler} onChange={(event) => setGroupByTraveler(event.target.checked)} /> Group by traveler</label>
           <button type="button" className="button button-secondary" onClick={downloadCsv} disabled={!visibleInquiries.length}>Export {visibleInquiries.length} inquiries (CSV)</button>
         </div>
@@ -316,6 +363,7 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
                     ))}</ul>
                   </div>
                 ) : null}
+                <VisibilityActions id={inquiry.id} visibility={visibilityById.get(inquiry.id) ?? "active"} />
                 <QuickStage id={inquiry.id} current={LEGACY_STATUS[updateById.get(inquiry.id)?.status ?? ""] ?? updateById.get(inquiry.id)?.status ?? "Lead"} />
                 <details className="advisor-lead-editor">
                   <summary>Manage lead</summary>
