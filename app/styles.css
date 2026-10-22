@@ -9003,3 +9003,7 @@ textarea.wedding-inquiry-control{min-height:108px;resize:vertical}
 .advisor-stage-button.selected,.advisor-stage-button[aria-pressed="true"]{background:#203b55;color:#fff;border-color:#203b55;font-weight:700}
 .advisor-stage-button:focus-visible{outline:3px solid #bd9057;outline-offset:2px}
 .advisor-stage-button:disabled{opacity:.65;cursor:wait}
+
+.advisor-visibility-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin:.9rem 0}
+.advisor-visibility-actions form{margin:0}
+.advisor-visibility-actions button{min-height:38px}
