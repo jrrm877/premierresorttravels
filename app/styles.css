@@ -8995,3 +8995,11 @@ textarea.wedding-inquiry-control{min-height:108px;resize:vertical}
 .advisor-lead-editor-fields label{display:grid;gap:.3rem;font-weight:600}
 .advisor-lead-editor-fields input,.advisor-lead-editor-fields select,.advisor-lead-editor-fields textarea{width:100%;padding:.65rem;border:1px solid #bfb7aa;border-radius:8px;background:white;color:#19344a}
 .advisor-lead-editor-fields label:has(textarea){grid-column:1/-1}
+
+/* Advisor quick-stage controls */
+.advisor-quick-stage{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem;margin:1rem 0}
+.advisor-stage-label{flex-basis:100%;font-weight:700;color:#233c51;font-size:.88rem}
+.advisor-stage-button{font:inherit;font-size:.83rem;min-height:36px;border:1px solid #d9c8b2;background:#fffaf3;color:#233b4e;border-radius:999px;padding:.45rem .85rem;cursor:pointer}
+.advisor-stage-button.selected,.advisor-stage-button[aria-pressed="true"]{background:#203b55;color:#fff;border-color:#203b55;font-weight:700}
+.advisor-stage-button:focus-visible{outline:3px solid #bd9057;outline-offset:2px}
+.advisor-stage-button:disabled{opacity:.65;cursor:wait}
