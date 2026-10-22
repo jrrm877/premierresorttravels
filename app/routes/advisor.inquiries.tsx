@@ -1,4 +1,6 @@
 import { useMemo, useState } from "react";
+import { Form, useNavigation } from "react-router";
+// from "react";
 import { requireAdvisorAccess } from "../lib/advisor-access";
 import type { Route } from "./+types/advisor.inquiries";
 
@@ -43,11 +45,49 @@ function leadAttribution(inquiry: InquiryRecord) {
   return { origin: origin === "Resort detail page" ? "Resort detail page" : origin === "General quote page" ? "General quote page" : "Unattributed", resort: origin === "Resort detail page" ? resort : null };
 }
 
+const STATUSES = ["New", "Contacted", "Quote Sent", "Follow-Up Needed", "Booked", "Closed"] as const;
+type LeadUpdate = { inquiry_id: number; status: string; follow_up_date: string | null; quote_amount: number | null; advisor_notes: string | null };
+async function ensureLeadUpdates(DB: { prepare: (query: string) => { run: () => Promise<unknown> } }) {
+  await DB.prepare(`CREATE TABLE IF NOT EXISTS advisor_lead_updates (
+    inquiry_id INTEGER PRIMARY KEY,
+    status TEXT NOT NULL DEFAULT 'New',
+    follow_up_date TEXT,
+    quote_amount REAL,
+    advisor_notes TEXT,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+  )`).run();
+}
+export async function action({ request, context }: Route.ActionArgs) {
+  await requireAdvisorAccess(request, context.cloudflare.env);
+  if (request.method !== "POST") return Response.json({ error: "Method not allowed" }, { status: 405 });
+  const form = await request.formData();
+  const id = Number(form.get("inquiryId"));
+  const status = String(form.get("status") ?? "");
+  const followUp = String(form.get("followUp") ?? "").trim();
+  const quoteRaw = String(form.get("quoteAmount") ?? "").trim();
+  const notes = String(form.get("advisorNotes") ?? "").trim();
+  if (!Number.isSafeInteger(id) || id < 1 || !STATUSES.includes(status as typeof STATUSES[number]) ||
+    (followUp && !/^\d{4}-\d{2}-\d{2}$/.test(followUp)) || notes.length > 10000 ||
+    (quoteRaw && (!Number.isFinite(Number(quoteRaw)) || Number(quoteRaw) < 0 || Number(quoteRaw) > 10000000))) {
+    return Response.json({ error: "Invalid lead update" }, { status: 400 });
+  }
+  const { DB } = context.cloudflare.env;
+  const exists = await DB.prepare("SELECT id FROM travel_inquiries WHERE id = ?").bind(id).first();
+  if (!exists) return Response.json({ error: "Inquiry not found" }, { status: 404 });
+  await ensureLeadUpdates(DB);
+  await DB.prepare(`INSERT INTO advisor_lead_updates (inquiry_id,status,follow_up_date,quote_amount,advisor_notes,updated_at)
+    VALUES (?,?,?,?,?,CURRENT_TIMESTAMP)
+    ON CONFLICT(inquiry_id) DO UPDATE SET status=excluded.status,follow_up_date=excluded.follow_up_date,
+    quote_amount=excluded.quote_amount,advisor_notes=excluded.advisor_notes,updated_at=CURRENT_TIMESTAMP`)
+    .bind(id,status,followUp || null,quoteRaw ? Number(quoteRaw) : null,notes || null).run();
+  return Response.json({ success: true });
+}
 export async function loader({ request, context }: Route.LoaderArgs) {
   await requireAdvisorAccess(request, context.cloudflare.env);
   const { DB } = context.cloudflare.env;
 
-  const [{ results: inquiries }, { results: stats }] = await Promise.all([
+  await ensureLeadUpdates(DB);
+  const [{ results: inquiries }, { results: stats }, { results: updates }] = await Promise.all([
     DB.prepare(
       `SELECT id, full_name, email, destination_interest, trip_style, travel_window, notes, created_at
        FROM travel_inquiries
@@ -59,10 +99,12 @@ export async function loader({ request, context }: Route.LoaderArgs) {
          COUNT(DISTINCT email) AS unique_travelers
        FROM travel_inquiries`
     ).all<{ total_inquiries: number; unique_travelers: number }>(),
+    DB.prepare("SELECT inquiry_id,status,follow_up_date,quote_amount,advisor_notes FROM advisor_lead_updates").all<LeadUpdate>(),
   ]);
 
   return {
     inquiries: inquiries ?? [],
+    updates: updates ?? [],
     stats: stats?.[0] ?? { total_inquiries: 0, unique_travelers: 0 },
   };
 }
@@ -72,7 +114,9 @@ export function meta(_: Route.MetaArgs) {
 }
 
 export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
-  const { inquiries, stats } = loaderData;
+  const { inquiries, stats, updates } = loaderData;
+  const navigation = useNavigation();
+  const updateById = new Map(updates.map((update) => [update.inquiry_id, update]));
   const [search, setSearch] = useState("");
   const [sourceFilter, setSourceFilter] = useState("all");
   const [expandedIds, setExpandedIds] = useState<number[]>([]);
@@ -238,6 +282,19 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
                     ))}</ul>
                   </div>
                 ) : null}
+                <details className="advisor-lead-editor">
+                  <summary>Manage lead</summary>
+                  <Form method="post" key={inquiry.id} className="advisor-lead-editor-fields">
+                    <input type="hidden" name="inquiryId" value={inquiry.id} />
+                    <label>Status<select name="status" defaultValue={updateById.get(inquiry.id)?.status ?? "New"}>
+                      {STATUSES.map((status) => <option key={status} value={status}>{status}</option>)}
+                    </select></label>
+                    <label>Follow-up date<input name="followUp" type="date" defaultValue={updateById.get(inquiry.id)?.follow_up_date ?? ""} /></label>
+                    <label>Quote amount (USD)<input name="quoteAmount" type="number" min="0" max="10000000" step=".01" defaultValue={updateById.get(inquiry.id)?.quote_amount ?? ""} /></label>
+                    <label>Private advisor notes<textarea name="advisorNotes" rows={4} maxLength={10000} defaultValue={updateById.get(inquiry.id)?.advisor_notes ?? ""} /></label>
+                    <button className="button button-primary" type="submit" disabled={navigation.state !== "idle"}>Save lead details</button>
+                  </Form>
+                </details>
                 <div className="card-actions card-actions-inline">
                   <a className="button button-secondary" href={`mailto:${encodeURIComponent(inquiry.email)}`}>
                     Reply by email
