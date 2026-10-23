@@ -20,6 +20,7 @@ export async function action({ request, context }: Route.ActionArgs) {
   if (origin !== new URL(request.url).origin) return Response.json({ error: "Invalid origin" }, { status: 403 });
   const form = await request.formData();
   const key = String(form.get("key") || "");
+  const operation = String(form.get("operation") || "publish");
   const publish = form.get("publish") === "true";
   const parts = key.split("/");
   if (parts.length !== 4 || parts[0] !== "resorts" || !fallbackProperties().some(p => p.slug === parts[1]) || !/^[a-z]+$/.test(parts[2]) || !/^[a-f0-9-]+\.(jpg|png|webp|avif)$/.test(parts[3])) return Response.json({ error: "Invalid photo" }, { status: 400 });
@@ -27,6 +28,11 @@ export async function action({ request, context }: Route.ActionArgs) {
   if (!bucket) return Response.json({ error: "Storage unavailable" }, { status: 503 });
   const existing = await bucket.get(key);
   if (!existing) return Response.json({ error: "Photo not found" }, { status: 404 });
+  if (operation === "delete") {
+    await bucket.delete(key);
+    return Response.json({ ok: true, deleted: true });
+  }
+  if (operation !== "publish") return Response.json({ error: "Invalid operation" }, { status: 400 });
   await bucket.put(key, existing.body, { httpMetadata: existing.httpMetadata, customMetadata: { ...existing.customMetadata, published: publish ? "true" : "false" } });
   return Response.json({ ok: true, published: publish });
 }
@@ -35,12 +41,18 @@ function PhotoCard({ photo }: { photo: ResortPhoto }) {
   const fetcher = useFetcher();
   const pending = fetcher.state !== "idle";
   const published = typeof fetcher.data?.published === "boolean" ? fetcher.data.published : photo.published;
+  const deleted = fetcher.data?.deleted === true;
+  if (deleted) return null;
   return <article className="advisor-photo-card">
     {published ? <img src={photo.url} alt={photo.alt} loading="lazy" /> : <div className="advisor-photo-private">Private photo — publish to preview on site</div>}
     <div className="advisor-photo-card-body"><strong>{photo.category}</strong><p title={photo.alt}>{photo.alt}</p>
     <span>{published ? "Published" : "Private"}</span>
     <fetcher.Form method="post"><input type="hidden" name="key" value={photo.key}/><input type="hidden" name="publish" value={String(!published)}/>
       <button type="submit" className="button button-secondary" disabled={pending}>{pending ? "Saving…" : published ? "Unpublish" : "Publish photo"}</button>
+    </fetcher.Form>
+    <fetcher.Form method="post" onSubmit={event => { if (!window.confirm("Permanently delete this photo? This cannot be undone.")) event.preventDefault(); }}>
+      <input type="hidden" name="key" value={photo.key}/><input type="hidden" name="operation" value="delete"/>
+      <button type="submit" className="button button-secondary" disabled={pending}>Delete photo</button>
     </fetcher.Form>
     {fetcher.data?.error && <p role="alert">{fetcher.data.error}</p>}</div>
   </article>;
