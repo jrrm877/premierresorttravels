@@ -42,7 +42,10 @@ type OrganizeLog = {
 };
 
 const resortPatterns: Array<[Resort, RegExp]> = [
-  ["moon-palace-cancun", /moon[-_\s]?palace|the[-_\s]?grand|cancun|nizuc|sunrise/i],
+  ["moon-palace-jamaica", /moon[-_\s]?palace[-_\s]?jamaica|jamaica.*moon[-_\s]?palace|ocho[-_\s]?rios/i],
+  ["le-blanc-los-cabos", /le[-_\s]?blanc.*(los[-_\s]?cabos|cabo)|(los[-_\s]?cabos|cabo).*le[-_\s]?blanc/i],
+  ["le-blanc-cancun", /le[-_\s]?blanc.*cancun|cancun.*le[-_\s]?blanc/i],
+  ["moon-palace-cancun", /moon[-_\s]?palace.*cancun|cancun.*moon[-_\s]?palace|the[-_\s]?grand|nizuc|sunrise/i],
   ["moon-palace-jamaica", /moon[-_\s]?palace[-_\s]?jamaica|jamaica|ocho[-_\s]?rios/i],
   ["le-blanc-cancun", /le[-_\s]?blanc.*cancun|cancun.*le[-_\s]?blanc/i],
   ["le-blanc-los-cabos", /le[-_\s]?blanc.*(los[-_\s]?cabos|cabo)|los[-_\s]?cabos.*le[-_\s]?blanc/i],
@@ -201,7 +204,7 @@ async function main() {
     const hash = hashBuffer(buffer);
 
     if (seenHashes.has(hash)) {
-      await unlink(filePath);
+      // Preserve source files: a dry-run/review must never destroy Canto exports.
       logs.push({
         sourcePath: relativeSource,
         status: "duplicate",
@@ -247,7 +250,7 @@ async function main() {
   await updateReport(logs);
 
   console.log(`Organized ${logs.filter((item) => item.status === "organized").length} image(s).`);
-  console.log(`Removed ${logs.filter((item) => item.status === "duplicate").length} duplicate raw file(s).`);
+  console.log(`Skipped ${logs.filter((item) => item.status === "duplicate").length} duplicate raw file(s) (sources preserved).`);
   console.log(`Registry written to src/data/resortImages.ts`);
   console.log(`Report written to ${palaceMediaConfig.reportPath}`);
 }
