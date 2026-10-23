@@ -44,7 +44,7 @@ export function meta() {
 export default function AdvisorPhotos({ loaderData }: Route.ComponentProps) {
   const [resort, setResort] = useState(loaderData.resorts[0]?.slug ?? "");
   const [category, setCategory] = useState("rooms");
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<Array<{ file: File; resort: string; category: string }>>([]);
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(0);
   const [errors, setErrors] = useState<string[]>([]);
@@ -52,7 +52,15 @@ export default function AdvisorPhotos({ loaderData }: Route.ComponentProps) {
 
   async function addFiles(incoming: FileList | File[]) {
     const { default: JSZip } = await import("jszip");
-    const selected: File[] = [];
+    const selected: Array<{ file: File; resort: string; category: string }> = [];
+    const resortNames = loaderData.resorts;
+    function classify(fullName: string) {
+      const normalized = fullName.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      const matches = resortNames.filter(r => normalized.includes(r.slug));
+      const segments = normalized.split("-");
+      const knownCategories = categories.filter(c => segments.includes(c));
+      return { resort: matches.length === 1 ? matches[0].slug : "", category: knownCategories.length === 1 ? knownCategories[0] : "" };
+    }
     const problems: string[] = [];
     for (const file of Array.from(incoming)) {
       if (/\.zip$/i.test(file.name)) {
@@ -65,12 +73,14 @@ export default function AdvisorPhotos({ loaderData }: Route.ComponentProps) {
             if (!mime) continue;
             const blob = await entry.async("blob");
             if (blob.size > maxImageBytes) { problems.push(`${name}: over 12 MB`); continue; }
-            selected.push(new File([blob], name, { type: mime }));
+            const identified = classify(entry.name);
+            if (!identified.resort || !identified.category) { problems.push(`${entry.name}: resort or category needs manual review; not imported`); continue; }
+            selected.push({ file: new File([blob], name, { type: mime }), ...identified });
             if (selected.length >= 250) break;
           }
         } catch { problems.push(`${file.name}: ZIP could not be opened`); }
       } else if (mimeFor(file.name) && file.size <= maxImageBytes) {
-        selected.push(new File([file], file.name, { type: mimeFor(file.name) }));
+        selected.push({ file: new File([file], file.name, { type: mimeFor(file.name) }), resort, category });
       } else {
         problems.push(`${file.name}: unsupported format or over 12 MB`);
       }
@@ -88,9 +98,10 @@ export default function AdvisorPhotos({ loaderData }: Route.ComponentProps) {
     setBusy(true); setDone(0);
     const problems: string[] = [];
     let completed = 0;
-    for (const file of files) {
+    for (const item of files) {
+      const { file } = item;
       try {
-        const params = new URLSearchParams({ resort, category });
+        const params = new URLSearchParams({ resort: item.resort, category: item.category });
         const response = await fetch(`/advisor/photos?${params}`, { method: "POST", headers: { "Content-Type": file.type, "X-Photo-Name": encodeURIComponent(file.name) }, body: file });
         if (!response.ok) {
           const result = await response.json() as { error?: string };
@@ -121,6 +132,7 @@ export default function AdvisorPhotos({ loaderData }: Route.ComponentProps) {
       <p><strong>Drop ZIP files or photos here</strong></p>
       <input aria-label="Choose photo ZIP or images" type="file" accept=".zip,image/jpeg,image/png,image/webp,image/avif" multiple onChange={choose} disabled={busy} />
     </div>
+    <p>ZIP imports use resort and category names from folder paths. Ambiguous files are skipped for review instead of being assigned to the wrong resort. Individual images use your selected resort and category.</p>
     <p role="status">{files.length ? `${files.length} photos ready · ${done} uploaded` : done ? `${done} photos uploaded to private storage` : "No photos selected"}</p>
     <button className="button button-primary" type="button" onClick={() => void upload()} disabled={busy || !files.length || !resort}>{busy ? `Uploading ${done} of ${files.length}…` : `Upload ${files.length} photos`}</button>
     {errors.length > 0 && <div role="alert"><h2>Items needing attention</h2><ul>{errors.slice(0, 20).map((e, i) => <li key={i}>{e}</li>)}</ul></div>}
