@@ -43,6 +43,31 @@ export default function JournalPage({ loaderData }: Route.ComponentProps) {
 
   return (
     <main className="page-shell">
+      {isLeBlancComparison ? (
+        <section className="property-details" style={{ maxWidth: 1180, margin: "2rem auto", padding: "clamp(1.25rem, 3vw, 3rem)" }}>
+          <p className="eyebrow">THE LE BLANC COLLECTION · TWO DISTINCT ESCAPES</p>
+          <h1 style={{ fontSize: "clamp(2.4rem, 5.5vw, 4.8rem)", lineHeight: 1.08, maxWidth: 900, margin: "1rem 0" }}>Le Blanc Cancun vs. Los Cabos</h1>
+          <p className="lede" style={{ maxWidth: 720 }}>Caribbean beachfront elegance or dramatic Baja coastal scenery? Compare the experience, then find the right stay for your dates.</p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: 16, marginTop: 24 }}>
+            <a href="/properties/le-blanc-spa-resort-cancun" style={{ display: "block", color: "inherit", textDecoration: "none" }}>
+              <img src="/images/catalog/le-blanc-spa-resort-cancun.jpg" alt="Le Blanc Spa Resort Cancun" loading="eager" style={{ width: "100%", height: 240, objectFit: "cover", borderRadius: 14 }} />
+              <h2 style={{ fontSize: "clamp(1.4rem, 2.5vw, 2rem)", margin: "12px 0 4px" }}>Cancun</h2>
+              <p>For turquoise Caribbean views and a classic luxury beach escape.</p>
+              <span className="text-link">Explore Le Blanc Cancun →</span>
+            </a>
+            <a href="/properties/le-blanc-spa-resort-los-cabos" style={{ display: "block", color: "inherit", textDecoration: "none" }}>
+              <img src={post.image} alt="Le Blanc Spa Resort Los Cabos overlooking the coast" loading="eager" style={{ width: "100%", height: 240, objectFit: "cover", borderRadius: 14 }} />
+              <h2 style={{ fontSize: "clamp(1.4rem, 2.5vw, 2rem)", margin: "12px 0 4px" }}>Los Cabos</h2>
+              <p>For desert-meets-ocean scenery and a resort-centered retreat.</p>
+              <span className="text-link">Explore Le Blanc Los Cabos →</span>
+            </a>
+          </div>
+          <div className="hero-actions" style={{ marginTop: 26 }}>
+            <a className="button button-primary" href={inquiryHref}>Compare Prices for My Dates</a>
+          </div>
+          <p style={{ fontSize: 13, marginTop: 12 }}>Personalized quotes are based on your dates, room preferences, and availability. No booking is made when you inquire.</p>
+        </section>
+      ) : (
       <section className="collection-hero">
         <div className="collection-hero-image">
           <img
@@ -72,6 +97,7 @@ export default function JournalPage({ loaderData }: Route.ComponentProps) {
         </div>
       </section>
 
+      )}
       <section className="property-details">
         <div className="section-heading section-heading-stack">
           <div>
@@ -90,27 +116,6 @@ export default function JournalPage({ loaderData }: Route.ComponentProps) {
         </div>
       </section>
 
-      {isLeBlancComparison ? (
-        <section className="property-details" aria-labelledby="le-blanc-quick-answer">
-          <div className="section-heading section-heading-stack">
-            <div><p className="eyebrow">At a Glance</p><h2 id="le-blanc-quick-answer">Le Blanc Cancun or Los Cabos: which is better for you?</h2></div>
-          </div>
-          <div className="planning-grid">
-            <article className="planning-card">
-              <h3>Choose Cancun for a Caribbean beach escape</h3>
-              <p>Best suited to couples prioritizing turquoise Caribbean scenery and classic Cancun beach atmosphere. Sea conditions vary, so confirm current swimming guidance.</p>
-              <a className="text-link" href="/properties/le-blanc-spa-resort-cancun">See Le Blanc Cancun details</a>
-            </article>
-            <article className="planning-card">
-              <h3>Choose Los Cabos for dramatic coastal scenery</h3>
-              <p>Best suited to couples drawn to desert-meets-ocean views and a resort-centered escape. Do not assume the beach is safe for swimming; check local conditions.</p>
-              <a className="text-link" href="/properties/le-blanc-spa-resort-los-cabos">See Le Blanc Los Cabos details</a>
-            </article>
-          </div>
-          <p>Neither resort is universally better. Compare the exact dates, room category, cancellation policy, transfers, and final trip total before deciding.</p>
-          <div className="hero-actions"><a className="button button-primary" href={inquiryHref}>Compare Both Resorts for My Dates</a></div>
-        </section>
-      ) : null}
       {isLeBlancComparison ? (
         <section className="property-details" aria-label="Compare Le Blanc resorts for your trip">
           <article className="planning-card">
