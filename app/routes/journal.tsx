@@ -91,6 +91,27 @@ export default function JournalPage({ loaderData }: Route.ComponentProps) {
       </section>
 
       {isLeBlancComparison ? (
+        <section className="property-details" aria-labelledby="le-blanc-quick-answer">
+          <div className="section-heading section-heading-stack">
+            <div><p className="eyebrow">At a Glance</p><h2 id="le-blanc-quick-answer">Le Blanc Cancun or Los Cabos: which is better for you?</h2></div>
+          </div>
+          <div className="planning-grid">
+            <article className="planning-card">
+              <h3>Choose Cancun for a Caribbean beach escape</h3>
+              <p>Best suited to couples prioritizing turquoise Caribbean scenery and classic Cancun beach atmosphere. Sea conditions vary, so confirm current swimming guidance.</p>
+              <a className="text-link" href="/properties/le-blanc-spa-resort-cancun">See Le Blanc Cancun details</a>
+            </article>
+            <article className="planning-card">
+              <h3>Choose Los Cabos for dramatic coastal scenery</h3>
+              <p>Best suited to couples drawn to desert-meets-ocean views and a resort-centered escape. Do not assume the beach is safe for swimming; check local conditions.</p>
+              <a className="text-link" href="/properties/le-blanc-spa-resort-los-cabos">See Le Blanc Los Cabos details</a>
+            </article>
+          </div>
+          <p>Neither resort is universally better. Compare the exact dates, room category, cancellation policy, transfers, and final trip total before deciding.</p>
+          <div className="hero-actions"><a className="button button-primary" href={inquiryHref}>Compare Both Resorts for My Dates</a></div>
+        </section>
+      ) : null}
+      {isLeBlancComparison ? (
         <section className="property-details" aria-label="Compare Le Blanc resorts for your trip">
           <article className="planning-card">
             <p className="eyebrow">Personalized Resort Comparison</p>
