@@ -41,7 +41,7 @@ function leadAttribution(inquiry: InquiryRecord) {
   const notes = inquiry.notes ?? "";
   const origin = notes.match(/^Lead origin: (.+)$/m)?.[1]?.trim();
   const resort = notes.match(/^Originally selected resort: (.+)$/m)?.[1]?.trim();
-  return { origin: origin === "Resort detail page" ? "Resort detail page" : origin === "General quote page" ? "General quote page" : "Unattributed", resort: origin === "Resort detail page" ? resort : null };
+  return { origin: origin || "Unattributed", resort: origin === "Resort detail page" ? resort : null };
 }
 
 const STATUSES = ["Lead", "Needs Reply", "Quote Sent", "Negotiations", "Booked Trip", "Past Client", "Closed / Not Booking"] as const;
@@ -230,6 +230,8 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
     if (sourceFilter === "quick") return isQuickNoteLead(inquiry);
     if (sourceFilter === "resort") return leadAttribution(inquiry).origin === "Resort detail page";
     if (sourceFilter === "general") return leadAttribution(inquiry).origin === "General quote page";
+    if (sourceFilter === "content") return ["Travel journal", "Traveler stories index", "Traveler story"].includes(leadAttribution(inquiry).origin);
+    if (sourceFilter === "other") return !["Resort detail page", "General quote page", "Travel journal", "Traveler stories index", "Traveler story"].includes(leadAttribution(inquiry).origin);
     return true;
   }), [inquiries, search, sourceFilter, visibilityFilter, visibilityRows]);
   function downloadCsv() {
@@ -269,6 +271,7 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
   const topResorts = [...resortCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
   const resortLeads = sources.filter(source => source.origin === "Resort detail page").length;
   const generalLeads = sources.filter(source => source.origin === "General quote page").length;
+  const contentLeads = sources.filter(source => ["Travel journal", "Traveler stories index", "Traveler story"].includes(source.origin)).length;
 
   return (
     <main className="page-shell">
@@ -313,7 +316,7 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
         <div className="planning-grid">
           <article className="planning-card"><h3>{resortLeads}</h3><p>From resort pages</p></article>
           <article className="planning-card"><h3>{generalLeads}</h3><p>From general quote page</p></article>
-          <article className="planning-card"><h3>{sources.length - resortLeads - generalLeads}</h3><p>Unattributed or older leads</p></article>
+          <article className="planning-card"><h3>{sources.length - resortLeads - generalLeads - contentLeads}</h3><p>Unattributed or older leads</p></article>
         </div>
         <article className="planning-card" style={{ marginTop: 20 }}>
           <h3>Resorts generating leads</h3>
@@ -355,6 +358,8 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
               <option value="all">All inquiries</option>
               <option value="resort">Resort pages</option>
               <option value="general">General quote form</option>
+              <option value="content">Journal and traveler stories</option>
+              <option value="other">Other / unattributed</option>
               <option value="quick">Quick notes</option>
             </select>
           </label>
