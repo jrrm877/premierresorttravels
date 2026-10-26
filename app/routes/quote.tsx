@@ -83,10 +83,11 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
       <main className="page-shell postcard-success-page">
         <div className="postcard-success-heading" role="status">
           <p className="eyebrow">Premier Resort Travel · A personal thank-you</p>
-          <h1>Your request is on its way!</h1>
+          <h1>We've received your request!</h1>
           <p>We’ve received your inquiry. A little note from us is waiting below.</p>
         </div>
         <div className="postcard-confirmation">
+          <a href="/collections" aria-label="Explore resort collections" style={{ display: "block" }}>
           <img
             src="/images/premier-thank-you-postcard%20(1).webp"
             alt="A personal thank-you postcard from Jazmin and Cullen. Your vacation inquiry has been received. They personally review inquiries during daytime business hours and will respond as soon as they can. No reservation has been made."
@@ -94,7 +95,7 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
             height={1536}
             decoding="async"
           />
-          <a className="postcard-confirmation-link" href="/collections">Explore resorts <span aria-hidden="true">→</span></a>
+          </a>
         </div>
       </main>
     );
