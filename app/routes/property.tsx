@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ResortGallery } from "../components/ResortGallery";
 import { listResortPhotos } from "../lib/resort-photos";
 import { fallbackProperties, fetchDestinationsFromDb, fetchPropertyBySlug } from "../lib/catalog";
@@ -69,6 +69,20 @@ export function meta({ data }: Route.MetaArgs) {
 
 export default function PropertyPage({ loaderData }: Route.ComponentProps) {
   const { property, related, photos, source, travelerStories } = loaderData;
+  useEffect(() => {
+    void fetch("/api/conversion-event", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ event: "resort_view", resort: property.slug }), keepalive: true
+    }).catch(() => {});
+  }, [property.slug]);
+  function recordQuoteClick(event: React.MouseEvent<HTMLElement>) {
+    const target = event.target;
+    if (!(target instanceof Element) || !target.closest('a[href^="/quote"]')) return;
+    void fetch("/api/conversion-event", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ event: "quote_click", resort: property.slug }), keepalive: true
+    }).catch(() => {});
+  }
   const [photoOpen, setPhotoOpen] = useState(false);
   const collectionHref = findCollectionHrefForProperty(property.slug);
   const quoteHref = `/quote?resort=${encodeURIComponent(property.name)}&origin=property`;
@@ -116,7 +130,7 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
 
 
   return (
-    <main className="page-shell">\n      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
+    <main className="page-shell" onClickCapture={recordQuoteClick}>\n      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
       <section className="property-hero">
         <div className="property-hero-image">
           <button type="button" className="resort-photo-trigger" onClick={() => setPhotoOpen(true)} aria-label={`Enlarge photo of ${property.name}`}>
