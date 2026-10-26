@@ -541,6 +541,14 @@ export default function AboutPage() {
 
   return (
     <main className="page-shell">
+      <section className="property-details" aria-labelledby="about-advisors" style={{ maxWidth: 1080, margin: "2rem auto" }}>
+        <p className="eyebrow">The People Behind Your Trip</p>
+        <h1 id="about-advisors">Meet Premier Resort Travel</h1>
+        <p className="lede">Premier Resort Travel is a family-led vacation planning business run by Jazmin and Cullen. We help travelers compare all-inclusive resorts, adults-only escapes, family stays, and luxury resort experiences.</p>
+        <p>Our approach is personal: tell us your dates, who is traveling, and what matters most. We help narrow your resort options and prepare a personalized quote rather than presenting an instant booking price.</p>
+        <p>Resort amenities, pricing, inclusions, and availability are confirmed for your specific travel dates and booking terms. Submitting an inquiry does not make a reservation.</p>
+        <div className="hero-actions"><a className="button button-primary" href="/quote?origin=about">Request a Personalized Quote</a><a className="button button-secondary" href="/contact">Contact Us</a></div>
+      </section>
       <section className="about-postcard-hero" aria-label="About Premier Resort Travel postcard">
         <div className="about-postcard-hero-frame">
           <div className="about-postcard-hero-image">
