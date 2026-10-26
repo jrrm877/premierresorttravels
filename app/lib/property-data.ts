@@ -120,15 +120,15 @@ export const journalPosts: JournalPost[] = [
   {
     slug: "best-family-all-inclusive-resorts-for-multigenerational-trips",
     eyebrow: "Family Travel",
-    title: "Best family all-inclusive resorts for multigenerational trips, water parks, and longer stays",
+    title: "Best All-Inclusive Resorts for Multigenerational Family Vacations",
     description:
-      "See which family-oriented resorts work best when travelers want big amenities, broad dining, and enough range to keep every age group happy.",
+      "Compare family-friendly all-inclusive resorts for grandparents, parents, teens, and younger children. Explore room layouts, walking distances, dining, and total trip value.",
     image: upscaleResortImage(
       "https://thepalacecompany.canto.com/rest/v/PalaceProAgents/binary/image/oe0r882lrt1u506d70ulkn7s35/240?angle=0"
     )!,
-    readTime: "5 min read",
+    readTime: "6 min read",
     collectionHref: "/collections/family-friendly",
-    cta: "Read the family guide",
+    cta: "Compare multigenerational resorts",
     featuredPropertySlugs: [
       "moon-palace-the-grand-cancun",
       "moon-palace-cancun",
@@ -136,19 +136,34 @@ export const journalPosts: JournalPost[] = [
     ],
     sections: [
       {
-        title: "Why bigger resorts can work better for families",
+        title: "Choose the right resort for three generations",
         body:
-          "When travelers are juggling different ages, appetites, and activity levels, larger resorts often win because they offer more built-in choice without adding planning friction.",
+          "A multigenerational vacation works best when everyone can enjoy time together without following the same schedule. Compare family pools and supervised activities for children, independent entertainment for teens, and quieter dining or relaxation options for grandparents. Check the current age rules and inclusions rather than assuming every amenity is available to every guest.",
       },
       {
-        title: "The difference between classic family resorts and flagship resorts",
+        title: "Compare Moon Palace Cancun, The Grand, and Moon Palace Jamaica",
         body:
-          "Flagship resorts tend to have more dining, larger activity zones, bigger pool footprints, and stronger appeal for travelers treating the resort itself as the main event.",
+          "Moon Palace Cancun and Moon Palace The Grand Cancun are worth comparing when your group wants a large Cancun resort setting with varied experiences. Moon Palace Jamaica offers a different destination and travel experience. For each property, confirm current activities, resort-access privileges, room availability, and any additional charges before choosing.",
       },
       {
-        title: "The easiest way to match the right family stay",
+        title: "Rooms and sleeping arrangements matter more than a headline rate",
         body:
-          "Lead with the traveler profile: toddlers, teens, grandparents, or mixed-age groups. That lens is usually more useful than comparing square footage alone.",
+          "Ask about connecting rooms, suites, bed configurations, occupancy limits, and how close family members can stay to one another. A lower nightly rate can become less attractive when your group needs extra rooms or separate sleeping spaces. Room connections and locations are subject to confirmation.",
+      },
+      {
+        title: "Make the trip comfortable for grandparents and younger children",
+        body:
+          "Check walking distances, elevators, accessible room features, transportation around the property, and how far rooms are from restaurants and pools. For young children, ask about stroller-friendly paths, kids-club age limits, and dining flexibility. Accessibility details should be confirmed directly for the specific booking.",
+      },
+      {
+        title: "Compare the total vacation cost, not just the resort price",
+        body:
+          "Compare the same dates, number of adults and children, room categories, airport transfers, and any optional activities. Confirm whether flights, gratuities, resort credits, and special experiences are included. A personalized quote helps you evaluate the complete cost for your family.",
+      },
+      {
+        title: "A simple way to plan a smoother family vacation",
+        body:
+          "Start with your travel dates, each child's age, the number of rooms you may need, and any mobility or dietary requirements. Decide which activities the entire group wants to share and where independent time matters. Use those priorities to narrow the resort options before committing to a booking.",
       },
     ],
   },
