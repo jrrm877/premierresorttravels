@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useFetcher } from "react-router";
 import type { Route } from "./+types/quote";
 
@@ -20,6 +20,7 @@ export function loader({ request }: Route.LoaderArgs) {
   const fullName = params.get("fullName")?.trim().slice(0, 150) ?? "";
   const destination = params.get("origin") === "journal" ? (params.get("destination")?.trim().slice(0, 150) ?? "") : "";
   const originKey = params.get("origin") ?? "";
+  const resortSlug = params.get("resortSlug") ?? "";
   const originLabels: Record<string, string> = {
     property: "Resort detail page",
     journal: "Travel journal",
@@ -32,12 +33,21 @@ export function loader({ request }: Route.LoaderArgs) {
   };
   const origin = originLabels[originKey] ?? "General quote page";
   const initialNote = params.get("note")?.trim().slice(0, 500) ?? "";
-  return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "", resort, destination, email, fullName, origin, initialNote, wedding };
+  return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "", resort, destination, email, fullName, origin, initialNote, wedding, resortSlug };
 }
 
 type InquiryResponse = { success?: boolean; message?: string };
 export default function QuotePage({ loaderData }: Route.ComponentProps) {
   const fetcher = useFetcher<InquiryResponse>();
+  const recordedStart = useRef(false);
+  function recordQuoteStart() {
+    if (recordedStart.current || !loaderData.resortSlug) return;
+    recordedStart.current = true;
+    void fetch("/api/conversion-event", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ event: "quote_start", resort: loaderData.resortSlug }), keepalive: true
+    }).catch(() => {});
+  }
   const [includeFlights, setIncludeFlights] = useState(false);
   const [destination, setDestination] = useState(loaderData.resort || loaderData.destination);
   const [tripStyle, setTripStyle] = useState(loaderData.style || "Not sure yet");
@@ -115,7 +125,7 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
             <a className="postcard-confirmation-link" href="/collections">Explore resorts <span aria-hidden="true">→</span></a>
           </div>
         ) : (
-          <fetcher.Form method="post" action="/api/inquiry" style={{ display: "grid", gap: 18 }}>
+          <fetcher.Form method="post" action="/api/inquiry" onFocusCapture={recordQuoteStart} style={{ display: "grid", gap: 18 }}>
             <input type="hidden" name="source" value="vacation-quote" />
             <input type="hidden" name="tripStyle" value={tripStyle} />
             <input type="hidden" name="travelWindow" value={departure && returnDate ? departure + " to " + returnDate : "Flexible"} />
