@@ -26,6 +26,7 @@ export default [
   route("resort-collections/palace-resorts/moon-palace-cancun", "routes/legacy-moon-palace-cancun-redirect.ts"),
   route("trip-types/wedding", "routes/legacy-wedding-redirect.ts"),
   route("trip-types/food-drink", "routes/legacy-food-drink-redirect.ts"),
+  route("trip-types/spa-wellness", "routes/legacy-spa-redirect.ts"),
   route("guides/le-blanc-cancun-vs-los-cabos", "routes/le-blanc-guide-redirect.ts"),
   route("journal", "routes/journal-index.tsx"),
   route("journal/:slug", "routes/journal.tsx"),
