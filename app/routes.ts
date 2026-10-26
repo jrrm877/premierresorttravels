@@ -14,6 +14,7 @@ export default [
   route("resort-photo", "routes/resort-photo.ts"),
   route("advisor/properties", "routes/advisor.properties.tsx"),
   route("about", "routes/about.tsx"),
+  route("contact", "routes/contact.tsx"),
   route("quote", "routes/quote.tsx"),
   route("destinations", "routes/destinations.tsx"),
   route("destinations/:slug", "routes/legacy-destination-redirect.ts"),
