@@ -71,6 +71,23 @@ export async function action({ request, context }: Route.ActionArgs) {
   if (request.method !== "POST") return Response.json({ error: "Method not allowed" }, { status: 405 });
   const form = await request.formData();
   const id = Number(form.get("inquiryId"));
+  const testAction = String(form.get("testAction") ?? "");
+  if (testAction) {
+    if (!Number.isSafeInteger(id) || id < 1 || !["mark", "unmark"].includes(testAction))
+      return Response.json({ error: "Invalid test classification" }, { status: 400 });
+    const { DB } = context.cloudflare.env;
+    const exists = await DB.prepare("SELECT id FROM travel_inquiries WHERE id = ?").bind(id).first();
+    if (!exists) return Response.json({ error: "Inquiry not found" }, { status: 404 });
+    await DB.prepare(`CREATE TABLE IF NOT EXISTS advisor_inquiry_tests (
+      inquiry_id INTEGER PRIMARY KEY, is_test INTEGER NOT NULL DEFAULT 1,
+      updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )`).run();
+    await DB.prepare(`INSERT INTO advisor_inquiry_tests(inquiry_id,is_test,updated_at)
+      VALUES (?,?,CURRENT_TIMESTAMP)
+      ON CONFLICT(inquiry_id) DO UPDATE SET is_test=excluded.is_test,updated_at=CURRENT_TIMESTAMP`)
+      .bind(id, testAction === "mark" ? 1 : 0).run();
+    return Response.json({ success: true, isTest: testAction === "mark" });
+  }
   const visibilityAction = String(form.get("visibilityAction") ?? "");
   if (visibilityAction) {
     if (!Number.isSafeInteger(id) || id < 1 || !["archive", "trash", "restore"].includes(visibilityAction)) {
@@ -156,7 +173,11 @@ export async function loader({ request, context }: Route.LoaderArgs) {
   await DB.prepare(`CREATE TABLE IF NOT EXISTS advisor_lead_health (
     inquiry_id INTEGER PRIMARY KEY, health TEXT NOT NULL DEFAULT 'Unqualified'
   )`).run();
-  const [{ results: inquiries }, { results: stats }, { results: updates }, { results: healthRows }, { results: visibilityRows }] = await Promise.all([
+  await DB.prepare(`CREATE TABLE IF NOT EXISTS advisor_inquiry_tests (
+    inquiry_id INTEGER PRIMARY KEY, is_test INTEGER NOT NULL DEFAULT 1,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+  )`).run();
+  const [{ results: inquiries }, { results: stats }, { results: updates }, { results: healthRows }, { results: visibilityRows }, { results: testRows }] = await Promise.all([
     DB.prepare(
       `SELECT id, full_name, email, destination_interest, trip_style, travel_window, notes, created_at
        FROM travel_inquiries
@@ -171,6 +192,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
     DB.prepare("SELECT inquiry_id,status,follow_up_date,quote_amount,advisor_notes FROM advisor_lead_updates").all<LeadUpdate>(),
     DB.prepare("SELECT inquiry_id,health FROM advisor_lead_health").all<{inquiry_id:number;health:string}>(),
     DB.prepare("SELECT inquiry_id,visibility FROM advisor_lead_visibility").all<LeadVisibility>(),
+    DB.prepare("SELECT inquiry_id,is_test FROM advisor_inquiry_tests").all<{inquiry_id:number;is_test:number}>(),
   ]);
 
   return {
@@ -179,6 +201,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
     updates: updates ?? [],
     healthRows: healthRows ?? [],
     visibilityRows: visibilityRows ?? [],
+    testRows: testRows ?? [],
     stats: stats?.[0] ?? { total_inquiries: 0, unique_travelers: 0 },
   };
 }
@@ -210,11 +233,24 @@ function VisibilityActions({ id, visibility }: { id: number; visibility: string 
     </> : <fetcher.Form method="post"><input type="hidden" name="inquiryId" value={id} /><input type="hidden" name="visibilityAction" value="restore" /><button type="submit" disabled={pending} className="advisor-stage-button">Restore to Active</button></fetcher.Form>}
   </div>;
 }
+function TestFlagControl({ id, isTest }: { id: number; isTest: boolean }) {
+  const fetcher = useFetcher<{ success?: boolean; isTest?: boolean }>();
+  const current = fetcher.data?.success ? fetcher.data.isTest === true : isTest;
+  return <fetcher.Form method="post">
+    <input type="hidden" name="inquiryId" value={id} />
+    <input type="hidden" name="testAction" value={current ? "unmark" : "mark"} />
+    <button type="submit" className="button button-secondary" disabled={fetcher.state !== "idle"}>
+      {current ? "Marked as test — Restore to leads" : "Mark as Test"}
+    </button>
+  </fetcher.Form>;
+}
+
 export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
-  const { inquiries, stats, updates, healthRows, visibilityRows, testInquiryIds } = loaderData;
+  const { inquiries, stats, updates, healthRows, visibilityRows, testInquiryIds, testRows } = loaderData;
   const [cleanupPhrase, setCleanupPhrase] = useState("");
   const cleanupFetcher = useFetcher();
   const visibilityById = new Map(visibilityRows.map((row) => [row.inquiry_id, row.visibility]));
+  const testById = new Map(testRows.map(row => [row.inquiry_id, row.is_test === 1]));
   const [visibilityFilter, setVisibilityFilter] = useState("active");
   const healthById = new Map(healthRows.map((row) => [row.inquiry_id, row.health]));
   const navigation = useNavigation();
@@ -403,6 +439,7 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
                     <span className="tier-pill">{inquiry.travel_window}</span>
                   ) : null}
                 </div>
+                <TestFlagControl id={inquiry.id} isTest={testById.get(inquiry.id) ?? false} />
                 <button type="button" className="advisor-lead-details-toggle" aria-expanded={expandedIds.includes(inquiry.id)} onClick={() => setExpandedIds((ids) => ids.includes(inquiry.id) ? ids.filter((id) => id !== inquiry.id) : [...ids, inquiry.id])}>{expandedIds.includes(inquiry.id) ? "Hide submitted details" : "View submitted details"}</button>
                 {expandedIds.includes(inquiry.id) ? <pre className="advisor-lead-notes">{inquiry.notes || "No additional notes were provided."}</pre> : null}
                 {groupByTraveler && (groupedCounts.get(inquiry.email.trim().toLowerCase()) ?? 0) > 1 && expandedIds.includes(inquiry.id) ? (
