@@ -316,6 +316,7 @@ export default function AdvisorInquiries({ loaderData }: Route.ComponentProps) {
         <div className="planning-grid">
           <article className="planning-card"><h3>{resortLeads}</h3><p>From resort pages</p></article>
           <article className="planning-card"><h3>{generalLeads}</h3><p>From general quote page</p></article>
+          <article className="planning-card"><h3>{contentLeads}</h3><p>From journals and traveler stories</p></article>
           <article className="planning-card"><h3>{sources.length - resortLeads - generalLeads - contentLeads}</h3><p>Unattributed or older leads</p></article>
         </div>
         <article className="planning-card" style={{ marginTop: 20 }}>
