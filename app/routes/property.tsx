@@ -85,7 +85,7 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
   }
   const [photoOpen, setPhotoOpen] = useState(false);
   const collectionHref = findCollectionHrefForProperty(property.slug);
-  const quoteHref = `/quote?resort=${encodeURIComponent(property.name)}&origin=property`;
+  const quoteHref = `/quote?resort=${encodeURIComponent(property.name)}&resortSlug=${encodeURIComponent(property.slug)}&origin=property`;
   const comparisonGuides: Record<string, { href: string; title: string }[]> = {
     "moon-palace-the-grand-cancun": [
       { href: "/journal/moon-palace-the-grand-vs-moon-palace-cancun", title: "Moon Palace The Grand vs. Moon Palace Cancun" },
