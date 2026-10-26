@@ -2,7 +2,7 @@ import { requireAdvisorAccess } from "../lib/advisor-access";
 import type { Route } from "./+types/advisor.performance";
 
 type EventRow = { resort_slug: string; event_type: string; total: number };
-type InquiryRow = { notes: string | null; created_at: string };
+type InquiryRow = { notes: string | null; created_at: string; full_name: string };
 
 export async function loader({ request, context }: Route.LoaderArgs) {
   await requireAdvisorAccess(request, context.cloudflare.env);
@@ -20,7 +20,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
       WHERE day >= date('now', ?)
       GROUP BY resort_slug, event_type`)
       .bind(`-${days - 1} days`).all<EventRow>(),
-    DB.prepare(`SELECT notes, created_at FROM travel_inquiries
+    DB.prepare(`SELECT notes, created_at, full_name FROM travel_inquiries
       WHERE date(created_at) >= date('now', ?)`)
       .bind(`-${days - 1} days`).all<InquiryRow>()
   ]);
@@ -35,15 +35,17 @@ export async function loader({ request, context }: Route.LoaderArgs) {
     if (e.event_type === "quote_click") row.clicks += e.total;
     if (e.event_type === "quote_start") row.starts += e.total;
   }
+  let internalTestSubmissions = 0;
   for (const inquiry of inquiries.results ?? []) {
     const notes = inquiry.notes ?? "";
     if (!/^Lead origin: Resort detail page$/m.test(notes)) continue;
     const name = notes.match(/^Originally selected resort: (.+)$/m)?.[1]?.trim();
     if (!name) continue;
     const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    if (inquiry.full_name.trim().toLowerCase() === "jazmin morrison") { internalTestSubmissions += 1; continue; }
     if (slug) get(slug).submissions += 1;
   }
-  return { days, rows: [...rows.values()].sort((a,b) => b.views - a.views), since: new Date(Date.now() - (days - 1) * 86400000).toISOString().slice(0,10) };
+  return { days, internalTestSubmissions, rows: [...rows.values()].sort((a,b) => b.views - a.views), since: new Date(Date.now() - (days - 1) * 86400000).toISOString().slice(0,10) };
 }
 
 export function meta() {
@@ -51,13 +53,13 @@ export function meta() {
 }
 
 export default function AdvisorPerformance({ loaderData }: Route.ComponentProps) {
-  const { rows, days } = loaderData;
+  const { rows, days, internalTestSubmissions } = loaderData;
   const sum = (key: "views" | "clicks" | "starts" | "submissions") => rows.reduce((n,r) => n + r[key], 0);
   return <main className="page-shell">
     <section className="property-details" style={{ maxWidth: 1100, margin: "3rem auto" }}>
       <p className="eyebrow">Private advisor tools</p>
       <h1>Website Performance</h1>
-      <p>Resort conversion activity over the last {days} days. These are event counts, not unique visitors. Submissions include tests and may predate tracking.</p>
+      <p>Resort conversion activity over the last {days} days. These are event counts, not unique visitors. Submissions exclude the known advisor test name; they may still predate tracking.</p>
       <div className="hero-actions"><a className="button button-secondary" href="/advisor/performance?days=7">7 days</a><a className="button button-secondary" href="/advisor/performance?days=30">30 days</a><a className="button button-secondary" href="/advisor/inquiries">Inquiry inbox</a></div>
       <div className="planning-grid">
         <article className="planning-card"><h2>{sum("views")}</h2><p>Resort page views</p></article>
@@ -65,6 +67,9 @@ export default function AdvisorPerformance({ loaderData }: Route.ComponentProps)
         <article className="planning-card"><h2>{sum("starts")}</h2><p>Quote form starts</p></article>
         <article className="planning-card"><h2>{sum("submissions")}</h2><p>Resort-attributed submissions</p></article>
       </div>
+      <p><strong>Known advisor test submissions excluded:</strong> {internalTestSubmissions}. Page views, quote clicks, and form starts may still include internal testing.</p>
+      <h2>Resort engagement</h2>
+      {rows.map(r => <div key={r.slug} style={{ marginBottom: 18 }}><strong>{r.slug.replace(/-/g, " ")}</strong><div style={{ height: 12, background: "#ece4d9", borderRadius: 6, overflow: "hidden", marginTop: 5 }}><div style={{ height: "100%", width: `${r.views ? Math.min(100, r.clicks / r.views * 100) : 0}%`, background: "#ae8051" }} /></div><small>{r.clicks} quote clicks / {r.views} page views (event ratio, not unique-user conversion)</small></div>)}
       <h2>Performance by resort</h2>
       <div style={{ overflowX: "auto" }}>
         <table style={{ width: "100%", textAlign: "left", borderSpacing: 12 }}>
