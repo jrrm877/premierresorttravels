@@ -9,6 +9,7 @@ export default [
   route("api/conversion-event", "routes/api.conversion-event.ts"),
   route("advisor/login", "routes/advisor.login.tsx"),
   route("advisor/inquiries", "routes/advisor.inquiries.tsx"),
+  route("advisor/performance", "routes/advisor.performance.tsx"),
   route("advisor/notifications", "routes/advisor.notifications.tsx"),
   route("advisor/photos", "routes/advisor.photos.tsx"),
   route("advisor/photo-library", "routes/advisor.photo-library.tsx"),
