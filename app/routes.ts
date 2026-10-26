@@ -6,6 +6,7 @@ export default [
   route("robots.txt", "routes/robots[.]txt.ts"),
   route("api/search", "routes/api.search.ts"),
   route("api/inquiry", "routes/api.inquiry.ts"),
+  route("api/conversion-event", "routes/api.conversion-event.ts"),
   route("advisor/login", "routes/advisor.login.tsx"),
   route("advisor/inquiries", "routes/advisor.inquiries.tsx"),
   route("advisor/notifications", "routes/advisor.notifications.tsx"),
