@@ -62,7 +62,7 @@ jobs:
       - name: Verify production routes
         run: |
           set -euo pipefail
-          for path in / /robots.txt /sitemap.xml /collections/palace-resorts; do
+          for path in / /contact /robots.txt /sitemap.xml /collections/palace-resorts; do
             echo "Checking $path"
             success=0
             for attempt in $(seq 1 8); do
