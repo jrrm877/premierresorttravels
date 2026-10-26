@@ -50,13 +50,13 @@ export default function JournalPage({ loaderData }: Route.ComponentProps) {
           <p className="lede" style={{ maxWidth: 720 }}>Caribbean beachfront elegance or dramatic Baja coastal scenery? Compare the experience, then find the right stay for your dates.</p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: 16, marginTop: 24 }}>
             <a href="/properties/le-blanc-spa-resort-cancun" style={{ display: "block", color: "inherit", textDecoration: "none" }}>
-              <img src="/images/catalog/le-blanc-spa-resort-cancun.jpg" alt="Le Blanc Spa Resort Cancun" loading="eager" style={{ width: "100%", height: 240, objectFit: "cover", borderRadius: 14 }} />
+              <img src={featuredProperties.find(property => property.slug === "le-blanc-spa-resort-cancun")?.image || post.image} alt="Le Blanc Spa Resort Cancun" loading="eager" style={{ width: "100%", height: 240, objectFit: "cover", borderRadius: 14 }} />
               <h2 style={{ fontSize: "clamp(1.4rem, 2.5vw, 2rem)", margin: "12px 0 4px" }}>Cancun</h2>
               <p>For turquoise Caribbean views and a classic luxury beach escape.</p>
               <span className="text-link">Explore Le Blanc Cancun →</span>
             </a>
             <a href="/properties/le-blanc-spa-resort-los-cabos" style={{ display: "block", color: "inherit", textDecoration: "none" }}>
-              <img src={post.image} alt="Le Blanc Spa Resort Los Cabos overlooking the coast" loading="eager" style={{ width: "100%", height: 240, objectFit: "cover", borderRadius: 14 }} />
+              <img src={featuredProperties.find(property => property.slug === "le-blanc-spa-resort-los-cabos")?.image || post.image} alt="Le Blanc Spa Resort Los Cabos overlooking the coast" loading="eager" style={{ width: "100%", height: 240, objectFit: "cover", borderRadius: 14 }} />
               <h2 style={{ fontSize: "clamp(1.4rem, 2.5vw, 2rem)", margin: "12px 0 4px" }}>Los Cabos</h2>
               <p>For desert-meets-ocean scenery and a resort-centered retreat.</p>
               <span className="text-link">Explore Le Blanc Los Cabos →</span>
