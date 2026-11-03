@@ -8948,6 +8948,223 @@ button.portfolio-tab {
   .luxe-home .luxe-featured { padding-bottom: .5rem; }
 }
 
+/* November 2026: refined destination and About page presentation. */
+.destinations-page {
+  padding-top: 1rem;
+  background: linear-gradient(180deg, #f8f2e9 0%, #fffdf9 42%, #f7efe4 100%);
+}
+
+.destinations-hero {
+  width: min(1320px, calc(100% - 2rem));
+  min-height: 440px;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 4.5rem);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 32px;
+  background-position: center 48%;
+  box-shadow: 0 24px 60px rgba(37, 23, 15, 0.2);
+}
+
+.destinations-hero > div {
+  max-width: 570px;
+}
+
+.destinations-hero h1 {
+  max-width: 10ch;
+  color: #fffaf2;
+  font-size: clamp(3.2rem, 6vw, 5.2rem);
+  line-height: 0.98;
+  text-shadow: 0 3px 20px rgba(0, 0, 0, 0.28);
+}
+
+.destinations-hero .eyebrow {
+  color: #e8bd84;
+}
+
+.destinations-hero p:not(.eyebrow) {
+  max-width: 30rem;
+  color: rgba(255, 250, 242, 0.9);
+  font-size: 1.06rem;
+  line-height: 1.65;
+}
+
+.destinations-hero .button {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.destination-discovery {
+  max-width: 1120px;
+  margin-top: 2rem;
+  padding: 1.25rem 1.4rem;
+  border: 1px solid rgba(113, 80, 51, 0.1);
+  border-radius: 24px;
+  background: rgba(255, 253, 249, 0.92);
+  box-shadow: 0 16px 38px rgba(55, 37, 20, 0.07);
+}
+
+.destination-search-controls {
+  box-shadow: none;
+}
+
+.about-intro-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.78fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+  overflow: hidden;
+  padding: clamp(2rem, 5vw, 5rem);
+  border: 1px solid rgba(182, 138, 86, 0.2);
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(211, 163, 99, 0.18), transparent 30%),
+    linear-gradient(135deg, #281a14 0%, #3b281e 58%, #563c2b 100%);
+  color: #fffaf2;
+  box-shadow: 0 24px 60px rgba(37, 23, 15, 0.18);
+}
+
+.about-intro-copy {
+  position: relative;
+  z-index: 1;
+}
+
+.about-intro-copy .eyebrow {
+  color: #e8bd84;
+}
+
+.about-intro-copy h1 {
+  max-width: 13ch;
+  margin: 0.55rem 0 1.15rem;
+  color: #fffaf2;
+  font-size: clamp(2.8rem, 5.3vw, 5rem);
+  line-height: 0.98;
+}
+
+.about-intro-lede {
+  max-width: 55ch;
+  color: rgba(255, 250, 242, 0.82);
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+.about-intro-copy .button-secondary {
+  border-color: rgba(255, 250, 242, 0.5);
+  color: #fffaf2;
+  background: transparent;
+}
+
+.about-intro-proof {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: 2.25rem 0 0;
+  padding: 1.2rem 0 0;
+  border-top: 1px solid rgba(255, 250, 242, 0.16);
+}
+
+.about-intro-proof div {
+  padding: 0 1rem;
+  border-left: 1px solid rgba(255, 250, 242, 0.14);
+}
+
+.about-intro-proof div:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.about-intro-proof dt {
+  color: #e8bd84;
+  font-family: var(--serif);
+  font-size: clamp(1.3rem, 2.3vw, 1.9rem);
+  font-weight: 700;
+}
+
+.about-intro-proof dd {
+  margin: 0.3rem 0 0;
+  color: rgba(255, 250, 242, 0.7);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.about-intro-photo {
+  position: relative;
+  margin: 0;
+  padding: 0.7rem;
+  border-radius: 26px;
+  background: rgba(255, 250, 242, 0.94);
+  box-shadow: 0 28px 60px rgba(8, 5, 3, 0.35);
+  transform: rotate(1.2deg);
+}
+
+.about-intro-photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center 44%;
+  border-radius: 19px;
+}
+
+.about-intro-photo figcaption {
+  padding: 0.85rem 0.45rem 0.25rem;
+  color: #573b2a;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .about-intro-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .about-intro-copy h1 {
+    max-width: 15ch;
+  }
+
+  .about-intro-photo {
+    width: min(100%, 520px);
+    margin-inline: auto;
+    transform: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .destinations-page {
+    padding-top: 0.5rem;
+  }
+
+  .destinations-hero {
+    width: calc(100% - 1rem);
+    min-height: 410px;
+    border-radius: 24px;
+    background-position: 62% center;
+  }
+
+  .destination-discovery {
+    width: calc(100% - 1rem);
+    padding: 1rem;
+  }
+
+  .about-intro-hero {
+    gap: 2rem;
+    padding: 1.5rem;
+    border-radius: 24px;
+  }
+
+  .about-intro-proof {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .about-intro-proof div,
+  .about-intro-proof div:first-child {
+    padding: 0 0 0 1rem;
+    border-left: 2px solid rgba(232, 189, 132, 0.45);
+  }
+}
+
 /* Destination discovery v1 and accessible home navigation */
 .site-nav-home { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; min-height: 36px; }
 .site-nav-home svg { display: block; }

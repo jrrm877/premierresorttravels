@@ -573,36 +573,25 @@ export default function AboutPage() {
   return (
     <main className="page-shell">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema).replace(/</g, "\\u003c") }} />
-      <section className="about-postcard-hero" aria-label="About Premier Resort Travel postcard">
-        <div className="about-postcard-hero-frame">
-          <div className="about-postcard-hero-image">
-            <img
-              className="about-postcard-finished"
-              src="/images/about-postcard-family-updated.png"
-              alt="Premier Resort Travel about postcard with family photo and about-us message"
-              decoding="async"
-              sizes="(max-width: 1100px) 100vw, 1200px"
-            />
-            <span className="about-postcard-popout-zone" aria-hidden="true" />
-            <a
-              className="about-postcard-hotspot about-postcard-hotspot-plan"
-              href="/quote?origin=about"
-              aria-label="Plan your trip"
-            />
-            <a
-              className="about-postcard-hotspot about-postcard-hotspot-collections"
-              href="/collections"
-              aria-label="Explore collections"
-            />
-            <img
-              className="about-postcard-popout"
-              src="/images/about-postcard-closeup.png"
-              alt=""
-              aria-hidden="true"
-              decoding="async"
-            />
+      <section className="about-intro-hero" aria-labelledby="about-intro-heading">
+        <div className="about-intro-copy">
+          <p className="eyebrow">Welcome to Premier Resort Travel</p>
+          <h1 id="about-intro-heading">Thoughtful resort planning from a family who travels.</h1>
+          <p className="about-intro-lede">We help couples, families, and groups choose resorts with confidence through firsthand experience, careful research, and personal service.</p>
+          <div className="hero-actions">
+            <a className="button button-primary" href="/quote?origin=about">Plan Your Trip</a>
+            <a className="button button-secondary" href="/collections">Explore Resorts</a>
           </div>
+          <dl className="about-intro-proof" aria-label="Premier Resort Travel experience">
+            <div><dt>42+</dt><dd>States explored</dd></div>
+            <div><dt>12+</dt><dd>Countries visited</dd></div>
+            <div><dt>Family-owned</dt><dd>Personal planning</dd></div>
+          </dl>
         </div>
+        <figure className="about-intro-photo">
+          <img src="/images/about-family.jpeg" alt="The Premier Resort Travel family on vacation" decoding="async" />
+          <figcaption>Real travel experience behind every recommendation.</figcaption>
+        </figure>
       </section>
 
       <section className="property-details about-editorial-profile" id="editorial-standards" aria-labelledby="about-editorial-heading">

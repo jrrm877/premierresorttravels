@@ -1,7 +1,6 @@
 import { allResortCollections } from "../data/collections";
 import { resorts } from "../data/resorts";
 import { journalPosts } from "../lib/property-data";
-import { publishedTravelerStories } from "../lib/traveler-stories";
 
 const origin = "https://premierresorttravels.com";
 const staticEntries = [
@@ -15,7 +14,6 @@ const staticEntries = [
   { path: "/destinations", lastmod: "2026-10-18" },
   { path: "/collections", lastmod: "2026-11-03" },
   { path: "/journal", lastmod: "2026-11-03" },
-  { path: "/traveler-stories", lastmod: "2026-07-02" },
 ];
 
 const journalSourceDates: Record<string, string> = {
@@ -39,7 +37,6 @@ export function loader() {
     ...allResortCollections.map(item => ({ path: `/collections/${item.slug}`, lastmod: item.updatedOn ?? "2026-07-03" })),
     ...resorts.map(item => ({ path: `/properties/${item.slug}`, lastmod: item.updatedOn })),
     ...journalPosts.map(item => ({ path: `/journal/${item.slug}`, lastmod: journalLastModified(item.slug, item.reviewedOn) })),
-    ...publishedTravelerStories().map(item => ({ path: `/traveler-stories/${item.slug}`, lastmod: item.updatedOn })),
   ];
   const uniqueEntries = [...new Map(entries.map(entry => [entry.path, entry])).values()];
   const xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +

@@ -6,7 +6,15 @@ import {
 } from "../lib/traveler-stories";
 import type { Route } from "./+types/traveler-story";
 
-export function loader({ params }: Route.LoaderArgs) {
+function travelerStoriesAreEnabled() {
+  return false;
+}
+
+export function loader({ params, request }: Route.LoaderArgs) {
+  if (!travelerStoriesAreEnabled()) {
+    throw Response.redirect(new URL("/journal", request.url).toString(), 301);
+  }
+
   const story = findTravelerStoryBySlug(params.slug);
 
   if (!story) {

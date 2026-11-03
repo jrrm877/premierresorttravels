@@ -35,8 +35,6 @@ function requiredSchemaTypes(pathname) {
   if (pathname === "/journal") return ["CollectionPage", "ItemList", "BreadcrumbList"];
   if (pathname.startsWith("/journal/")) return ["BlogPosting", "BreadcrumbList"];
   if (pathname.startsWith("/properties/")) return ["WebPage", "Resort", "BreadcrumbList"];
-  if (pathname === "/traveler-stories") return ["CollectionPage", "ItemList", "BreadcrumbList"];
-  if (pathname.startsWith("/traveler-stories/")) return ["Review", "Resort", "BreadcrumbList"];
   if (pathname === "/quote") return ["ContactPage", "Service", "TravelAgency"];
   return [];
 }
@@ -285,6 +283,14 @@ if (destinationWeddingResponse.status !== 200) {
 }
 await assertRedirect("/collections/baglioni-resorts?source=seo-test", "/collections/baglioni?source=seo-test");
 await assertRedirect("/?popup=start&note=Family%20trip", "/quote?origin=legacy-popup&note=Family+trip");
+await assertRedirect("/traveler-stories", "/journal");
+await assertRedirect("/traveler-stories/retired-story", "/journal");
+
+const publicShellResponse = await request("/");
+if (publicShellResponse.status === 200) {
+  const publicShellHtml = decodeHtml(await publicShellResponse.text());
+  if (publicShellHtml.includes('href="/traveler-stories"')) fail("Traveler Stories remains visible in public navigation or homepage content");
+}
 
 for (const path of ["/destinations/not-a-real-place", "/properties/not-a-resort/facts", "/trip-types/not-a-real-type", "/resources/not-a-real-resource", "/guides/not-a-real-guide"]) {
   const response = await request(path);

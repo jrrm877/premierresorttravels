@@ -3,7 +3,6 @@ import { ResortGallery } from "../components/ResortGallery";
 import { listResortPhotos } from "../lib/resort-photos";
 import { fallbackProperties, fetchDestinationsFromDb } from "../lib/catalog";
 import { findCollectionHrefForProperty } from "../lib/property-data";
-import { storiesForProperty } from "../lib/traveler-stories";
 import type { Route } from "./+types/property";
 
 export async function loader({ params, context }: Route.LoaderArgs) {
@@ -24,7 +23,7 @@ export async function loader({ params, context }: Route.LoaderArgs) {
       .slice(0, 3);
 
     const photos = context.cloudflare.env.RESORT_PHOTOS ? await listResortPhotos(context.cloudflare.env.RESORT_PHOTOS, property.slug, true).catch(() => []) : [];
-    return { property, related, photos, source: "database", travelerStories: storiesForProperty(property, 3) };
+    return { property, related, photos, source: "database" };
   } catch {
     const property = fallbackProperties().find((candidate) => candidate.slug === params.slug);
 
@@ -41,7 +40,7 @@ export async function loader({ params, context }: Route.LoaderArgs) {
       .slice(0, 3);
 
     const photos = context.cloudflare.env.RESORT_PHOTOS ? await listResortPhotos(context.cloudflare.env.RESORT_PHOTOS, property.slug, true).catch(() => []) : [];
-    return { property, related, photos, source: "fallback", travelerStories: storiesForProperty(property, 3) };
+    return { property, related, photos, source: "fallback" };
   }
 }
 
@@ -69,7 +68,7 @@ export function meta({ data }: Route.MetaArgs) {
 }
 
 export default function PropertyPage({ loaderData }: Route.ComponentProps) {
-  const { property, related, photos, source, travelerStories } = loaderData;
+  const { property, related, photos, source } = loaderData;
   const [photoOpen, setPhotoOpen] = useState(false);
   const collectionHref = findCollectionHrefForProperty(property.slug);
   const quoteHref = `/quote?resort=${encodeURIComponent(property.name)}&origin=property`;
@@ -400,39 +399,6 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
       ) : null}
 
       <section className="related-properties">
-        {travelerStories.length ? (
-          <>
-            <div className="section-heading section-heading-stack">
-              <div>
-                <p className="eyebrow">Traveler Experiences</p>
-                <h2>Real trips at {property.name}</h2>
-              </div>
-              <a className="text-link" href="/traveler-stories">
-                View all stories
-              </a>
-            </div>
-
-            <div className="traveler-story-grid traveler-story-grid-compact property-story-grid">
-              {travelerStories.map((story) => (
-                <a key={story.slug} className="traveler-story-card" href={`/traveler-stories/${story.slug}`}>
-                  <div className="traveler-story-image">
-                    <img src={story.featuredImage} alt="" loading="lazy" decoding="async" />
-                  </div>
-                  <div className="traveler-story-copy">
-                    <div className="traveler-story-meta">
-                      <span>{story.tripType}</span>
-                      <span>{story.travelDate}</span>
-                    </div>
-                    <h3>{story.travelerName}'s {story.destination} trip</h3>
-                    <p>"{story.favoriteMemory}"</p>
-                    <span className="text-link">View Story -&gt;</span>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </>
-        ) : null}
-
         <div className="section-heading">
           <div>
             <p className="eyebrow">Keep Exploring</p>

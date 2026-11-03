@@ -1,6 +1,5 @@
 import { featuredCollection } from "../data/collections";
 import { collectionCards, portfolioSections } from "../lib/property-data";
-import { featuredTravelerStories } from "../lib/traveler-stories";
 import type { Route } from "./+types/home";
 
 const homepageHeroImage =
@@ -187,8 +186,6 @@ const partnerLogos = [
     className: "partner-logo-baglioni",
   },
 ];
-const homepageStories = featuredTravelerStories(6);
-
 export default function Home() {
   const homeSchema = {
     "@context": "https://schema.org",
@@ -332,54 +329,6 @@ export default function Home() {
           <img className="luxe-about-gallery-main" src="/images/home-about-gallery-main.jpg" alt="" loading="lazy" decoding="async" />
           <img src="/images/home-about-gallery-room.jpg" alt="" loading="lazy" decoding="async" />
           <img src="/images/home-about-gallery-coast.jpg" alt="" loading="lazy" decoding="async" />
-        </div>
-      </section>
-
-      <section className="homepage-stories-section" aria-labelledby="homepage-stories-heading">
-        <div className="section-heading section-heading-stack">
-          <div>
-            <p className="eyebrow">Traveler Stories</p>
-            <h2 id="homepage-stories-heading">Real travelers. Real vacations. Real memories.</h2>
-          </div>
-          <a className="button button-secondary luxe-outline-button" href="/traveler-stories">
-            View All Stories
-          </a>
-        </div>
-
-        <div className="story-carousel" aria-label="Featured traveler stories">
-          <div className="story-carousel-track">
-            {[...homepageStories, ...homepageStories].map((story, index) => (
-              <a
-                key={`${story.slug}-${index}`}
-                className="traveler-story-card traveler-story-card-carousel"
-                href={`/traveler-stories/${story.slug}`}
-              >
-                <div className="traveler-story-image">
-                  <img
-                    src={story.featuredImage}
-                    alt={`${story.travelerName}'s trip to ${story.destination}`}
-                    loading="lazy"
-                    decoding="async"
-                    sizes="(max-width: 900px) 80vw, 26vw"
-                  />
-                </div>
-                <div className="traveler-story-copy">
-                  <div className="traveler-story-meta">
-                    <span>{story.tripType}</span>
-                    <span>{story.travelDate}</span>
-                  </div>
-                  <h3>{story.travelerName}</h3>
-                  <p className="card-region">{story.resort}</p>
-                  <p>{story.destination}, {story.country}</p>
-                  <div className="story-rating" aria-label={`${story.rating} star rating`}>
-                    {"★★★★★"}
-                  </div>
-                  <p>"{story.favoriteMemory}"</p>
-                  <span className="text-link">View Story -&gt;</span>
-                </div>
-              </a>
-            ))}
-          </div>
         </div>
       </section>
 

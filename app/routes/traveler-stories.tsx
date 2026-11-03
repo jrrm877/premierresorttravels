@@ -1,7 +1,15 @@
 import { publishedTravelerStories } from "../lib/traveler-stories";
 import type { Route } from "./+types/traveler-stories";
 
-export function loader() {
+function travelerStoriesAreEnabled() {
+  return false;
+}
+
+export function loader({ request }: Route.LoaderArgs) {
+  if (!travelerStoriesAreEnabled()) {
+    throw Response.redirect(new URL("/journal", request.url).toString(), 301);
+  }
+
   const stories = publishedTravelerStories();
   const featuredStories = stories.slice(0, 6);
   const memoryBoard = stories
