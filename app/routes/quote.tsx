@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useFetcher } from "react-router";
 import type { Route } from "./+types/quote";
+import { SpamProtectionFields } from "../components/SpamProtectionFields";
 
 export function meta(_: Route.MetaArgs) {
   const title = "Request a Vacation Quote | Resort & Flight Options | Premier Resort Travel";
@@ -26,8 +27,11 @@ export function meta(_: Route.MetaArgs) {
   ];
 }
 
-export function loader({ request }: Route.LoaderArgs) {
+export function loader({ request, context }: Route.LoaderArgs) {
   const params = new URL(request.url).searchParams;
+  const hostname = new URL(request.url).hostname;
+  const turnstileSiteKey = context.cloudflare.env.TURNSTILE_SITE_KEY ??
+    (["localhost", "127.0.0.1"].includes(hostname) ? "1x00000000000000000000AA" : "");
   const style = params.get("style") ?? "";
   const resort = params.get("resort")?.trim().slice(0, 150) ?? "";
   const email = params.get("email")?.trim().slice(0, 254) ?? "";
@@ -47,7 +51,7 @@ export function loader({ request }: Route.LoaderArgs) {
   };
   const origin = originLabels[originKey] ?? "General quote page";
   const initialNote = params.get("note")?.trim().slice(0, 500) ?? "";
-  return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "", resort, destination, email, fullName, origin, initialNote };
+  return { style: ["Family", "Adults Only", "Romance"].includes(style) ? style : "", resort, destination, email, fullName, origin, initialNote, turnstileSiteKey };
 }
 
 type InquiryResponse = { success?: boolean; message?: string };
@@ -131,6 +135,7 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
             <input type="hidden" name="tripStyle" value={tripStyle} />
             <input type="hidden" name="travelWindow" value={departure && returnDate ? departure + " to " + returnDate : "Flexible"} />
             <input type="hidden" name="notes" value={notes} />
+            <SpamProtectionFields action="vacation_quote" siteKey={loaderData.turnstileSiteKey} submissionState={fetcher.state} />
             <label style={{ display: "grid", gap: 6 }}>What kind of vacation?
               <select value={tripStyle} onChange={e => setTripStyle(e.target.value)} style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }}>
                 {["Not sure yet", "Family", "Adults Only", "Romance"].map(option => <option key={option} value={option}>{option === "Not sure yet" ? "Help me decide" : option}</option>)}

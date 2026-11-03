@@ -9,6 +9,19 @@
   "assets": {
     "directory": "./dist/client"
   },
+  "vars": {
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAFyZ1XmI1cBbY53p"
+  },
+  "ratelimits": [
+    {
+      "name": "INQUIRY_RATE_LIMITER",
+      "namespace_id": "2026110301",
+      "simple": {
+        "limit": 5,
+        "period": 60
+      }
+    }
+  ],
   "r2_buckets": [{ "binding": "RESORT_PHOTOS", "bucket_name": "premier-resort-photos" }],
   "d1_databases": [
     {

@@ -111,6 +111,19 @@ Run:
 
 The site saves inquiries to D1 and can also notify you in real time through email or a webhook.
 
+### Spam protection
+
+Public inquiry forms are protected by Cloudflare Turnstile, a hidden honeypot, a minimum completion time, input limits, source/origin validation, and a Workers rate-limit binding.
+
+- `TURNSTILE_SITE_KEY` is the public widget key configured in `wrangler.jsonc`.
+- `TURNSTILE_SECRET` is stored as a Cloudflare Worker secret and must never be committed.
+- Production tokens are accepted only for `premierresorttravels.com` and `www.premierresorttravels.com` with the expected form action.
+- The inquiry endpoint allows up to five attempts per client IP per minute before returning HTTP 429.
+
+To replace or rotate the Turnstile widget, update the public site key and then store the matching secret with:
+
+`npx wrangler secret put TURNSTILE_SECRET`
+
 ### Option 1: Email notifications with Resend
 
 Set these Cloudflare Worker secrets:

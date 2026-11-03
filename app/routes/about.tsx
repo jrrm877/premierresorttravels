@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useFetcher } from "react-router";
 import type { Route } from "./+types/about";
+import { SpamProtectionFields } from "../components/SpamProtectionFields";
 
 const travelerTypes = [
   {
@@ -527,7 +528,15 @@ export function meta(_: Route.MetaArgs) {
   ];
 }
 
-export default function AboutPage() {
+export function loader({ request, context }: Route.LoaderArgs) {
+  const hostname = new URL(request.url).hostname;
+  return {
+    turnstileSiteKey: context.cloudflare.env.TURNSTILE_SITE_KEY ??
+      (["localhost", "127.0.0.1"].includes(hostname) ? "1x00000000000000000000AA" : ""),
+  };
+}
+
+export default function AboutPage({ loaderData }: Route.ComponentProps) {
   const quickNoteFetcher = useFetcher<{ success?: boolean; message?: string }>();
   const [email, setEmail] = useState("");
   const [activeStopId, setActiveStopId] = useState(experienceStops[0]?.id ?? "");
@@ -801,6 +810,7 @@ export default function AboutPage() {
             <input type="hidden" name="tripStyle" value="about-page-quick-note" />
             <input type="hidden" name="destinationInterest" value="Premier Resort Travel quick note" />
             <input type="hidden" name="source" value="about-quick-note" />
+            <SpamProtectionFields action="about_quick_note" siteKey={loaderData.turnstileSiteKey} submissionState={quickNoteFetcher.state} />
 
             <div className="about-note-actions">
               <button className="button button-primary" type="submit">

@@ -2,6 +2,7 @@ declare global {
   interface Env {
     DB: D1Database;
     RESORT_PHOTOS: R2Bucket;
+    INQUIRY_RATE_LIMITER?: RateLimit;
     INQUIRY_NOTIFY_FROM?: string;
     INQUIRY_NOTIFY_TO?: string;
     INQUIRY_WEBHOOK_BEARER_TOKEN?: string;
@@ -9,6 +10,8 @@ declare global {
     INQUIRY_WEBHOOK_URL?: string;
     RESEND_API_KEY?: string;
     SITE_BASE_URL?: string;
+    TURNSTILE_SECRET?: string;
+    TURNSTILE_SITE_KEY?: string;
   }
 }
 
