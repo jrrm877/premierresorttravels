@@ -21,7 +21,7 @@ export async function action({ request, context }: Route.ActionArgs) {
     .join("\n")
     .normalize("NFKC")
     .replace(/[\u200B-\u200D\uFEFF]/g, "");
-  const campaignLink = /\/go-na\.php(?:[?\s#]|$)/i.test(submittedText);
+  const campaignLink = /\/go-(?:na|bv)\.php(?:[?\s#]|$)/i.test(submittedText);
   const hasLink = /https?:\/\/|www\./i.test(submittedText);
   const gamblingPromotion =
     /\b(?:welcome\s+(?:credit|bonus)|bonus\s+code|promo\s+code|free\s+spins?|no\s+deposit|sign[\s-]?up)\b/i.test(submittedText) &&
@@ -121,3 +121,4 @@ export async function action({ request, context }: Route.ActionArgs) {
     );
   }
 }
+
