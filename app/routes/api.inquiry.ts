@@ -14,6 +14,26 @@ export async function action({ request, context }: Route.ActionArgs) {
   const isQuickNote = source === "about-quick-note";
   const storedName = fullName || "Name pending";
 
+  // Check every submitted text field, including unrecognized fields, before
+  // saving or triggering advisor emails, customer confirmations, or webhooks.
+  const submittedText = Array.from(formData.values())
+    .filter((value): value is string => typeof value === "string")
+    .join("\n")
+    .normalize("NFKC")
+    .replace(/[\u200B-\u200D\uFEFF]/g, "");
+  const campaignLink = /\/go-na\.php(?:[?\s#]|$)/i.test(submittedText);
+  const hasLink = /https?:\/\/|www\./i.test(submittedText);
+  const gamblingPromotion =
+    /\b(?:welcome\s+(?:credit|bonus)|bonus\s+code|promo\s+code|free\s+spins?|no\s+deposit|sign[\s-]?up)\b/i.test(submittedText) &&
+    /\b(?:slots?|spins?|bet|betting|gambling|gaming)\b/i.test(submittedText);
+
+  if (campaignLink || (hasLink && gamblingPromotion)) {
+    return Response.json(
+      { success: false, message: "We could not accept this submission. Please remove promotional content and try again." },
+      { status: 400 }
+    );
+  }
+
   if (!email) {
     return Response.json(
       { success: false, message: "Please add your email so we know where to reply." },
