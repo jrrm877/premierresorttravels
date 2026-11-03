@@ -584,6 +584,13 @@ export default function AboutPage() {
               decoding="async"
               sizes="(max-width: 1100px) 100vw, 1200px"
             />
+            <img
+              className="about-postcard-photo-replacement"
+              src="/images/about-family.jpeg"
+              alt=""
+              aria-hidden="true"
+              decoding="async"
+            />
             <a
               className="about-postcard-hotspot about-postcard-hotspot-plan"
               href="/quote?origin=about"

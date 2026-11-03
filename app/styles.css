@@ -5726,6 +5726,22 @@ button.portfolio-tab {
   filter: drop-shadow(0 34px 64px rgba(20, 12, 7, 0.48));
 }
 
+.about-postcard-photo-replacement {
+  position: absolute;
+  z-index: 2;
+  top: 13.25%;
+  left: 48.82%;
+  width: 19.36%;
+  height: 49.7%;
+  display: block;
+  border-radius: 12px;
+  object-fit: cover;
+  object-position: center center;
+  pointer-events: none;
+  transform: rotate(5.5deg);
+  transform-origin: center;
+}
+
 .property-hero-image {
   overflow: hidden;
   border-radius: 24px;
