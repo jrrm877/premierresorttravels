@@ -3,11 +3,26 @@ import { useFetcher } from "react-router";
 import type { Route } from "./+types/quote";
 
 export function meta(_: Route.MetaArgs) {
+  const title = "Request a Vacation Quote | Resort & Flight Options | Premier Resort Travel";
+  const description = "Request personalized resort-only or resort-and-airfare vacation options from Premier Resort Travel. Tell us your dates, travelers, and preferences.";
+  const url = "https://premierresorttravels.com/quote";
+  const image = "https://premierresorttravels.com/images/home-about-gallery-main.jpg";
   return [
-    { title: "Request a Vacation Quote | Resort & Flight Options | Premier Resort Travel" },
-    { name: "description", content: "Request personalized resort-only or resort-and-airfare vacation options from Premier Resort Travel. Tell us your dates, travelers, and preferences." },
+    { title },
+    { name: "description", content: description },
     { name: "robots", content: "index,follow" },
-    { tagName: "link", rel: "canonical", href: "https://premierresorttravels.com/quote" },
+    { tagName: "link", rel: "canonical", href: url },
+    { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "Premier Resort Travel" },
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
+    { property: "og:url", content: url },
+    { property: "og:image", content: image },
+    { property: "og:image:alt", content: "Start planning a personalized vacation with Premier Resort Travel" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: image },
   ];
 }
 

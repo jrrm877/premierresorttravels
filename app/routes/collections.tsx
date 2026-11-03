@@ -7,21 +7,25 @@ export function loader(_: Route.LoaderArgs) {
 }
 
 export function meta(_: Route.MetaArgs) {
+  const title = "Luxury Resort Collections | Premier Resort Travel";
+  const description = "Browse Premier Resort Travel hotel collections including Palace Resorts, Le Blanc, Moon Palace, Baglioni Hotels, and Baglioni Resorts.";
+  const url = "https://premierresorttravels.com/collections";
+  const image = "https://premierresorttravels.com/images/catalog/family-resort-pool.jpg";
   return [
-    { title: "Luxury Resort Collections | Premier Resort Travel" },
-    { tagName: "link", rel: "canonical", href: "https://premierresorttravels.com/collections" },
-    {
-      name: "description",
-      content:
-        "Browse Premier Resort Travel hotel collections including Palace Resorts, Le Blanc, Moon Palace, Baglioni Hotels, and Baglioni Resorts.",
-    },
-    { property: "og:title", content: "Luxury Resort Collections | Premier Resort Travel" },
-    {
-      property: "og:description",
-      content:
-        "Explore our focused collection of trusted luxury resort and hotel brands for all-inclusive beach vacations and European luxury stays.",
-    },
-    { property: "og:image", content: collectionIndexCollections[0]?.heroImage ?? "/images/home-about-gallery-main.jpg" },
+    { title },
+    { tagName: "link", rel: "canonical", href: url },
+    { name: "description", content: description },
+    { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "Premier Resort Travel" },
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
+    { property: "og:url", content: url },
+    { property: "og:image", content: image },
+    { property: "og:image:alt", content: "A luxury resort collection curated by Premier Resort Travel" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: image },
   ];
 }
 

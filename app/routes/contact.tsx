@@ -5,14 +5,23 @@ const siteOrigin = "https://premierresorttravels.com";
 export function meta(_: Route.MetaArgs) {
   const title = "Contact Premier Resort Travel | Vacation Planning Help";
   const description = "Contact Premier Resort Travel by phone or email, or request personalized resort and vacation planning options online.";
+  const url = `${siteOrigin}/contact`;
+  const image = `${siteOrigin}/images/home-about-gallery-main.jpg`;
   return [
     { title },
-    { tagName: "link", rel: "canonical", href: `${siteOrigin}/contact` },
+    { tagName: "link", rel: "canonical", href: url },
     { name: "description", content: description },
     { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "Premier Resort Travel" },
     { property: "og:title", content: title },
     { property: "og:description", content: description },
-    { property: "og:url", content: `${siteOrigin}/contact` },
+    { property: "og:url", content: url },
+    { property: "og:image", content: image },
+    { property: "og:image:alt", content: "Plan a vacation with Premier Resort Travel" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: image },
   ];
 }
 

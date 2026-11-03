@@ -505,18 +505,25 @@ function AboutLineIcon({ name }: { name: string }) {
 }
 
 export function meta(_: Route.MetaArgs) {
+  const title = "About Us | Premier Resort Travel";
+  const description = "Meet the family-owned travel advisors behind Premier Resort Travel and learn how firsthand resort experience and Palace PRO resources shape each recommendation.";
+  const url = "https://premierresorttravels.com/about";
+  const image = "https://premierresorttravels.com/images/about-family.jpeg";
   return [
-    { title: "About Us | Premier Resort Travel" },
-    { tagName: "link", rel: "canonical", href: "https://premierresorttravels.com/about" },
-    {
-      name: "description",
-      content:
-        "Meet the family-owned travel advisors behind Premier Resort Travel and learn how firsthand resort experience and Palace PRO resources shape each recommendation.",
-    },
+    { title },
+    { tagName: "link", rel: "canonical", href: url },
+    { name: "description", content: description },
     { property: "og:type", content: "website" },
-    { property: "og:title", content: "About Premier Resort Travel" },
-    { property: "og:description", content: "Meet the family-owned travel advisors behind Premier Resort Travel and learn how resort recommendations are researched and reviewed." },
-    { property: "og:url", content: "https://premierresorttravels.com/about" },
+    { property: "og:site_name", content: "Premier Resort Travel" },
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
+    { property: "og:url", content: url },
+    { property: "og:image", content: image },
+    { property: "og:image:alt", content: "The family behind Premier Resort Travel" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: image },
   ];
 }
 

@@ -271,6 +271,14 @@ if (quoteResponse.status === 200) {
   const quoteHtml = decodeHtml(await quoteResponse.text());
   if (!quoteHtml.includes('href="/privacy-policy"') || !quoteHtml.includes('href="/terms-and-conditions"')) fail("quote form is missing legal policy links");
 }
+for (const path of ["/", "/about", "/destinations", "/collections", "/journal", "/contact", "/quote"]) {
+  const response = await request(path);
+  if (response.status !== 200) continue;
+  const html = decodeHtml(await response.text());
+  if (!html.includes('property="og:image" content="https://premierresorttravels.com/')) fail(`${path} is missing an absolute Open Graph share image`);
+  if (!html.includes('name="twitter:card" content="summary_large_image"')) fail(`${path} is missing a large-image social card`);
+  if (!html.includes('property="og:site_name" content="Premier Resort Travel"')) fail(`${path} is missing the Open Graph site name`);
+}
 const destinationWeddingResponse = await request("/collections/destination-weddings");
 if (destinationWeddingResponse.status !== 200) {
   fail(`/collections/destination-weddings returned ${destinationWeddingResponse.status}`);

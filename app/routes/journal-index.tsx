@@ -129,14 +129,25 @@ const trustItems = [
 ];
 
 export function meta() {
+  const title = "Travel Resources | Premier Resort Travel";
+  const description = "Explore Premier Resort Travel resources, packing lists, family resort tips, romantic vacation ideas, destination guides, and travel planning tools.";
+  const url = "https://premierresorttravels.com/journal";
+  const image = "https://premierresorttravels.com/images/resources-premier-pool-planning.png";
   return [
-    { title: "Travel Resources | Premier Resort Travel" },
-    { tagName: "link", rel: "canonical", href: "https://premierresorttravels.com/journal" },
-    {
-      name: "description",
-      content:
-        "Explore Premier Resort Travel resources, packing lists, family resort tips, romantic vacation ideas, destination guides, and travel planning tools.",
-    },
+    { title },
+    { tagName: "link", rel: "canonical", href: url },
+    { name: "description", content: description },
+    { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "Premier Resort Travel" },
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
+    { property: "og:url", content: url },
+    { property: "og:image", content: image },
+    { property: "og:image:alt", content: "Premier Resort Travel vacation-planning resources" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: image },
   ];
 }
 

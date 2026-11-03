@@ -185,14 +185,25 @@ const mapDestinations = [
 ];
 
 export function meta(_: Route.MetaArgs) {
+  const title = "Destinations | Premier Resort Travel";
+  const description = "Explore curated resort destinations across Cancun, Riviera Maya, Cozumel, Jamaica, Punta Cana, Los Cabos, Italy, and the Maldives.";
+  const url = "https://premierresorttravels.com/destinations";
+  const image = "https://premierresorttravels.com/images/catalog/wide-beachfront-resort.jpg";
   return [
-    { title: "Destinations | Premier Resort Travel" },
-    { tagName: "link", rel: "canonical", href: "https://premierresorttravels.com/destinations" },
-    {
-      name: "description",
-      content:
-        "Explore curated resort destinations across Cancun, Riviera Maya, Cozumel, Jamaica, Punta Cana, Los Cabos, Italy, and the Maldives.",
-    },
+    { title },
+    { tagName: "link", rel: "canonical", href: url },
+    { name: "description", content: description },
+    { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "Premier Resort Travel" },
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
+    { property: "og:url", content: url },
+    { property: "og:image", content: image },
+    { property: "og:image:alt", content: "A beachfront resort destination curated by Premier Resort Travel" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: image },
   ];
 }
 

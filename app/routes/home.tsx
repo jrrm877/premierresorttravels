@@ -22,21 +22,26 @@ export function loader({ request }: Route.LoaderArgs) {
 }
 
 export function meta(_: Route.MetaArgs) {
+  const title = "Premier Resort Travel | Luxury Resorts, Family Escapes & Adults-Only Getaways";
+  const description = "Plan a luxury beach escape, family resort stay, or iconic hotel getaway with curated recommendations designed to make booking easier.";
+  const url = "https://premierresorttravels.com/";
+  const image = "https://premierresorttravels.com/images/catalog/family-resort-pool.jpg";
   return [
-    { title: "Premier Resort Travel | Luxury Resorts, Family Escapes & Adults-Only Getaways" },
-    { tagName: "link", rel: "canonical", href: "https://premierresorttravels.com/" },
-    {
-      name: "description",
-      content:
-        "Plan a luxury beach escape, family resort stay, or iconic hotel getaway with curated recommendations designed to make booking easier.",
-    },
+    { title },
+    { tagName: "link", rel: "canonical", href: url },
+    { name: "description", content: description },
     { name: "robots", content: "index,follow" },
-    { property: "og:title", content: "Premier Resort Travel" },
-    {
-      property: "og:description",
-      content:
-        "Browse beachfront resorts, adults-only retreats, family escapes, and iconic city stays curated for memorable travel.",
-    },
+    { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "Premier Resort Travel" },
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
+    { property: "og:url", content: url },
+    { property: "og:image", content: image },
+    { property: "og:image:alt", content: "A luxury family resort pool selected by Premier Resort Travel" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: image },
   ];
 }
 
