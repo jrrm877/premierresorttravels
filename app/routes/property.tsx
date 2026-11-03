@@ -46,24 +46,32 @@ export async function loader({ params, context }: Route.LoaderArgs) {
 
 export function meta({ data }: Route.MetaArgs) {
   if (!data) {
-    return [{ title: "Resort Not Found | Premier Resort Travels" }, { name: "robots", content: "noindex" }];
+    return [{ title: "Resort Not Found | Premier Resort Travel" }, { name: "robots", content: "noindex" }];
   }
 
   const property = data.property;
   const canonical = `https://premierresorttravels.com/properties/${encodeURIComponent(property.slug)}`;
-  const title = `${property.name} | Resort Guide & Quotes | Premier Resort Travels`;
+  const title = `${property.name} | Resort Guide & Quotes | Premier Resort Travel`;
   const description = `Explore ${property.name} in ${property.location}. Discover what makes this resort special, compare your options, and request a personalized vacation quote.`;
-  const image = property.image_url || "";
+  const image = property.image_url ? new URL(property.image_url, "https://premierresorttravels.com").toString() : "";
   return [
     { title },
     { name: "description", content: description },
     { name: "robots", content: "index,follow" },
     { tagName: "link", rel: "canonical", href: canonical },
     { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "Premier Resort Travel" },
     { property: "og:title", content: title },
     { property: "og:description", content: description },
     { property: "og:url", content: canonical },
-    ...(image ? [{ property: "og:image", content: image }, { name: "twitter:card", content: "summary_large_image" }] : []),
+    ...(image ? [
+      { property: "og:image", content: image },
+      { property: "og:image:alt", content: `${property.name} in ${property.location}` },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: title },
+      { name: "twitter:description", content: description },
+      { name: "twitter:image", content: image },
+    ] : []),
   ];
 }
 

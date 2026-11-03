@@ -3,16 +3,25 @@ import type { Route } from "./+types/privacy-policy";
 
 const title = "Privacy Policy | Premier Resort Travel";
 const description = "Learn how Premier Resort Travel collects, uses, stores, and shares information submitted through its website and travel-planning services.";
+const url = "https://premierresorttravels.com/privacy-policy";
+const image = "https://premierresorttravels.com/images/home-about-gallery-main.jpg";
 
 export function meta(_: Route.MetaArgs) {
   return [
     { title },
-    { tagName: "link", rel: "canonical", href: "https://premierresorttravels.com/privacy-policy" },
+    { tagName: "link", rel: "canonical", href: url },
     { name: "description", content: description },
     { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "Premier Resort Travel" },
     { property: "og:title", content: title },
     { property: "og:description", content: description },
-    { property: "og:url", content: "https://premierresorttravels.com/privacy-policy" },
+    { property: "og:url", content: url },
+    { property: "og:image", content: image },
+    { property: "og:image:alt", content: "Premier Resort Travel vacation planning" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: image },
   ];
 }
 

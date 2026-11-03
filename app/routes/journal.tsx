@@ -40,20 +40,24 @@ export function meta({ data }: Route.MetaArgs) {
     ?? (isLeBlancComparison
     ? "Compare Le Blanc Cancun and Le Blanc Los Cabos for beach, pools, spa, dining, climate, transfers, and honeymoon fit before choosing your resort."
     : data.post.description);
+  const image = absoluteUrl(data.post.image);
 
   return [
     { title },
     { tagName: "link", rel: "canonical", href: canonical },
     { name: "description", content: description },
     { property: "og:type", content: "article" },
+    { property: "og:site_name", content: "Premier Resort Travel" },
     { property: "og:title", content: title },
     { property: "og:description", content: description },
     { property: "og:url", content: canonical },
-    { property: "og:image", content: absoluteUrl(data.post.image) },
+    { property: "og:image", content: image },
+    { property: "og:image:alt", content: data.post.title },
+    ...(data.post.reviewedOn ? [{ property: "article:modified_time", content: `${data.post.reviewedOn}T00:00:00Z` }] : []),
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: title },
     { name: "twitter:description", content: description },
-    { name: "twitter:image", content: absoluteUrl(data.post.image) },
+    { name: "twitter:image", content: image },
   ];
 }
 

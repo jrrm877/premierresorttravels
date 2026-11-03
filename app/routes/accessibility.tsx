@@ -3,16 +3,25 @@ import type { Route } from "./+types/accessibility";
 
 const title = "Accessibility Statement | Premier Resort Travel";
 const description = "Read Premier Resort Travel's accessibility goals, current approach, feedback options, and alternative ways to request travel-planning help.";
+const url = "https://premierresorttravels.com/accessibility";
+const image = "https://premierresorttravels.com/images/home-about-gallery-main.jpg";
 
 export function meta(_: Route.MetaArgs) {
   return [
     { title },
-    { tagName: "link", rel: "canonical", href: "https://premierresorttravels.com/accessibility" },
+    { tagName: "link", rel: "canonical", href: url },
     { name: "description", content: description },
     { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "Premier Resort Travel" },
     { property: "og:title", content: title },
     { property: "og:description", content: description },
-    { property: "og:url", content: "https://premierresorttravels.com/accessibility" },
+    { property: "og:url", content: url },
+    { property: "og:image", content: image },
+    { property: "og:image:alt", content: "Premier Resort Travel vacation planning" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: image },
   ];
 }
 

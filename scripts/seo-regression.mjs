@@ -148,6 +148,9 @@ for (const canonicalUrl of sitemapUrls) {
     }
   }
   if (/\?popup=start/i.test(html)) fail(`${canonicalUrl.pathname} contains a crawlable popup URL`);
+  if (!html.includes('property="og:site_name" content="Premier Resort Travel"')) fail(`${canonicalUrl.pathname} is missing the Open Graph site name`);
+  if (!html.includes('property="og:image" content="http')) fail(`${canonicalUrl.pathname} is missing an absolute Open Graph share image`);
+  if (!html.includes('name="twitter:card" content="summary_large_image"')) fail(`${canonicalUrl.pathname} is missing a large-image social card`);
 
   for (const match of html.matchAll(/<a\b[^>]*\bhref=["']([^"']+)["']/gi)) {
     const url = localUrl(match[1], local);

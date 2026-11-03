@@ -3,16 +3,25 @@ import type { Route } from "./+types/terms-and-conditions";
 
 const title = "Terms and Conditions | Premier Resort Travel";
 const description = "Review the website-use and travel-planning terms for Premier Resort Travel, including quotes, suppliers, traveler responsibilities, and booking conditions.";
+const url = "https://premierresorttravels.com/terms-and-conditions";
+const image = "https://premierresorttravels.com/images/home-about-gallery-main.jpg";
 
 export function meta(_: Route.MetaArgs) {
   return [
     { title },
-    { tagName: "link", rel: "canonical", href: "https://premierresorttravels.com/terms-and-conditions" },
+    { tagName: "link", rel: "canonical", href: url },
     { name: "description", content: description },
     { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "Premier Resort Travel" },
     { property: "og:title", content: title },
     { property: "og:description", content: description },
-    { property: "og:url", content: "https://premierresorttravels.com/terms-and-conditions" },
+    { property: "og:url", content: url },
+    { property: "og:image", content: image },
+    { property: "og:image:alt", content: "Premier Resort Travel vacation planning" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: image },
   ];
 }
 
