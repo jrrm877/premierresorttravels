@@ -27,6 +27,13 @@ async function submit(fields) {
   });
 }
 const spam = [
+  "Still doubling your bet after every loss? claim $3000 bonus account top-up on http://fretigo.com/go-na.php?xvqvsy",
+  "FREE $1777 BONUS BALANCE: Get $1777 on your bonus account right after sign-up - zero deposit needed https://a71lions.org/go-bv.php?auuqt8",
+  "FREE $1777 BONUS BALANCE: Register now and play immediately without a deposit https://jetroom.ru/go-bv.php?xceenc",
+  "FREE $1777 BONUS BALANCE: copying the promo code https://kodomoji.com/go-bv.php?8co8xb",
+  "BALANCE NOTICE: $1777 is waiting for activation http://fretigo.com/go-bv.php?g1bnbd",
+  "https://different.example/ＧＯ-ＢＶ.php?x",
+  "https://different.example/go-\u200Bbv.php?x",
   "Play on the house today! A new gaming project bonus account http://advodocs.ru/go-na.php?eg7bkx",
   "100-spin slot rule free $3000 welcome credit http://kodomoji.com/go-na.php?rp76ty",
   "Still doubling your bet? http://darejeans.com/go-na.php?3vtwa3",
@@ -58,4 +65,5 @@ for (const fields of [
 assert.equal(writes, 4);
 assert.equal(notifications, 4);
 delete globalThis.__notifyInquiryTest;
-console.log("Passed: 33 spam submissions blocked before side effects; 4 legitimate inquiries accepted.");
+console.log(`Passed: ${spam.length * 3} spam submissions blocked before side effects; 4 legitimate inquiries accepted.`);
+
