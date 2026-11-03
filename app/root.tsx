@@ -35,6 +35,7 @@ const footerLinkGroups = [
     icon: "bag",
     links: [
       ["Get My Free Quote", "/quote"],
+      ["Contact", "/contact"],
       ["About Us", "/about"],
       ["Travel Inspiration", "/journal"],
     ],
@@ -180,6 +181,7 @@ export default function App() {
                     <FooterIcon name="mail" />
                     <span>jazmin@premierresorttravels.com</span>
                   </a>
+                  <p>Pleasantville, Iowa · Serving travelers nationwide</p>
                   <div className="site-footer-socials" aria-label="Social links">
                     <a
                       href="https://www.facebook.com/profile.php?id=61579557773966"
@@ -255,7 +257,7 @@ export default function App() {
               <nav aria-label="Footer legal links">
                 <span>© 2026 Premier Resort Travel, LLC. All rights reserved.</span>
                 <a href="/sitemap.xml">Sitemap</a>
-                <a href="/quote">Contact</a>
+                <a href="/contact">Contact</a>
               </nav>
             </div>
           </footer>

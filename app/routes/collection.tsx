@@ -6,6 +6,12 @@ import {
 import { resortsForCollection } from "../data/resorts";
 import type { Route } from "./+types/collection";
 
+const siteOrigin = "https://premierresorttravels.com";
+
+function absoluteUrl(value: string) {
+  return new URL(value, siteOrigin).toString();
+}
+
 export async function loader({ params, request }: Route.LoaderArgs) {
   const collection = findCollectionBySlug(params.slug);
 
@@ -31,16 +37,24 @@ export function meta({ data }: Route.MetaArgs) {
     return [{ title: "Collection Not Found | Premier Resort Travel" }];
   }
 
+  const canonical = `${siteOrigin}/collections/${data.collection.slug}`;
+  const image = absoluteUrl(data.collection.heroImage);
   return [
     { title: data.collection.seoTitle },
-    { tagName: "link", rel: "canonical", href: `https://premierresorttravels.com/collections/${data.collection.slug}` },
+    { tagName: "link", rel: "canonical", href: canonical },
     {
       name: "description",
       content: data.collection.seoDescription,
     },
+    { property: "og:type", content: "website" },
     { property: "og:title", content: data.collection.seoTitle },
     { property: "og:description", content: data.collection.seoDescription },
-    { property: "og:image", content: data.collection.heroImage },
+    { property: "og:url", content: canonical },
+    { property: "og:image", content: image },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: data.collection.seoTitle },
+    { name: "twitter:description", content: data.collection.seoDescription },
+    { name: "twitter:image", content: image },
   ];
 }
 
@@ -64,7 +78,7 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
 
   const resorts = loaderData?.resorts ?? resortsForCollection(collection.resortIds);
   const relatedCollections = loaderData?.relatedCollections ?? getRelatedCollections(collection);
-  const collectionUrl = `https://premierresorttravels.com/collections/${collection.slug}`;
+  const collectionUrl = `${siteOrigin}/collections/${collection.slug}`;
   const isWeddingCollection = collection.slug === "destination-weddings";
   const isPalaceCollection = collection.slug === "palace-resorts";
   const quoteHref = `/quote?origin=collection&note=${encodeURIComponent(isWeddingCollection ? "I am planning a destination wedding. Please help compare all-inclusive resort options, guest room blocks, wedding events, and estimated group costs." : `Interested in ${collection.title} resorts. Please help me compare options.`)}`;
@@ -75,7 +89,7 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
     name: collection.title,
     description: collection.seoDescription,
     url: collectionUrl,
-    image: collection.heroImage,
+    image: absoluteUrl(collection.heroImage),
     mainEntity: {
       "@type": "ItemList",
       itemListElement: resorts.map((resort, index) => ({
@@ -84,7 +98,7 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
         item: {
           "@type": "Resort",
           name: resort.name,
-          image: resort.image,
+          image: absoluteUrl(resort.image),
           address: {
             "@type": "PostalAddress",
             addressCountry: resort.country,
@@ -120,11 +134,21 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
       },
     ],
   };
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: collection.faqs.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
 
   return (
     <main className="page-shell collection-page-shell">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <section className="collection-hero">
         <div className="collection-hero-image">
@@ -227,15 +251,32 @@ export default function CollectionPage({ loaderData, params }: Route.ComponentPr
         <section className="property-details" aria-label="All-inclusive destination wedding planning">
           <div className="section-heading section-heading-stack">
             <div>
-              <p className="eyebrow">All-Inclusive Destination Wedding Planning</p>
-              <h2>Compare wedding resorts around your guest list, not just the ceremony</h2>
+              <p className="eyebrow">Destination Wedding Resort Guide</p>
+              <h2>Choose the resort around the full guest experience, not only the ceremony package</h2>
             </div>
-            <p className="section-copy">Start with your destination, estimated guest count, and preferred dates. We can help narrow resorts by room options, family-friendly or adults-only atmosphere, group logistics, and the events you envision. Wedding packages, inclusions, and pricing vary by property and date.</p>
+            <p className="section-copy">The best all-inclusive destination wedding resort fits the couple, the invited guests, and the realistic travel budget. Start with guest ages, estimated attendance, room needs, destination, and a flexible date range before comparing package headlines. Wedding availability, inclusions, and group terms vary by property and date.</p>
+          </div>
+          <div className="comparison-table-wrap wedding-resort-table-wrap">
+            <table className="comparison-table">
+              <caption>Destination wedding resort starting points</caption>
+              <thead><tr><th scope="col">Resort</th><th scope="col">Strong starting point for</th><th scope="col">Verify before choosing</th></tr></thead>
+              <tbody>
+                <tr><th scope="row"><a href="/properties/moon-palace-cancun">Moon Palace Cancun</a></th><td>Larger mixed-age groups that want broad dining and resort activities</td><td>Room-block terms, event locations, guest walking distances, and current access rules</td></tr>
+                <tr><th scope="row"><a href="/properties/moon-palace-the-grand-cancun">Moon Palace The Grand Cancun</a></th><td>Families prioritizing a high-amenity resort week around the celebration</td><td>Group budget, room categories, venue capacity, and which experiences are included</td></tr>
+                <tr><th scope="row"><a href="/properties/moon-palace-jamaica">Moon Palace Jamaica</a></th><td>Mixed-age groups combining an all-inclusive wedding with island activities</td><td>Flight access, transfers, guest excursions, event terms, and backup-weather options</td></tr>
+                <tr><th scope="row"><a href="/properties/playacar-palace">Playacar Palace</a></th><td>Couples interested in a more compact stay near Playa del Carmen</td><td>Guest-count fit, ceremony and private-event options, room inventory, and accessibility</td></tr>
+                <tr><th scope="row"><a href="/properties/le-blanc-spa-resort-cancun">Le Blanc Cancun</a></th><td>Adults-only celebrations centered on a polished Caribbean beach stay</td><td>Age requirements, guest budget, venue availability, and current package inclusions</td></tr>
+                <tr><th scope="row"><a href="/properties/le-blanc-spa-resort-los-cabos">Le Blanc Los Cabos</a></th><td>Adults-only celebrations prioritizing design, pools, spa, and coastal scenery</td><td>Beach expectations, age requirements, flight access, guest budget, and event terms</td></tr>
+              </tbody>
+            </table>
           </div>
           <div className="planning-grid">
-            <article className="planning-card"><h3>Guest rooms and group needs</h3><p>Compare accommodation styles, possible room-block arrangements, and whether the resort suits children, adults, or a mixed guest list.</p></article>
-            <article className="planning-card"><h3>Ceremony and celebration priorities</h3><p>Identify the ceremony setting, welcome gathering, reception preferences, and questions to confirm with each resort wedding team.</p></article>
-            <article className="planning-card"><h3>Realistic trip costs</h3><p>Ask about travel dates, guest budgets, room categories, and package terms before assuming a promotion or wedding inclusion applies.</p></article>
+            <article className="planning-card"><h3>Build the guest profile first</h3><p>Estimate attendance, note children's ages, mobility needs, likely departure airports, and a realistic nightly budget. This quickly separates resorts that photograph well from resorts guests can comfortably attend.</p></article>
+            <article className="planning-card"><h3>Compare room-block risk</h3><p>Review deposits, minimum stays, inventory release dates, cancellation rules, room-category commitments, and whether the couple carries financial responsibility for unbooked rooms.</p></article>
+            <article className="planning-card"><h3>Map every wedding event</h3><p>List the ceremony, welcome gathering, rehearsal event, reception, farewell meal, and any private excursions. Ask which spaces and food-and-beverage minimums apply to each event.</p></article>
+            <article className="planning-card"><h3>Request complete package terms</h3><p>Confirm decor, setup, officiant rules, audiovisual needs, photography, outside-vendor policies, private-event charges, taxes, service fees, rain plans, and anything marketed as complimentary.</p></article>
+            <article className="planning-card"><h3>Plan the guest travel experience</h3><p>Provide passport reminders, airport guidance, transfer choices, attire information, booking deadlines, and a clear contact process so the couple is not personally troubleshooting every reservation.</p></article>
+            <article className="planning-card"><h3>Compare the real total</h3><p>Evaluate the couple's wedding costs alongside guest room rates, flights, transfers, and minimum stays. A package with more included can still be a poor fit if guests cannot reasonably make the trip.</p></article>
           </div>
           <div className="hero-actions"><a className="button button-primary" href={quoteHref}>Request Wedding Resort Options</a><a className="button button-secondary" href="/journal/best-palace-resorts-for-destination-weddings">Read the Palace Resorts Wedding Guide</a></div>
         </section>

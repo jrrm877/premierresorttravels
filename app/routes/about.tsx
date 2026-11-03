@@ -511,8 +511,12 @@ export function meta(_: Route.MetaArgs) {
     {
       name: "description",
       content:
-        "Learn more about Premier Resort Travel, a family-led travel brand focused on matching travelers with standout resorts and luxury hotel stays.",
+        "Meet the family-owned travel advisors behind Premier Resort Travel and learn how firsthand resort experience and Palace PRO resources shape each recommendation.",
     },
+    { property: "og:type", content: "website" },
+    { property: "og:title", content: "About Premier Resort Travel" },
+    { property: "og:description", content: "Meet the family-owned travel advisors behind Premier Resort Travel and learn how resort recommendations are researched and reviewed." },
+    { property: "og:url", content: "https://premierresorttravels.com/about" },
   ];
 }
 
@@ -538,9 +542,37 @@ export default function AboutPage() {
   }, [quickNoteFetcher.data]);
 
   const activeStop = experienceStops.find((stop) => stop.id === activeStopId) ?? experienceStops[0];
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "TravelAgency",
+    name: "Premier Resort Travel",
+    url: "https://premierresorttravels.com/",
+    logo: "https://premierresorttravels.com/images/brand/premier-resort-travel-horizontal-logo.png",
+    email: "jazmin@premierresorttravels.com",
+    telephone: "+1-515-240-4002",
+    legalName: "Premier Resort Travel, LLC",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Pleasantville",
+      addressRegion: "IA",
+      addressCountry: "US",
+    },
+    areaServed: { "@type": "Country", name: "United States" },
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      telephone: "+1-515-240-4002",
+      email: "jazmin@premierresorttravels.com",
+      availableLanguage: "English",
+      url: "https://premierresorttravels.com/contact",
+    },
+    sameAs: ["https://www.facebook.com/profile.php?id=61579557773966"],
+    knowsAbout: ["All-inclusive resorts", "Destination weddings", "Family resort travel", "Adults-only resorts", "Honeymoon planning"],
+  };
 
   return (
     <main className="page-shell">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema).replace(/</g, "\\u003c") }} />
       <section className="about-postcard-hero" aria-label="About Premier Resort Travel postcard">
         <div className="about-postcard-hero-frame">
           <div className="about-postcard-hero-image">
@@ -570,6 +602,29 @@ export default function AboutPage() {
               decoding="async"
             />
           </div>
+        </div>
+      </section>
+
+      <section className="property-details about-editorial-profile" id="editorial-standards" aria-labelledby="about-editorial-heading">
+        <div className="about-editorial-profile-copy">
+          <p className="eyebrow">Experience &amp; Editorial Standards</p>
+          <h2 id="about-editorial-heading">Travel guidance from a family-owned resort travel agency</h2>
+          <p>Premier Resort Travel combines firsthand family travel experience with destination research and advisor resources. The agency participates in The Palace Company&apos;s Palace PRO program, supporting more informed comparisons across Palace Resorts, Moon Palace Resorts, and Le Blanc Spa Resorts.</p>
+          <p>Our journal articles are written and reviewed by Premier Resort Travel. We evaluate resorts by traveler fit, location and logistics, room needs, dining, activities, beach and pool experience, wellness, and total trip value—not by a one-size-fits-all ranking.</p>
+        </div>
+        <div className="about-editorial-profile-notes">
+          <article>
+            <h3>What we verify</h3>
+            <p>Current availability, room and occupancy rules, resort access, inclusions, age policies, and pricing are confirmed for each quote because supplier details can change.</p>
+          </article>
+          <article>
+            <h3>How recommendations work</h3>
+            <p>Recommendations are matched to the traveler&apos;s priorities and budget. The site provides planning guidance, not live inventory or a guarantee of a published rate.</p>
+          </article>
+          <article>
+            <h3>Who reviews the guides</h3>
+            <p>Premier Resort Travel is the named author and reviewer. Updated guides display a review date so readers can see when the advice was last reassessed.</p>
+          </article>
         </div>
       </section>
 

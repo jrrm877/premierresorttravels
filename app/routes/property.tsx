@@ -1,20 +1,21 @@
 import { useState } from "react";
 import { ResortGallery } from "../components/ResortGallery";
 import { listResortPhotos } from "../lib/resort-photos";
-import { fallbackProperties, fetchDestinationsFromDb, fetchPropertyBySlug } from "../lib/catalog";
+import { fallbackProperties, fetchDestinationsFromDb } from "../lib/catalog";
 import { findCollectionHrefForProperty } from "../lib/property-data";
 import { storiesForProperty } from "../lib/traveler-stories";
 import type { Route } from "./+types/property";
 
 export async function loader({ params, context }: Route.LoaderArgs) {
   try {
-    const property = await fetchPropertyBySlug(context.cloudflare.env.DB, params.slug);
+    const destinations = await fetchDestinationsFromDb(context.cloudflare.env.DB);
+    const property = destinations.find((candidate) => candidate.slug === params.slug);
 
     if (!property) {
       throw new Response("Not Found", { status: 404 });
     }
 
-    const related = (await fetchDestinationsFromDb(context.cloudflare.env.DB))
+    const related = destinations
       .filter(
         (candidate) =>
           candidate.slug !== property.slug &&
@@ -99,17 +100,43 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
   const pageUrl = `https://premierresorttravels.com/properties/${encodeURIComponent(property.slug)}`;
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: `${property.name} Resort Guide | Premier Resort Travels`,
-    url: pageUrl,
-    description: property.description,
-    about: {
-      "@type": "LodgingBusiness",
-      name: property.name,
-      description: property.description,
-      image: property.image_url || undefined,
-    },
-    publisher: { "@type": "Organization", name: "Premier Resort Travels", url: "https://premierresorttravels.com" },
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${pageUrl}#webpage`,
+        name: `${property.name} Resort Guide | Premier Resort Travel`,
+        url: pageUrl,
+        description: property.description,
+        mainEntity: { "@id": `${pageUrl}#resort` },
+        publisher: { "@type": "TravelAgency", name: "Premier Resort Travel", url: "https://premierresorttravels.com/" },
+      },
+      {
+        "@type": "Resort",
+        "@id": `${pageUrl}#resort`,
+        name: property.name,
+        description: property.description,
+        url: pageUrl,
+        ...(property.image_url ? { image: new URL(property.image_url, "https://premierresorttravels.com").toString() } : {}),
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: property.location,
+          addressCountry: property.country,
+        },
+        amenityFeature: [property.tripStyle, property.brand].filter(Boolean).map((value) => ({
+          "@type": "LocationFeatureSpecification",
+          name: value,
+          value: true,
+        })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://premierresorttravels.com/" },
+          { "@type": "ListItem", position: 2, name: "Collections", item: "https://premierresorttravels.com/collections" },
+          { "@type": "ListItem", position: 3, name: property.name, item: pageUrl },
+        ],
+      },
+    ],
   };
 
 

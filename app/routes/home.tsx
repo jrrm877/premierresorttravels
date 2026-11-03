@@ -190,8 +190,48 @@ const partnerLogos = [
 const homepageStories = featuredTravelerStories(6);
 
 export default function Home() {
+  const homeSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://premierresorttravels.com/#website",
+        name: "Premier Resort Travel",
+        url: "https://premierresorttravels.com/",
+        publisher: { "@id": "https://premierresorttravels.com/#agency" },
+      },
+      {
+        "@type": "TravelAgency",
+        "@id": "https://premierresorttravels.com/#agency",
+        name: "Premier Resort Travel",
+        url: "https://premierresorttravels.com/",
+        logo: "https://premierresorttravels.com/images/brand/premier-resort-travel-horizontal-logo.png",
+        email: "jazmin@premierresorttravels.com",
+        telephone: "+1-515-240-4002",
+        legalName: "Premier Resort Travel, LLC",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Pleasantville",
+          addressRegion: "IA",
+          addressCountry: "US",
+        },
+        areaServed: { "@type": "Country", name: "United States" },
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "customer service",
+          telephone: "+1-515-240-4002",
+          email: "jazmin@premierresorttravels.com",
+          availableLanguage: "English",
+          url: "https://premierresorttravels.com/contact",
+        },
+        sameAs: ["https://www.facebook.com/profile.php?id=61579557773966"],
+      },
+    ],
+  };
+
   return (
     <main className="luxe-home">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homeSchema).replace(/</g, "\\u003c") }} />
       <section
         className="luxe-hero"
         aria-label="Premier Resort Travel homepage"

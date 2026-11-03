@@ -2,6 +2,7 @@ import { featuredCollections, findPropertyBySlug } from "./property-data";
 
 export type TravelerStory = {
   slug: string;
+  updatedOn: string;
   title: string;
   travelerName: string;
   destination: string;
@@ -44,6 +45,7 @@ const catalogImage = (name: string) => `/images/catalog/${name}`;
 export const travelerStories: TravelerStory[] = [
   {
     slug: "emily-le-blanc-cancun-anniversary",
+    updatedOn: "2026-07-02",
     title: "An anniversary week that felt quiet, polished, and easy",
     travelerName: "Emily",
     destination: "Cancun",
@@ -90,6 +92,7 @@ export const travelerStories: TravelerStory[] = [
   },
   {
     slug: "anderson-family-moon-palace-grand",
+    updatedOn: "2026-07-02",
     title: "A family resort week where every age had something to do",
     travelerName: "Sarah",
     destination: "Cancun",
@@ -136,6 +139,7 @@ export const travelerStories: TravelerStory[] = [
   },
   {
     slug: "michael-cozumel-palace-diving",
+    updatedOn: "2026-07-02",
     title: "A reef-first trip with easy resort comfort",
     travelerName: "Michael",
     destination: "Cozumel",
@@ -182,6 +186,7 @@ export const travelerStories: TravelerStory[] = [
   },
   {
     slug: "natalie-baglioni-venice-romance",
+    updatedOn: "2026-07-02",
     title: "A Venice arrival that felt like part of the story",
     travelerName: "Natalie",
     destination: "Venice",
@@ -229,6 +234,7 @@ export const travelerStories: TravelerStory[] = [
   },
   {
     slug: "jessica-sun-palace-adults-only",
+    updatedOn: "2026-07-02",
     title: "A short adults-only escape with just enough Cancun energy",
     travelerName: "Jessica",
     destination: "Cancun",
@@ -275,6 +281,7 @@ export const travelerStories: TravelerStory[] = [
   },
   {
     slug: "lauren-baglioni-puglia-spa",
+    updatedOn: "2026-07-02",
     title: "A slower Italy stay built around spa time and small towns",
     travelerName: "Lauren",
     destination: "Puglia",
@@ -321,6 +328,7 @@ export const travelerStories: TravelerStory[] = [
   },
   {
     slug: "danielle-moon-palace-jamaica",
+    updatedOn: "2026-07-02",
     title: "A lively Jamaica family trip with easy adventure nearby",
     travelerName: "Danielle",
     destination: "Ocho Rios",
@@ -367,6 +375,7 @@ export const travelerStories: TravelerStory[] = [
   },
   {
     slug: "kevin-baglioni-maldives-honeymoon",
+    updatedOn: "2026-07-02",
     title: "A honeymoon where the island pace did the work",
     travelerName: "Kevin",
     destination: "Maldives",

@@ -22,6 +22,7 @@ export type ResortCollection = {
   faqs: CollectionFaq[];
   relatedCollectionIds: string[];
   note?: string;
+  updatedOn?: string;
 };
 
 const imageFor = (slug: string, fallback = "/images/home-about-gallery-main.jpg") =>
@@ -217,11 +218,11 @@ export const resortCollections: ResortCollection[] = [
   },
   {
     id: "destination-weddings",
-    title: "Destination Weddings",
+    title: "All-Inclusive Destination Weddings",
     slug: "destination-weddings",
     description:
-      "Explore all-inclusive destination wedding resorts for ceremonies, guest room blocks, group celebrations, and travel planning. Compare family-friendly and adults-only options with help tailored to your guest list.",
-    shortDescription: "Wedding-ready resorts for couples and guests.",
+      "Compare all-inclusive destination wedding resorts for ceremonies, guest room blocks, welcome events, receptions, and a smoother guest travel experience in Mexico and the Caribbean.",
+    shortDescription: "All-inclusive wedding resorts for couples and guests.",
     heroImage: imageFor("playacar-palace"),
     featuredImage: imageFor("moon-palace-cancun"),
     resortIds: [
@@ -231,21 +232,43 @@ export const resortCollections: ResortCollection[] = [
       "playacar-palace",
       "le-blanc-spa-resort-cancun",
       "le-blanc-spa-resort-los-cabos",
-      "baglioni-resort-sardinia",
     ],
     filters: ["Collection", "Family Friendly", "Adults Only"],
-    tags: ["weddings", "groups", "celebrations"],
+    tags: ["all-inclusive", "weddings", "room-blocks", "group-travel"],
     seoTitle: "All-Inclusive Destination Wedding Resorts | Premier Resort Travel",
     seoDescription:
       "Compare all-inclusive destination wedding resorts in Mexico and the Caribbean, including guest room options, group travel, ceremony priorities, and planning help.",
     faqs: [
       {
-        question: "How do we choose a destination wedding resort?",
+        question: "How do we choose an all-inclusive destination wedding resort?",
         answer:
-          "Start with the guest list. The right resort should fit the couple's style while also making travel, dining, room choice, and activities comfortable for guests.",
+          "Start with the estimated guest count, whether children are invited, guest budgets, preferred destination, travel dates, and ceremony style. Then compare resort size, room categories, accessibility, dining, group events, and the current wedding terms for those dates.",
       },
-      sharedFaqs.perks,
-      sharedFaqs.compare,
+      {
+        question: "What is normally included in an all-inclusive destination wedding package?",
+        answer:
+          "Inclusions vary by resort, package, date, and group size. Ask for written details covering the ceremony venue, basic decor, food and beverage, private events, photography rules, backup weather plans, service charges, taxes, and anything that requires an upgrade.",
+      },
+      {
+        question: "How do destination wedding room blocks work?",
+        answer:
+          "Room-block terms vary. Compare deposit schedules, minimum-night requirements, inventory release dates, cancellation terms, room-category availability, and whether the couple is financially responsible for rooms guests do not book.",
+      },
+      {
+        question: "Should we choose a family-friendly or adults-only wedding resort?",
+        answer:
+          "Choose around the real guest list. Family-friendly resorts are usually easier when children or multigenerational families are invited. Adults-only resorts can create a quieter celebration when every guest meets the age requirement.",
+      },
+      {
+        question: "What costs should guests expect beyond the resort stay?",
+        answer:
+          "Guests may need airfare, airport transfers, passports, travel protection, baggage fees, optional excursions, and extra nights. Share a realistic cost range early so guests can decide before room-block deadlines.",
+      },
+      {
+        question: "When should we start planning a destination wedding?",
+        answer:
+          "Begin once you have a workable date range and guest estimate. Popular dates, larger groups, and specific ceremony venues usually benefit from earlier comparison, but no date should be promised until resort and room availability are confirmed.",
+      },
     ],
     relatedCollectionIds: ["family-friendly", "romantic-getaways", "sea-views"],
   },
@@ -590,9 +613,13 @@ export const brandCollections: ResortCollection[] = [
 ];
 
 export const collectionIndexCollections = brandCollections;
-export const allResortCollections = [...brandCollections, ...resortCollections];
+export const allResortCollections: ResortCollection[] = [...brandCollections, ...resortCollections].map((collection) => ({
+  ...collection,
+  updatedOn: collection.slug === "destination-weddings" ? "2026-11-03" : "2026-07-03",
+}));
 
 const collectionSlugAliases: Record<string, string> = {
+  "le-blanc": "le-blanc-spa-resorts",
   "adults-only-resorts": "adults-only",
   "family-flagship-resorts": "family-friendly",
   "european-icon-hotels": "european-luxury",

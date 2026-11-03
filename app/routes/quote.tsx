@@ -25,6 +25,7 @@ export function loader({ request }: Route.LoaderArgs) {
     "traveler-stories": "Traveler stories index",
     "traveler-story": "Traveler story",
     about: "About page",
+    contact: "Contact page",
     "about-activity": "About activity",
     resources: "Travel resources",
     "legacy-popup": "Legacy homepage planner link",
@@ -64,9 +65,29 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
     ...(budget.trim() ? ["Approximate total trip budget (USD): " + budget.trim()] : []),
     ...(preferences.trim() ? ["Traveler preferences: " + preferences.trim()] : []),
   ].join("\n");
+  const quotePageSchema = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: "Request a Personalized Vacation Quote",
+    description: "Request personalized resort-only or resort-and-airfare vacation options from Premier Resort Travel.",
+    url: "https://premierresorttravels.com/quote",
+    mainEntity: {
+      "@type": "Service",
+      name: "Personalized resort vacation planning",
+      serviceType: "Vacation planning and resort comparison",
+      provider: {
+        "@type": "TravelAgency",
+        name: "Premier Resort Travel",
+        url: "https://premierresorttravels.com/",
+        telephone: "+1-515-240-4002",
+        email: "jazmin@premierresorttravels.com",
+      },
+    },
+  };
 
   return (
     <main className="page-shell" style={{ maxWidth: 1000, margin: "0 auto", padding: "3rem 1.25rem 5rem" }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(quotePageSchema).replace(/</g, "\\u003c") }} />
       <p className="eyebrow">Personalized Vacation Quotes</p>
       {loaderData.style && <p>Planning a {loaderData.style.toLowerCase()} getaway? You’re in the right place.</p>}
       <h1>Let’s plan your perfect getaway.</h1>

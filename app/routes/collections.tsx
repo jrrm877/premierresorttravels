@@ -41,6 +41,16 @@ export default function CollectionsIndexPage({ loaderData }: Route.ComponentProp
       name: collection.title,
       url: `https://premierresorttravels.com/collections/${collection.slug}`,
     })),
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: collectionIndexCollections.length,
+      itemListElement: collectionIndexCollections.map((collection, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: collection.title,
+        url: `https://premierresorttravels.com/collections/${collection.slug}`,
+      })),
+    },
   };
 
   const breadcrumbSchema = {

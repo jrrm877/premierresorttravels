@@ -259,8 +259,35 @@ export default function DestinationsPage() {
       (region === "Island escapes" && destination.name === "Maldives");
     return matchesSearch && matchesRegion;
   }), [search, region]);
+  const destinationSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Resort Destinations",
+    description: "Curated resort destinations across Mexico, the Caribbean, Italy, and the Maldives.",
+    url: "https://premierresorttravels.com/destinations",
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: destinationCards.length,
+      itemListElement: destinationCards.map((destination, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: destination.name,
+        url: new URL(destination.href, "https://premierresorttravels.com").toString(),
+      })),
+    },
+  };
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://premierresorttravels.com/" },
+      { "@type": "ListItem", position: 2, name: "Destinations", item: "https://premierresorttravels.com/destinations" },
+    ],
+  };
   return (
     <main className="destinations-page">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(destinationSchema).replace(/</g, "\\u003c") }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }} />
       <section
         className="destinations-hero"
         style={{

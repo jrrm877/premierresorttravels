@@ -18,6 +18,7 @@ export type Resort = {
   seasonalBeachNote?: string;
   description: string;
   highlight: string;
+  updatedOn: string;
 };
 
 type ResortMetadata = {
@@ -196,6 +197,7 @@ export const resorts: Resort[] = resortMetadata.map((metadata) => {
     description:
       property?.description ?? "A polished luxury stay selected for Premier Resort Travel clients.",
     highlight: property?.highlight ?? "A curated luxury resort fit for thoughtful travel planning.",
+    updatedOn: "2026-07-02",
   };
 });
 

@@ -45,9 +45,36 @@ export function meta(_: Route.MetaArgs) {
 export default function TravelerStoriesIndex({ loaderData }: Route.ComponentProps) {
   const { stories, quotes, memoryBoard } = loaderData;
   const heroStory = stories[0];
+  const storyIndexSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Traveler Stories",
+    description: "Real traveler stories, review quotes, and vacation memories from Premier Resort Travel clients.",
+    url: "https://premierresorttravels.com/traveler-stories",
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: stories.length,
+      itemListElement: stories.map((story, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: story.title,
+        url: `https://premierresorttravels.com/traveler-stories/${story.slug}`,
+      })),
+    },
+  };
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://premierresorttravels.com/" },
+      { "@type": "ListItem", position: 2, name: "Traveler Stories", item: "https://premierresorttravels.com/traveler-stories" },
+    ],
+  };
 
   return (
     <main className="page-shell traveler-stories-page">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(storyIndexSchema).replace(/</g, "\\u003c") }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }} />
       <section className="traveler-stories-hero">
         <div className="traveler-stories-hero-copy">
           <p className="eyebrow">Traveler Stories</p>

@@ -226,9 +226,43 @@ function ResourceLineIcon({ name }: { name: ResourceIcon }) {
 export default function JournalIndexPage() {
   const journalResourceCards = journalPosts;
   const scrollingJournalCards = [...journalResourceCards, ...journalResourceCards];
+  const journalSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Travel Resources",
+    description: "Resort comparisons, destination guides, and practical vacation planning advice from Premier Resort Travel.",
+    url: "https://premierresorttravels.com/journal",
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: journalPosts.length,
+      itemListElement: journalPosts.map((post, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "BlogPosting",
+          headline: post.title,
+          description: post.description,
+          image: new URL(post.image, "https://premierresorttravels.com").toString(),
+          url: `https://premierresorttravels.com/journal/${post.slug}`,
+          author: { "@type": "Organization", name: "Premier Resort Travel", url: "https://premierresorttravels.com/about" },
+          ...(post.reviewedOn ? { dateModified: post.reviewedOn } : {}),
+        },
+      })),
+    },
+  };
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://premierresorttravels.com/" },
+      { "@type": "ListItem", position: 2, name: "Travel Resources", item: "https://premierresorttravels.com/journal" },
+    ],
+  };
 
   return (
     <main className="resources-page">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(journalSchema).replace(/</g, "\\u003c") }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }} />
       <section className="resources-hero" aria-labelledby="resources-title">
         <div className="resources-hero-copy">
           <p className="eyebrow">Travel Resources</p>
