@@ -804,6 +804,8 @@ export default function AboutPage() {
               </a>
             </div>
 
+            <p className="form-privacy-note">Your email is used to respond to this request. See our <a href="/privacy-policy">Privacy Policy</a>.</p>
+
             {quickNoteFetcher.data?.message ? (
               <p className="form-status">{quickNoteFetcher.data.message}</p>
             ) : null}

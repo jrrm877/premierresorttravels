@@ -28,6 +28,7 @@ function requiredSchemaTypes(pathname) {
   if (pathname === "/") return ["WebSite", "TravelAgency"];
   if (pathname === "/about") return ["TravelAgency"];
   if (pathname === "/contact") return ["ContactPage", "TravelAgency", "ContactPoint", "BreadcrumbList"];
+  if (["/privacy-policy", "/accessibility", "/terms-and-conditions"].includes(pathname)) return ["WebPage", "BreadcrumbList"];
   if (pathname === "/destinations") return ["CollectionPage", "ItemList", "BreadcrumbList"];
   if (pathname === "/collections") return ["CollectionPage", "ItemList", "BreadcrumbList"];
   if (pathname.startsWith("/collections/")) return ["CollectionPage", "ItemList", "BreadcrumbList", "FAQPage"];
@@ -250,6 +251,28 @@ if (contactResponse.status !== 200) {
   if (!contactHtml.includes('"addressLocality":"Pleasantville"')) fail("contact page schema is missing the verified locality");
   if (contactHtml.includes("P.O. Box") || contactHtml.includes("PO Box")) fail("contact page exposes the non-public P.O. box");
 }
+for (const [path, heading] of [["/privacy-policy", "Privacy Policy"], ["/accessibility", "Accessibility Statement"], ["/terms-and-conditions", "Terms and Conditions"]]) {
+  const response = await request(path);
+  if (response.status !== 200) {
+    fail(`${path} returned ${response.status}`);
+    continue;
+  }
+  const html = decodeHtml(await response.text());
+  if (!html.includes(`<h1>${heading}</h1>`)) fail(`${path} is missing its primary heading`);
+  if (!html.includes('<link rel="canonical" href="https://premierresorttravels.com/')) fail(`${path} is missing its canonical URL`);
+  if (html.includes("(312) 544-9940") || html.includes("relax@premierresorttravels.com")) fail(`${path} contains stale contact details`);
+}
+const privacyResponse = await request("/privacy-policy");
+if (privacyResponse.status === 200) {
+  const privacyHtml = decodeHtml(await privacyResponse.text());
+  if (!privacyHtml.includes("Cloudflare D1") || !privacyHtml.includes("Resend")) fail("privacy policy does not describe the site's actual inquiry providers");
+  if (!privacyHtml.includes("does not currently include Google Analytics, Meta Pixel")) fail("privacy policy does not accurately disclose the absence of advertising analytics");
+}
+const quoteResponse = await request("/quote");
+if (quoteResponse.status === 200) {
+  const quoteHtml = decodeHtml(await quoteResponse.text());
+  if (!quoteHtml.includes('href="/privacy-policy"') || !quoteHtml.includes('href="/terms-and-conditions"')) fail("quote form is missing legal policy links");
+}
 const destinationWeddingResponse = await request("/collections/destination-weddings");
 if (destinationWeddingResponse.status !== 200) {
   fail(`/collections/destination-weddings returned ${destinationWeddingResponse.status}`);
@@ -263,7 +286,7 @@ if (destinationWeddingResponse.status !== 200) {
 await assertRedirect("/collections/baglioni-resorts?source=seo-test", "/collections/baglioni?source=seo-test");
 await assertRedirect("/?popup=start&note=Family%20trip", "/quote?origin=legacy-popup&note=Family+trip");
 
-for (const path of ["/destinations/not-a-real-place", "/properties/not-a-resort/facts", "/trip-types/not-a-real-type", "/resources/not-a-real-resource", "/guides/not-a-real-guide", "/terms-and-conditions"]) {
+for (const path of ["/destinations/not-a-real-place", "/properties/not-a-resort/facts", "/trip-types/not-a-real-type", "/resources/not-a-real-resource", "/guides/not-a-real-guide"]) {
   const response = await request(path);
   if (response.status !== 404) fail(`${path} should remain a real 404, received ${response.status}`);
 }

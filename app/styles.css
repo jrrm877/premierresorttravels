@@ -5474,6 +5474,118 @@ button.portfolio-tab {
   width: 100%;
 }
 
+.legal-page {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.legal-page-hero {
+  max-width: 920px;
+  width: 100%;
+  margin-inline: auto;
+  background: linear-gradient(135deg, rgba(247, 242, 232, 0.95), rgba(255, 255, 255, 0.98));
+  border-color: rgba(166, 126, 54, 0.24);
+}
+
+.legal-page-hero h1 {
+  margin: 0.35rem 0 0.75rem;
+}
+
+.legal-page-date {
+  margin: 1rem 0 0;
+  color: var(--ink-soft);
+}
+
+.legal-page-layout {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.28fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  max-width: 1100px;
+  width: 100%;
+  margin-inline: auto;
+  align-items: start;
+}
+
+.legal-page-toc {
+  position: sticky;
+  top: 6.5rem;
+  padding: 1.25rem;
+  border: 1px solid rgba(166, 126, 54, 0.2);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.legal-page-toc ol {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0.8rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.legal-page-toc a {
+  color: var(--ink-soft);
+  text-underline-offset: 0.18em;
+}
+
+.legal-page-content {
+  display: grid;
+  gap: 1rem;
+}
+
+.legal-page-content section {
+  scroll-margin-top: 7rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid rgba(166, 126, 54, 0.18);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.legal-page-content h2 {
+  margin: 0 0 0.85rem;
+}
+
+.legal-page-content p,
+.legal-page-content li {
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+
+.legal-page-content p:last-child,
+.legal-page-content ul:last-child {
+  margin-bottom: 0;
+}
+
+.legal-note {
+  margin-top: 1rem;
+  padding: 1rem 1.15rem;
+  border-left: 4px solid var(--gold);
+  background: rgba(247, 242, 232, 0.8);
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+
+.legal-contact {
+  display: grid;
+  gap: 0.35rem;
+  font-style: normal;
+}
+
+.form-privacy-note {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 800px) {
+  .legal-page-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .legal-page-toc {
+    position: static;
+  }
+}
+
 .journal-byline a {
   color: var(--ink);
   font-weight: 700;

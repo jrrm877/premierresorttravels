@@ -162,7 +162,7 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
             </>}
             <label style={{ display: "grid", gap: 6 }}>Full name <input name="fullName" required autoComplete="name" defaultValue={loaderData.fullName} style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} /></label>
             <label style={{ display: "grid", gap: 6 }}>Email address <input name="email" type="email" required autoComplete="email" defaultValue={loaderData.email} style={{ padding: 12, borderRadius: 8, border: "1px solid #aab8b1" }} /></label>
-            <p style={{ fontSize: 14, margin: 0 }}>This is a request for an advisor-prepared quote, not a live-price search or booking. Rates, availability, and airfare are subject to confirmation. Your details are used to respond to your inquiry.</p>
+            <p style={{ fontSize: 14, margin: 0 }}>This is a request for an advisor-prepared quote, not a live-price search or booking. Rates, availability, and airfare are subject to confirmation. Your details are used to respond to your inquiry as described in our <a href="/privacy-policy">Privacy Policy</a>. Website and supplier conditions are explained in our <a href="/terms-and-conditions">Terms and Conditions</a>.</p>
             {invalidDates && <p role="alert">Check-out must be after check-in.</p>}
             {fetcher.data?.success === false && <p role="alert">{fetcher.data.message ?? "Please try again."}</p>}
             <button className="button button-primary" type="submit" disabled={sending || invalidDates}>{sending ? "Sending request..." : "Get My Free Vacation Quote"}</button>

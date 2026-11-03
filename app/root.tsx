@@ -256,6 +256,9 @@ export default function App() {
               <p>Creating unforgettable vacations for couples, families, and groups, one journey at a time.</p>
               <nav aria-label="Footer legal links">
                 <span>© 2026 Premier Resort Travel, LLC. All rights reserved.</span>
+                <a href="/privacy-policy">Privacy</a>
+                <a href="/terms-and-conditions">Terms</a>
+                <a href="/accessibility">Accessibility</a>
                 <a href="/sitemap.xml">Sitemap</a>
                 <a href="/contact">Contact</a>
               </nav>
