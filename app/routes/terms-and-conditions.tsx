@@ -80,7 +80,7 @@ export default function TermsAndConditionsPage() {
     {
       id: "contact",
       title: "Contact Us",
-      content: <address className="legal-contact"><strong>Premier Resort Travel, LLC</strong><span>Pleasantville, Iowa · Serving travelers nationwide</span><a href="mailto:jazmin@premierresorttravels.com">jazmin@premierresorttravels.com</a><a href="tel:+15152404002">515-240-4002</a></address>,
+      content: <address className="legal-contact"><strong>Premier Resort Travel, LLC</strong><span>Pleasantville, Iowa · Serving travelers nationwide</span><a href="mailto:relax@premierresorttravels.com">relax@premierresorttravels.com</a><a href="tel:+15152404002">515-240-4002</a></address>,
     },
   ];
 

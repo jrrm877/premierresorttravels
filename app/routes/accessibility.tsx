@@ -50,7 +50,7 @@ export default function AccessibilityPage() {
     {
       id: "feedback",
       title: "Accessibility Feedback and Assistance",
-      content: <><p>Tell us which page or task was difficult, the browser or device you were using, and the format or accommodation that would help. You do not need to disclose a disability.</p><address className="legal-contact"><strong>Premier Resort Travel, LLC</strong><a href="mailto:jazmin@premierresorttravels.com?subject=Accessibility%20feedback">jazmin@premierresorttravels.com</a><a href="tel:+15152404002">515-240-4002</a><a href="/contact">Contact options</a></address></>,
+      content: <><p>Tell us which page or task was difficult, the browser or device you were using, and the format or accommodation that would help. You do not need to disclose a disability.</p><address className="legal-contact"><strong>Premier Resort Travel, LLC</strong><a href="mailto:relax@premierresorttravels.com?subject=Accessibility%20feedback">relax@premierresorttravels.com</a><a href="tel:+15152404002">515-240-4002</a><a href="/contact">Contact options</a></address></>,
     },
     {
       id: "technical",

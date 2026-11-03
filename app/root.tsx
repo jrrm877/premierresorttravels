@@ -175,9 +175,9 @@ export default function App() {
                     <FooterIcon name="phone" />
                     <span>515-240-4002</span>
                   </a>
-                  <a className="site-footer-contact-link" href="mailto:jazmin@premierresorttravels.com">
+                  <a className="site-footer-contact-link" href="mailto:relax@premierresorttravels.com">
                     <FooterIcon name="mail" />
-                    <span>jazmin@premierresorttravels.com</span>
+                    <span>relax@premierresorttravels.com</span>
                   </a>
                   <p>Pleasantville, Iowa · Serving travelers nationwide</p>
                   <div className="site-footer-socials" aria-label="Social links">

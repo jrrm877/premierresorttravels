@@ -40,7 +40,7 @@ export default function ContactPage() {
       url: `${siteOrigin}/`,
       logo: `${siteOrigin}/images/brand/premier-resort-travel-horizontal-logo.png`,
       telephone: "+1-515-240-4002",
-      email: "jazmin@premierresorttravels.com",
+      email: "relax@premierresorttravels.com",
       address: {
         "@type": "PostalAddress",
         addressLocality: "Pleasantville",
@@ -52,7 +52,7 @@ export default function ContactPage() {
         "@type": "ContactPoint",
         contactType: "customer service",
         telephone: "+1-515-240-4002",
-        email: "jazmin@premierresorttravels.com",
+        email: "relax@premierresorttravels.com",
         availableLanguage: "English",
         url: `${siteOrigin}/contact`,
       },
@@ -90,7 +90,7 @@ export default function ContactPage() {
           </article>
           <article className="planning-card">
             <p className="eyebrow">Email</p>
-            <h2><a href="mailto:jazmin@premierresorttravels.com">jazmin@premierresorttravels.com</a></h2>
+            <h2><a href="mailto:relax@premierresorttravels.com">relax@premierresorttravels.com</a></h2>
             <p>Send your questions or a short description of the trip you are considering.</p>
           </article>
           <article className="planning-card">

@@ -99,7 +99,7 @@ export default function PrivacyPolicyPage() {
       title: "Your Privacy Choices and Rights",
       content: <>
         <p>Depending on where you live and subject to applicable exceptions, you may have rights to request access to, correction of, deletion of, or a copy of personal information. You may also have rights concerning consent, certain disclosures, or particular processing practices.</p>
-        <p>Email <a href="mailto:jazmin@premierresorttravels.com">jazmin@premierresorttravels.com</a> with the subject “Privacy Request” and describe your request. We may ask for information reasonably necessary to verify your identity. If an applicable law provides an appeal right and we decline a request, you may reply to the decision to appeal.</p>
+        <p>Email <a href="mailto:relax@premierresorttravels.com">relax@premierresorttravels.com</a> with the subject “Privacy Request” and describe your request. We may ask for information reasonably necessary to verify your identity. If an applicable law provides an appeal right and we decline a request, you may reply to the decision to appeal.</p>
       </>,
     },
     {
@@ -110,7 +110,7 @@ export default function PrivacyPolicyPage() {
     {
       id: "contact",
       title: "Contact Us",
-      content: <address className="legal-contact"><strong>Premier Resort Travel, LLC</strong><span>Pleasantville, Iowa · Serving travelers nationwide</span><a href="mailto:jazmin@premierresorttravels.com">jazmin@premierresorttravels.com</a><a href="tel:+15152404002">515-240-4002</a></address>,
+      content: <address className="legal-contact"><strong>Premier Resort Travel, LLC</strong><span>Pleasantville, Iowa · Serving travelers nationwide</span><a href="mailto:relax@premierresorttravels.com">relax@premierresorttravels.com</a><a href="tel:+15152404002">515-240-4002</a></address>,
     },
   ];
 

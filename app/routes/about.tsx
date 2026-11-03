@@ -564,7 +564,7 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
     name: "Premier Resort Travel",
     url: "https://premierresorttravels.com/",
     logo: "https://premierresorttravels.com/images/brand/premier-resort-travel-horizontal-logo.png",
-    email: "jazmin@premierresorttravels.com",
+    email: "relax@premierresorttravels.com",
     telephone: "+1-515-240-4002",
     legalName: "Premier Resort Travel, LLC",
     address: {
@@ -578,7 +578,7 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
       "@type": "ContactPoint",
       contactType: "customer service",
       telephone: "+1-515-240-4002",
-      email: "jazmin@premierresorttravels.com",
+      email: "relax@premierresorttravels.com",
       availableLanguage: "English",
       url: "https://premierresorttravels.com/contact",
     },

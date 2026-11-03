@@ -99,7 +99,7 @@ export default function QuotePage({ loaderData }: Route.ComponentProps) {
         name: "Premier Resort Travel",
         url: "https://premierresorttravels.com/",
         telephone: "+1-515-240-4002",
-        email: "jazmin@premierresorttravels.com",
+        email: "relax@premierresorttravels.com",
       },
     },
   };
